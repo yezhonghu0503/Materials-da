@@ -1,0 +1,15 @@
+export default {
+  'menu.visualization.multiDimensionDataAnalysis': '多维数据分析',
+  'multiDAnalysis.card.title.dataOverview': '数据总览',
+  'multiDAnalysis.dataOverview.contentProduction': '框架内置数据',
+  'multiDAnalysis.dataOverview.contentClick': '框架内置数据',
+  'multiDAnalysis.dataOverview.contentExposure': '框架内置数据',
+  'multiDAnalysis.dataOverview.activeUsers': '框架内置数据',
+  'multiDAnalysis.card.title.userActions': '今日交易金额统计',
+  'multiDAnalysis.card.title.contentTypeDistribution': '商品总类分布',
+  'multiDAnalysis.card.title.retentionTrends': '用户留存趋势',
+  'multiDAnalysis.card.title.userRetention': '用户留存量',
+  'multiDAnalysis.card.title.contentConsumptionTrends': '商品消费趋势',
+  'multiDAnalysis.card.title.contentConsumption': '商品消费',
+  'multiDAnalysis.card.title.contentPublishingSource': '供应商来源',
+};

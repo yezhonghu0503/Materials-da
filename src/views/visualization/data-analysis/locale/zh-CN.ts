@@ -1,0 +1,16 @@
+export default {
+  'menu.visualization.dataAnalysis': '分析页',
+  'dataAnalysis.title.publicOpinion': '舆情分析',
+  'dataAnalysis.card.title.allVisitors': '访问总人次',
+  'dataAnalysis.card.title.contentPublished': '商品发布量',
+  'dataAnalysis.card.title.totalComment': '服务预约总量',
+  'dataAnalysis.card.title.totalShare': '供应商占比',
+  'dataAnalysis.card.yesterday': '较昨日',
+  'dataAnalysis.contentPublishRatio': '内容发布比例',
+  'dataAnalysis.popularAuthor': '热门商品榜单',
+  'dataAnalysis.popularAuthor.column.ranking': '排名',
+  'dataAnalysis.popularAuthor.column.author': '商品名称',
+  'dataAnalysis.popularAuthor.column.content': '库存量',
+  'dataAnalysis.popularAuthor.column.click': '销售量',
+  'dataAnalysis.contentPeriodAnalysis': '内容时段分析',
+};
