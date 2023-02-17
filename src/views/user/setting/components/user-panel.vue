@@ -63,7 +63,7 @@ export default defineComponent({
       name: 'avatar.png',
       url: userStore.avatar,
     };
-    const renderData = [
+    const renderData: any = [
       {
         label: 'userSetting.label.name',
         value: userStore.name,

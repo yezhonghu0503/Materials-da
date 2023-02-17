@@ -53,9 +53,9 @@
         <a-button type="primary" html-type="submit" long :loading="loading">
           {{ $t('login.form.login') }}
         </a-button>
-        <a-button type="text" long class="login-form-register-btn">
-          {{ $t('login.form.register') }}
-        </a-button>
+        <!-- <a-button type="text" long class="login-form-register-btn">
+            {{ $t('login.form.register') }}
+          </a-button> -->
       </a-space>
     </a-form>
   </div>
@@ -82,7 +82,7 @@ export default defineComponent({
       username: 'admin',
       password: 'admin',
     });
-    const handleSubmit = async ({
+    const handleSubmit: any = async ({
       errors,
       values,
     }: {
@@ -110,9 +110,9 @@ export default defineComponent({
     };
     // 演示地址自动登录
     onMounted(() => {
-      setTimeout(() => {
-        handleSubmit({ errors: undefined, values: userInfo });
-      }, 3000);
+      // setTimeout(() => {
+      //   handleSubmit({ errors: undefined, values: userInfo });
+      // }, 3000);
     });
     const setRememberPassword = () => {
       //

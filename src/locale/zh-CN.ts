@@ -14,6 +14,14 @@ import localeGroupForm from '@/views/form/group/locale/zh-CN';
 import localeRolesForm from '@/views/form/roles/locale/zh-CN';
 import localeUserForm from '@/views/form/userManagement/locale/zh-CN';
 
+import localeMeasureForm from '@/views/appointment/measure/locale/zh-CN';
+import localeDistributionForm from '@/views/appointment/distribution/locale/zh-CN';
+import localeFixForm from '@/views/appointment/fix/locale/zh-CN';
+
+import localeMeasurementForm from '@/views/design/measurement/locale/zh-CN';
+
+import localeDeliveryForm from '@/views/logistics/delivery/locale/zh-CN';
+
 import localeBasicProfile from '@/views/profile/basic/locale/zh-CN';
 
 import localeDataAnalysis from '@/views/visualization/data-analysis/locale/zh-CN';
@@ -69,5 +77,11 @@ export default {
   ...locale500,
   ...localeUserInfo,
   ...localeUserSetting,
+
+  ...localeMeasureForm,
+  ...localeDistributionForm,
+  ...localeFixForm,
+  ...localeMeasurementForm,
+  ...localeDeliveryForm,
   /** simple end */
 };

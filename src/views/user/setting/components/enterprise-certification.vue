@@ -47,7 +47,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const renderData = computed(() => {
+    const renderData: any = computed(() => {
       const {
         accountType,
         status,

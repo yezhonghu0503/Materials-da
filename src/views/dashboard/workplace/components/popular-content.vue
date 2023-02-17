@@ -76,7 +76,7 @@ export default defineComponent({
   setup() {
     const type = ref('text');
     const { loading, setLoading } = useLoading();
-    const renderList = ref<PopularRecord[]>();
+    const renderList: any = ref<PopularRecord[]>();
     const fetchData = async (contentType: string) => {
       try {
         setLoading(true);
@@ -88,7 +88,7 @@ export default defineComponent({
         setLoading(false);
       }
     };
-    const typeChange = (contentType: string) => {
+    const typeChange: any = (contentType: string) => {
       fetchData(contentType);
     };
     fetchData('text');

@@ -134,7 +134,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const [open, toggle] = useToggle(props.defaultValue);
+    const [open, toggle]: any = useToggle(props.defaultValue);
     const isExpires = ref(props.expires);
     const renew = () => {
       isExpires.value = false;

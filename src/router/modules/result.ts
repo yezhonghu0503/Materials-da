@@ -13,7 +13,7 @@ export default {
       name: 'success',
       component: () => import('@/views/result/success/index.vue'),
       meta: {
-        locale: 'menu.result.success',
+        locale: 'menu.result.title',
         requiresAuth: true,
         roles: ['admin'],
       },

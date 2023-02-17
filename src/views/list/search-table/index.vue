@@ -33,7 +33,7 @@
               <a-col :span="8">
                 <a-form-item
                   field="contentType"
-                  :label="$t('searchTable.form.contentType')"
+                  :label="$t('menu.list.form.contentType')"
                 >
                   <a-select
                     v-model="formModel.contentType"
@@ -175,7 +175,7 @@
                     src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/ea8b09190046da0ea7e070d83c5d1731.svg~tplv-49unhts6dw-image.image"
                   />
                 </a-avatar>
-                {{ $t(`searchTable.form.contentType.${record.contentType}`) }}
+                {{ $t(`menu.list.form.contentType.${record.contentType}`) }}
               </a-space>
             </template>
           </a-table-column>
@@ -251,21 +251,21 @@ export default defineComponent({
     const pagination = reactive({
       ...basePagination,
     });
-    const contentTypeOptions = computed<Options[]>(() => [
+    const contentTypeOptions: any = computed<Options[]>(() => [
       {
-        label: t('searchTable.form.contentType.img'),
+        label: t('menu.list.form.contentType.img'),
         value: 'img',
       },
       {
-        label: t('searchTable.form.contentType.horizontalVideo'),
+        label: t('menu.list.form.contentType.horizontalVideo'),
         value: 'horizontalVideo',
       },
       {
-        label: t('searchTable.form.contentType.verticalVideo'),
+        label: t('menu.list.form.contentType.verticalVideo'),
         value: 'verticalVideo',
       },
     ]);
-    const filterTypeOptions = computed<Options[]>(() => [
+    const filterTypeOptions: any = computed<Options[]>(() => [
       {
         label: t('searchTable.form.filterType.artificial'),
         value: 'artificial',
@@ -275,7 +275,7 @@ export default defineComponent({
         value: 'rules',
       },
     ]);
-    const statusOptions = computed<Options[]>(() => [
+    const statusOptions: any = computed<Options[]>(() => [
       {
         label: t('searchTable.form.status.online'),
         value: 'online',
@@ -290,10 +290,10 @@ export default defineComponent({
     ) => {
       setLoading(true);
       try {
-        const { data } = await queryPolicyList(params);
-        renderData.value = data.list;
-        pagination.current = params.current;
-        pagination.total = data.total;
+        // const { data } = await queryPolicyList(params);
+        // renderData.value = data.list;
+        // pagination.current = params.current;
+        // pagination.total = data.total;
       } catch (err) {
         // you can report use errorHandler or other
       } finally {

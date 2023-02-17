@@ -34,7 +34,7 @@
         >
           <a-descriptions
             style="margin-top: 16px"
-            :data="item.data"
+            :data="item.data as any"
             layout="inline-horizontal"
             :column="2"
           />

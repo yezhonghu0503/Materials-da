@@ -119,12 +119,6 @@
           </a-avatar>
           <template #content>
             <a-doption>
-              <a-space @click="switchGit">
-                <icon-github />
-                <span> 开源地址 </span>
-              </a-space>
-            </a-doption>
-            <a-doption>
               <a-space @click="switchRoles">
                 <icon-tag />
                 <span>
@@ -146,23 +140,6 @@
                 <span>
                   {{ $t('messageBox.userSettings') }}
                 </span>
-              </a-space>
-            </a-doption>
-            <a-doption>
-              <a-space @click="open('/admin-plus')">
-                <icon-tag />
-                <span> admin plus 付费版本 </span>
-              </a-space>
-            </a-doption>
-            <a-doption>
-              <a-space @click="open('/admin-pro')">
-                <icon-tag />
-                <span> admin pro 付费版本 </span>
-              </a-space> </a-doption
-            ><a-doption>
-              <a-space @click="open('/vue-admin-beautiful-element')">
-                <icon-tag />
-                <span> admin better 开源版 </span>
               </a-space>
             </a-doption>
             <a-doption>
@@ -198,7 +175,7 @@ export default defineComponent({
     const appStore = useAppStore();
     const userStore = useUserStore();
     const { logout } = useUser();
-    const { changeLocale } = useLocale();
+    const { changeLocale }: any = useLocale();
     const locales = [...LOCALE_OPTIONS];
     const avatar = computed(() => {
       return userStore.avatar;
@@ -217,7 +194,7 @@ export default defineComponent({
         appStore.toggleTheme(dark);
       },
     });
-    const toggleTheme = useToggle(isDark);
+    const toggleTheme: any = useToggle(isDark);
     const setVisible = () => {
       appStore.updateSettings({ globalSettings: true });
     };
@@ -246,9 +223,6 @@ export default defineComponent({
       const res = await userStore.switchRoles();
       Message.success(res as string);
     };
-    const switchGit = () => {
-      window.open('https://github.com/chuzhixin');
-    };
     const open = (val: string) => {
       window.open(`https://vue-admin-beautiful.com/${val}`);
     };
@@ -265,7 +239,6 @@ export default defineComponent({
       handleLogout,
       setDropDownVisible,
       switchRoles,
-      switchGit,
       open,
     };
   },

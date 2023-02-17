@@ -18,7 +18,7 @@ setupMock({
         return successResponseWrap({
           name: '叶忠湖',
           avatar:
-            '//qny.lakeblog.top/logoen.jpeg?e=1673763021&token=8o8Ek1Xx4aM03l7lM3hvTssPjBLIJhZp0MoSVFEH:-eMCGeoXd2qCjEf5Bl5LzfcivlE=',
+            '//qny.lakeblog.top/logoen.jpeg?e=1676192124&token=8o8Ek1Xx4aM03l7lM3hvTssPjBLIJhZp0MoSVFEH:SewcDUYC9Hmsr_U27t7PtBtoN-w=',
           email: 'wangliqun@email.com',
           job: 'frontend',
           jobName: '前端工程师',

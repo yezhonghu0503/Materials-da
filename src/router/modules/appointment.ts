@@ -1,7 +1,7 @@
 export default {
   path: 'appointment',
   name: 'appointment',
-  component: () => import('@/views/form/index.vue'),
+  component: () => import('@/views/appointment/index.vue'),
   meta: {
     locale: 'menu.appointment',
     icon: 'icon-history',
@@ -9,41 +9,33 @@ export default {
   },
   children: [
     {
-      path: 'step',
-      name: 'step',
-      component: () => import('@/views/form/step/index.vue'),
+      path: 'measure',
+      name: 'measure',
+      component: () => import('@/views/appointment/measure/index.vue'),
       meta: {
-        locale: 'menu.form.step',
+        locale: 'appointment.measure.title',
         requiresAuth: true,
         roles: ['admin'],
       },
     },
+    // distribution
     {
-      path: 'group',
-      name: 'group',
-      component: () => import('@/views/form/group/index.vue'),
+      path: 'distribution',
+      name: 'distribution',
+      component: () => import('@/views/appointment/distribution/index.vue'),
       meta: {
-        locale: 'menu.form.group',
+        locale: 'appointment.distribution.title',
         requiresAuth: true,
         roles: ['admin'],
       },
     },
+    // appointment.fix.title
     {
-      path: 'roles',
-      name: 'roles',
-      component: () => import('@/views/form/roles/index.vue'),
+      path: 'fix',
+      name: 'fix',
+      component: () => import('@/views/appointment/fix/index.vue'),
       meta: {
-        locale: 'menu.form.roles',
-        requiresAuth: true,
-        roles: ['admin'],
-      },
-    },
-    {
-      path: 'user-management',
-      name: 'userManagement',
-      component: () => import('@/views/form/userManagement/index.vue'),
-      meta: {
-        locale: 'menu.form.user',
+        locale: 'appointment.fix.title',
         requiresAuth: true,
         roles: ['admin'],
       },
