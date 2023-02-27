@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.design', 'menu.surveyo-order.title']" />
+    <Breadcrumb :items="['menu.warehouse', 'menu.inventory-query.title']" />
   </div>
 </template>
 

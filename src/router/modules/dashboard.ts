@@ -18,6 +18,27 @@ export default {
         roles: ['*'],
       },
     },
+    {
+      path: 'multi-dimension-data-analysis',
+      name: 'multiDimensionDataAnalysis',
+      component: () =>
+        import('@/views/dashboard/multi-dimension-data-analysis/index.vue'),
+      meta: {
+        locale: 'menu.visualization.multiDimensionDataAnalysis',
+        requiresAuth: true,
+        roles: ['admin'],
+      },
+    },
+    {
+      path: 'screen-mode',
+      name: 'ScreenMode',
+      component: () => import('@/views/dashboard/screen-mode/index.vue'),
+      meta: {
+        locale: 'menu.screen-mode.title',
+        requiresAuth: true,
+        roles: ['admin'],
+      },
+    },
     /** simple */
     // {
     //   path: 'monitor',

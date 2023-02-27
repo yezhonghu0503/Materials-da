@@ -41,6 +41,7 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
+  if (to.name === 'ScreenMode') await next('/dashboard/workplace');
   NProgress.start();
   const userStore = useUserStore();
   async function crossroads() {

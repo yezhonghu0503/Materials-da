@@ -23,9 +23,20 @@ import localeMeasurementForm from '@/views/design/measurement/locale/zh-CN';
 import localeDeliveryForm from '@/views/logistics/delivery/locale/zh-CN';
 
 import localeBasicProfile from '@/views/profile/basic/locale/zh-CN';
+import localeReplenishmentQueryFrom from '@/views/warehouse/replenishment-query/locale/zh-CN';
+// import localeDataAnalysis from '@/views/visualization/data-analysis/locale/zh-CN';
+import localeMultiDAnalysis from '@/views/dashboard/multi-dimension-data-analysis/locale/zh-CN';
+import localemenuAnomalousReminderFrom from '@/views/result/anomalous-reminder/locale/zh-CN';
+import localeComplexQueryFrom from '@/views/result/complex-query/locale/zh-CN';
+import localeOrderCheckoutFrom from '@/views/result/order-checkout/locale/zh-CN';
 
-import localeDataAnalysis from '@/views/visualization/data-analysis/locale/zh-CN';
-import localeMultiDAnalysis from '@/views/visualization/multi-dimension-data-analysis/locale/zh-CN';
+import localeSurveyoOrderFrom from '@/views/design/surveyo-order/locale/zh-CN';
+// warehouse
+import localeInventoryQueryFrom from '@/views/warehouse/inventory-query/locale/zh-CN';
+
+import localeCreateOrderForm from '@/views/result/create-order/locale/zh-CN';
+
+import localeScreenMode from '@/views/dashboard/screen-mode/locale/zh-CN';
 
 import localeSuccess from '@/views/result/success/locale/zh-CN';
 import localeError from '@/views/result/error/locale/zh-CN';
@@ -40,15 +51,16 @@ import localeUserSetting from '@/views/user/setting/locale/zh-CN';
 import localeSettings from './zh-CN/settings';
 
 export default {
-  'menu.dashboard': '仪表盘',
+  'menu.dashboard': '5G智慧屏',
   'menu.list': '商品管理',
   'menu.result': '订单管理',
+  'menu.warehouse': '仓库管理',
   'menu.exception': '活动管理',
-  'menu.form': '人员管理',
+  'menu.form': '系统用户',
   'menu.profile': '轮播图管理',
   'menu.appointment': '预约管理',
   'menu.design': '测量设计',
-  'menu.logistics': '物流管理',
+  'menu.logistics': '配送管理',
   'menu.delivery': '交付管理',
   'menu.visualization': '数据可视化',
   'menu.user': '个人中心',
@@ -68,7 +80,7 @@ export default {
   ...localeRolesForm,
   ...localeUserForm,
   ...localeBasicProfile,
-  ...localeDataAnalysis,
+  // ...localeDataAnalysis,
   ...localeMultiDAnalysis,
   ...localeSuccess,
   ...localeError,
@@ -83,5 +95,14 @@ export default {
   ...localeFixForm,
   ...localeMeasurementForm,
   ...localeDeliveryForm,
+  ...localeScreenMode,
+
+  ...localeCreateOrderForm,
+  ...localemenuAnomalousReminderFrom,
+  ...localeComplexQueryFrom,
+  ...localeOrderCheckoutFrom,
+  ...localeInventoryQueryFrom,
+  ...localeReplenishmentQueryFrom,
+  ...localeSurveyoOrderFrom,
   /** simple end */
 };

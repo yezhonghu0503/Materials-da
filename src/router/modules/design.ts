@@ -8,6 +8,17 @@ export default {
     requiresAuth: true,
   },
   children: [
+    // surveyo-order
+    {
+      path: 'surveyo-order',
+      name: 'SurveyoOrder',
+      component: () => import('@/views/design/surveyo-order/index.vue'),
+      meta: {
+        locale: 'menu.surveyo-order.title',
+        requiresAuth: true,
+        roles: ['admin'],
+      },
+    },
     {
       path: 'measurement',
       name: 'measurement',

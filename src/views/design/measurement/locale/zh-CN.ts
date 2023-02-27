@@ -1,5 +1,5 @@
 export default {
-  'menu.measurement.title': '测量管理',
+  'menu.measurement.title': '测量结果查询',
   'searchTable.form.number': '集合编号',
   'searchTable.form.number.placeholder': '请输入集合编号',
   'searchTable.form.name': '集合名称',

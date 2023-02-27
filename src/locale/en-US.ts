@@ -16,8 +16,8 @@ import localeUserForm from '@/views/form/userManagement/locale/en-US';
 
 import localeBasicProfile from '@/views/profile/basic/locale/en-US';
 
-import localeDataAnalysis from '@/views/visualization/data-analysis/locale/en-US';
-import localeMultiDAnalysis from '@/views/visualization/multi-dimension-data-analysis/locale/en-US';
+// import localeDataAnalysis from '@/views/visualization/data-analysis/locale/en-US';
+import localeMultiDAnalysis from '@/views/dashboard/multi-dimension-data-analysis/locale/en-US';
 
 import localeSuccess from '@/views/result/success/locale/en-US';
 import localeError from '@/views/result/error/locale/en-US';
@@ -38,7 +38,7 @@ export default {
   'menu.exception': 'Exception',
   'menu.form': 'Form',
   'menu.profile': 'Profile',
-  'menu.visualization': 'Data Visualization',
+  // 'menu.visualization': 'Data Visualization',
   'menu.user': 'User Center',
   'navbar.docs': 'Docs',
   'navbar.action.locale': 'Switch to English',
@@ -56,7 +56,7 @@ export default {
   ...localeRolesForm,
   ...localeUserForm,
   ...localeBasicProfile,
-  ...localeDataAnalysis,
+  // ...localeDataAnalysis,
   ...localeMultiDAnalysis,
   ...localeSuccess,
   ...localeError,

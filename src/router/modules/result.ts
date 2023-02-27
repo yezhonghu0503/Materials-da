@@ -18,6 +18,48 @@ export default {
         roles: ['admin'],
       },
     },
+    {
+      path: 'create-order',
+      name: 'CreateOrder',
+      component: () => import('@/views/result/create-order/index.vue'),
+      meta: {
+        locale: 'menu.create-order.title',
+        requiresAuth: true,
+        roles: ['admin'],
+      },
+    },
+    {
+      path: 'anomalous-reminder',
+      name: 'AnomalousReminder',
+      component: () => import('@/views/result/anomalous-reminder/index.vue'),
+      meta: {
+        locale: 'menu.anomalous-reminder.title',
+        requiresAuth: true,
+        roles: ['admin'],
+      },
+    },
+    // complex-query
+    {
+      path: 'complex-query',
+      name: 'ComplexQuery',
+      component: () => import('@/views/result/complex-query/index.vue'),
+      meta: {
+        locale: 'menu.complex-query.title',
+        requiresAuth: true,
+        roles: ['admin'],
+      },
+    },
+    // order-checkout
+    {
+      path: 'order-checkout',
+      name: 'OrderCheckout',
+      component: () => import('@/views/result/order-checkout/index.vue'),
+      meta: {
+        locale: 'menu.order-checkout.title',
+        requiresAuth: true,
+        roles: ['admin'],
+      },
+    },
     // {
     //   path: 'error',
     //   name: 'error',
