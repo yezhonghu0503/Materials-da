@@ -235,7 +235,7 @@
               >
                 <template #title> 预约单详情 </template>
                 <div>
-                  <div>地图预览组件</div>
+                  <div id="container"></div>
                   <a-divider />
                   <div style="text-align: center">申请面单</div>
                 </div>
@@ -249,11 +249,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, reactive } from 'vue';
+import { defineComponent, computed, ref, reactive, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import useLoading from '@/hooks/loading';
 import { queryPolicyList, PolicyRecord, PolicyParams } from '@/api/list';
 import { Pagination, Options } from '@/types/global';
+import initBMapScript from '@/utils/map';
 
 const generateFormModel = () => {
   return {
@@ -267,6 +268,27 @@ const generateFormModel = () => {
 };
 export default defineComponent({
   setup() {
+    initBMapScript().then(() => {
+      const { TMap } = window as any;
+      const center = new TMap.LatLng(39.984104, 116.307503);
+      // 初始化地图
+      const map = new TMap.Map('container', {
+        rotation: 20, // 设置地图旋转角度
+        pitch: 30, // 设置俯仰角度（0~45）
+        zoom: 12, // 设置地图缩放级别
+        center, // 设置地图中心点坐标
+      });
+      map.on('tilesloaded', () => {
+        console.log('地图已加载完成');
+      });
+      // // console.log((window as any).BMapGL);
+      // const { BMapGL } = window as any;
+      // // GL版命名空间为BMapGL
+      // // 按住鼠标右键，修改倾斜角和角度
+      // const map = new BMapGL.Map('allmap'); // 创建Map实例
+      // map.centerAndZoom(new BMapGL.Point(116.404, 39.915), 11); // 初始化地图,设置中心点坐标和地图级别
+      // map.enableScrollWheelZoom(true); // 开启鼠标滚轮缩放
+    });
     const { loading, setLoading } = useLoading(true);
     const { t } = useI18n();
     const renderData: any = ref<PolicyRecord[]>([
@@ -380,6 +402,11 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+#container {
+  // 注意给dom宽高，不然地图不出来
+  width: 600px;
+  height: 600px;
+}
 :deep(.arco-table-th) {
   &:last-child {
     .arco-table-th-item-title {
