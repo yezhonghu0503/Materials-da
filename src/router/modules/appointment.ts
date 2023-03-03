@@ -4,7 +4,7 @@ export default {
   component: () => import('@/views/appointment/index.vue'),
   meta: {
     locale: 'menu.appointment',
-    icon: 'icon-history',
+    icon: 'icon-brush',
     requiresAuth: true,
   },
   children: [

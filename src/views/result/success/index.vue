@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.result', 'menu.list.classify']" />
+    <Breadcrumb :items="['menu.result', 'menu.result.title']" />
     <a-card class="general-card" :title="$t('menu.list.classify')">
       <a-row>
         <a-col :flex="1">
@@ -102,12 +102,30 @@
       <a-row style="margin-bottom: 16px">
         <a-col :span="16">
           <a-space>
-            <a-button type="primary">
+            <a-button type="primary" @click="handleOpenNewOrder">
               <template #icon>
                 <icon-plus />
               </template>
               {{ $t('searchTable.operation.create') }}
             </a-button>
+            <a-modal
+              :visible="isNewOrder"
+              width="auto"
+              ok-text="下一步"
+              @ok="handleOk"
+              @cancel="handleCancel"
+            >
+              <template #title> 新建订单 </template>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  flex-direction: column;
+                "
+              >
+                <NewOrder style="width: 900px"></NewOrder>
+              </div>
+            </a-modal>
             <a-upload action="/">
               <template #upload-button>
                 <a-button>
@@ -227,6 +245,7 @@ import { useI18n } from 'vue-i18n';
 import useLoading from '@/hooks/loading';
 import { queryPolicyList, PolicyRecord, PolicyParams } from '@/api/list';
 import { Pagination, Options } from '@/types/global';
+import NewOrder from './components/new-order.vue';
 
 const generateFormModel = () => {
   return {
@@ -239,6 +258,7 @@ const generateFormModel = () => {
   };
 };
 export default defineComponent({
+  components: { NewOrder },
   setup() {
     const { loading, setLoading } = useLoading(true);
     const { t } = useI18n();
@@ -315,6 +335,18 @@ export default defineComponent({
     const reset = () => {
       formModel.value = generateFormModel();
     };
+
+    // 创建订单
+    const isNewOrder = ref(false);
+    const handleOk = () => {
+      isNewOrder.value = false;
+    };
+    const handleCancel = () => {
+      isNewOrder.value = false;
+    };
+    const handleOpenNewOrder = () => {
+      isNewOrder.value = true;
+    };
     return {
       loading,
       search,
@@ -326,6 +358,10 @@ export default defineComponent({
       contentTypeOptions,
       filterTypeOptions,
       statusOptions,
+      isNewOrder,
+      handleOk,
+      handleCancel,
+      handleOpenNewOrder,
     };
   },
 });

@@ -1,5 +1,5 @@
 export default {
-  'appointment.measure.title': '测量预约',
+  'appointment.measure.title': '安装预约',
   'searchTable.form.number': '集合编号',
   'searchTable.form.number.placeholder': '请输入集合编号',
   'searchTable.form.name': '集合名称',

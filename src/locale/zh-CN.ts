@@ -20,7 +20,9 @@ import localeFixForm from '@/views/appointment/fix/locale/zh-CN';
 
 import localeMeasurementForm from '@/views/design/measurement/locale/zh-CN';
 
-import localeDeliveryForm from '@/views/logistics/delivery/locale/zh-CN';
+import localeLogisticOrderFrom from '@/views/logistics/logistics-order/locale/zh-CN';
+import localeLogisticAssginFrom from '@/views/logistics/logistics-assgin/locale/zh-CN';
+import localeLogisticResultFrom from '@/views/logistics/logistics-result/locale/zh-CN';
 
 import localeBasicProfile from '@/views/profile/basic/locale/zh-CN';
 import localeReplenishmentQueryFrom from '@/views/warehouse/replenishment-query/locale/zh-CN';
@@ -58,7 +60,7 @@ export default {
   'menu.exception': '活动管理',
   'menu.form': '系统用户',
   'menu.profile': '轮播图管理',
-  'menu.appointment': '预约管理',
+  'menu.appointment': '安装管理',
   'menu.design': '测量设计',
   'menu.logistics': '配送管理',
   'menu.delivery': '交付管理',
@@ -94,7 +96,7 @@ export default {
   ...localeDistributionForm,
   ...localeFixForm,
   ...localeMeasurementForm,
-  ...localeDeliveryForm,
+  ...localeLogisticOrderFrom,
   ...localeScreenMode,
 
   ...localeCreateOrderForm,
@@ -104,5 +106,7 @@ export default {
   ...localeInventoryQueryFrom,
   ...localeReplenishmentQueryFrom,
   ...localeSurveyoOrderFrom,
+  ...localeLogisticAssginFrom,
+  ...localeLogisticResultFrom,
   /** simple end */
 };

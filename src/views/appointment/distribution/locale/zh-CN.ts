@@ -1,5 +1,5 @@
 export default {
-  'appointment.distribution.title': '配送管理',
+  'appointment.distribution.title': '待安装',
   'searchTable.form.number': '集合编号',
   'searchTable.form.number.placeholder': '请输入集合编号',
   'searchTable.form.name': '集合名称',
