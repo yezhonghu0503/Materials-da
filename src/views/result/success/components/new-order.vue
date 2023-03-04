@@ -16,7 +16,7 @@
     </a-tab-pane>
     <a-tab-pane key="3">
       <template #title>服务内容</template>
-      Content of Tab Panel 3
+      <Services></Services>
     </a-tab-pane>
   </a-tabs>
 </template>
@@ -24,10 +24,11 @@
 <script lang="ts">
 import CustomerMsg from './customer-msg.vue';
 import SupplierMsg from './supplier-msg.vue';
+import Services from './services.vue';
 
 export default {
   name: 'NewOrder',
-  components: { CustomerMsg, SupplierMsg },
+  components: { CustomerMsg, SupplierMsg, Services },
   setup() {
     const position: any = 'right';
     return {
