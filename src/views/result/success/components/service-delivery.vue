@@ -138,7 +138,7 @@ export default {
   padding: 5px 16px;
   border: 1px solid var(--color-border-2);
   border-radius: 4px;
-  width: 400px;
+  width: 470px;
   box-sizing: border-box;
 }
 
@@ -165,6 +165,7 @@ export default {
   font-weight: bold;
   margin-bottom: 4px;
   margin-top: -5px;
+  text-align: start !important;
 }
 
 .custom-checkbox-card:hover,
