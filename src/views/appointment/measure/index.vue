@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.list', 'appointment.measure.title']" />
-    <a-card class="general-card" :title="$t('appointment.measure.title')">
+    <Breadcrumb :items="['menu.design', 'menu.logistics-order.title']" />
+    <a-card class="general-card" :title="$t('menu.logistics-order.title')">
       <a-row>
         <a-col :flex="1">
           <a-form
@@ -14,7 +14,7 @@
               <a-col :span="8">
                 <a-form-item
                   field="number"
-                  :label="$t('searchTable.form.number')"
+                  :label="$t('menu.logistics-order.number')"
                 >
                   <a-input
                     v-model="formModel.number"
@@ -23,7 +23,10 @@
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item field="name" :label="$t('searchTable.form.name')">
+                <a-form-item
+                  field="name"
+                  :label="$t('menu.logistics-order.clientName')"
+                >
                   <a-input
                     v-model="formModel.name"
                     :placeholder="$t('searchTable.form.name.placeholder')"
@@ -33,47 +36,24 @@
               <a-col :span="8">
                 <a-form-item
                   field="contentType"
-                  :label="$t('menu.list.form.contentType')"
+                  :label="$t('menu.logistics-order.car')"
                 >
                   <a-select
                     v-model="formModel.contentType"
                     :options="contentTypeOptions"
-                    :placeholder="$t('searchTable.form.selectDefault')"
+                    :placeholder="$t('menu.logistics-order.car')"
                   />
                 </a-form-item>
               </a-col>
-              <a-col :span="8">
-                <a-form-item
-                  field="filterType"
-                  :label="$t('searchTable.form.filterType')"
-                >
-                  <a-select
-                    v-model="formModel.filterType"
-                    :options="filterTypeOptions"
-                    :placeholder="$t('searchTable.form.selectDefault')"
-                  />
-                </a-form-item>
-              </a-col>
+
               <a-col :span="8">
                 <a-form-item
                   field="createdTime"
-                  :label="$t('searchTable.form.createdTime')"
+                  :label="$t('menu.surveyo-order.time')"
                 >
                   <a-range-picker
                     v-model="formModel.createdTime"
                     style="width: 100%"
-                  />
-                </a-form-item>
-              </a-col>
-              <a-col :span="8">
-                <a-form-item
-                  field="status"
-                  :label="$t('searchTable.form.status')"
-                >
-                  <a-select
-                    v-model="formModel.status"
-                    :options="statusOptions"
-                    :placeholder="$t('searchTable.form.selectDefault')"
                   />
                 </a-form-item>
               </a-col>
@@ -136,21 +116,18 @@
       >
         <template #columns>
           <a-table-column
-            :title="$t('searchTable.columns.number')"
+            :title="$t('menu.logistics-order.number')"
             data-index="number"
-            align="center"
           />
           <a-table-column
-            :title="$t('searchTable.columns.name')"
-            data-index="name"
-            align="center"
+            :title="$t('menu.logistics-order.clientName')"
+            data-index="clientName"
           />
           <a-table-column
-            :title="$t('searchTable.columns.contentType')"
-            data-index="contentType"
-            align="center"
+            :title="$t('menu.logistics-order.phone')"
+            data-index="phone"
           >
-            <template #cell="{ record }">
+            <!-- <template #cell="{ record }">
               <a-space>
                 <a-avatar
                   v-if="record.contentType === 'img'"
@@ -180,71 +157,57 @@
                 </a-avatar>
                 {{ $t(`menu.list.form.contentType.${record.contentType}`) }}
               </a-space>
-            </template>
+            </template> -->
           </a-table-column>
           <a-table-column
-            :title="$t('searchTable.columns.filterType')"
-            data-index="filterType"
-            align="center"
+            :title="$t('menu.logistics-order.address')"
+            data-index="address"
           >
-            <template #cell="{ record }">
-              {{ $t(`searchTable.form.filterType.${record.filterType}`) }}
-            </template>
           </a-table-column>
           <a-table-column
-            :title="$t('searchTable.columns.count')"
-            data-index="count"
-            align="center"
+            :title="$t('menu.logistics-order.time')"
+            data-index="time"
           />
           <a-table-column
-            :title="$t('searchTable.columns.createdTime')"
-            data-index="createdTime"
-            align="center"
+            :title="$t('menu.logistics-order.car')"
+            data-index="car"
           />
           <a-table-column
-            :title="$t('searchTable.columns.status')"
+            :title="$t('menu.logistics-order.status')"
             data-index="status"
-            align="center"
           >
             <template #cell="{ record }">
               <span v-if="record.status === 'offline'" class="circle"></span>
               <span v-else class="circle pass"></span>
-              {{ $t(`searchTable.form.status.${record.status}`) }}
+              {{ record.status }}
             </template>
           </a-table-column>
           <a-table-column
-            :title="$t('searchTable.columns.operations')"
-            data-index="operations"
-            align="center"
+            :title="$t('menu.surveyo-order.op')"
+            data-index="area"
           >
             <template #cell>
               <a-button
-                v-permission="['admin']"
+                v-permission="['admin', 'cuscer']"
                 type="text"
                 size="small"
-                @click="handleClick"
+                @click="visible = true"
               >
-                {{ $t('searchTable.columns.operations.view') }}
+                核验
               </a-button>
-              <a-modal
-                :visible="visible"
-                fullscreen
-                ok-text="审核通过"
-                @ok="handleOk"
-                @cancel="handleCancel"
-              >
-                <template #title> 预约单详情 </template>
-                <div>
-                  <a-steps :current="2">
-                    <a-step description="客户提交申请">预约申请</a-step>
-                    <a-step description="管理人员审核">预约受理</a-step>
-                    <a-step description="转交测量师傅">预约成功</a-step>
-                  </a-steps>
-                  <a-divider />
-                  <div style="text-align: center">申请面单</div>
-                </div>
-              </a-modal>
             </template>
+            <a-modal
+              v-model:visible="visible"
+              width="auto"
+              ok-text="核验完成"
+              @ok="handleOk"
+              @cancel="handleCancel"
+            >
+              <template #title> 核验订单 </template>
+              <div class="order__detail">
+                <orderDetail style="width: 900px"></orderDetail>
+              </div>
+            </a-modal>
           </a-table-column>
         </template>
       </a-table>
@@ -258,39 +221,26 @@ import { useI18n } from 'vue-i18n';
 import useLoading from '@/hooks/loading';
 import { queryPolicyList, PolicyRecord, PolicyParams } from '@/api/list';
 import { Pagination, Options } from '@/types/global';
+import orderDetail from './components/order-detail.vue';
 
-const generateFormModel = () => {
+const generateFormModel: any = () => {
   return {
     number: '',
-    name: '',
-    contentType: '',
-    filterType: '',
-    createdTime: [],
+    clientName: '',
+    phone: '',
+    address: '',
+    time: '',
+    type: '',
     status: '',
+    area: '',
   };
 };
 export default defineComponent({
+  components: { orderDetail },
   setup() {
     const { loading, setLoading } = useLoading(true);
     const { t } = useI18n();
-    const renderData: any = ref<PolicyRecord[]>([
-      {
-        number: 1,
-        name: 'data',
-      } as any,
-    ]);
-    const visible = ref(false);
-
-    const handleClick = () => {
-      visible.value = true;
-    };
-    const handleOk = () => {
-      visible.value = false;
-    };
-    const handleCancel = () => {
-      visible.value = false;
-    };
-
+    const renderData: any = ref<PolicyRecord[]>([]);
     const formModel = ref(generateFormModel());
     const basePagination: Pagination = {
       current: 1,
@@ -299,6 +249,19 @@ export default defineComponent({
     const pagination = reactive({
       ...basePagination,
     });
+    const customer = JSON.parse(window.localStorage.getItem('customer') as any);
+    renderData.value = [
+      {
+        number: 1,
+        clientName: customer.name,
+        phone: '13018242023',
+        address: '贵阳市',
+        time: '2023年3月16日',
+        car: '<50m',
+        status: '待指派',
+        area: '200平',
+      },
+    ];
     const contentTypeOptions: any = computed<Options[]>(() => [
       {
         label: t('menu.list.form.contentType.img'),
@@ -363,7 +326,22 @@ export default defineComponent({
     const reset = () => {
       formModel.value = generateFormModel();
     };
+    const visible = ref(false);
+
+    const handleClick = () => {
+      visible.value = true;
+    };
+    const handleOk = () => {
+      visible.value = false;
+    };
+    const handleCancel = () => {
+      visible.value = false;
+    };
     return {
+      visible,
+      handleClick,
+      handleOk,
+      handleCancel,
       loading,
       search,
       onPageChange,
@@ -374,10 +352,6 @@ export default defineComponent({
       contentTypeOptions,
       filterTypeOptions,
       statusOptions,
-      visible,
-      handleClick,
-      handleOk,
-      handleCancel,
     };
   },
 });
@@ -390,5 +364,10 @@ export default defineComponent({
       margin-left: 16px;
     }
   }
+}
+.order__detail {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 </style>

@@ -29,9 +29,8 @@
         </a-checkbox>
       </div>
     </a-form-item>
-    <a-form-item field="time" label="上门时间" :rules="[{ required: true }]">
+    <a-form-item field="name" label="上门时间" :rules="[{ required: true }]">
       <a-date-picker
-        v-model="form.time"
         style="width: 100%"
         show-time
         format="YYYY-MM-DD hh:mm"
@@ -44,16 +43,12 @@
     <a-form-item
       field="name"
       label="图纸上传"
+      :rules="[{ required: true }]"
       :validate-trigger="['change', 'input']"
     >
       <a-upload draggable :disabled="serviceStatus" :limit="3" action="/" />
     </a-form-item>
-    <a-form-item
-      v-if="false"
-      field="name"
-      label="指定人员"
-      :rules="[{ required: true }]"
-    >
+    <a-form-item field="name" label="指定人员" :rules="[{ required: true }]">
       <a-select
         v-model="valuecacs"
         :style="{ width: '100%' }"
@@ -66,33 +61,21 @@
         }}</a-option>
       </a-select>
     </a-form-item>
-    <a-form-item>
-      <a-space>
-        <a-button type="primary" html-type="submit">校验信息</a-button>
-      </a-space>
-    </a-form-item>
   </a-form>
 </template>
 
 <script lang="ts">
 import { reactive, ref } from 'vue';
-import { Message } from '@arco-design/web-vue';
 
 export default {
   name: 'ServiceAssemble',
   setup() {
     const form: any = reactive({
       size: 'medium',
-      time: '',
     });
-    const handleSubmit = ({ values, errors }: any) => {
-      if (errors === undefined) {
-        // window.localStorage.setItem('user', values);
-        window.localStorage.setItem('assemble', JSON.stringify(values));
-        Message.success('检验成功，请点击下一个表单继续填写信息!');
-      } else {
-        Message.error('请检查表单是否有填写错误或不完整');
-      }
+    const handleSubmit = () => {
+      // eslint-disable-next-line no-console
+      console.log();
     };
     function onSelect(dateString: any, date: any) {
       console.log('onSelect', dateString, date);

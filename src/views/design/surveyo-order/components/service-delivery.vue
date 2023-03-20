@@ -19,9 +19,9 @@
                 <div className="custom-checkbox-card-mask-dot" />
               </div>
               <div>
-                <div className="custom-checkbox-card-title"> 勾选安装服务 </div>
+                <div className="custom-checkbox-card-title"> 勾选配送服务 </div>
                 <a-typography-text style="font-size: 12px" type="secondary">
-                  若需要安装服务，请勾选此项并填入下列信息
+                  若需要配送服务，请勾选此项并填入下列信息
                 </a-typography-text>
               </div>
             </a-space>
@@ -29,9 +29,8 @@
         </a-checkbox>
       </div>
     </a-form-item>
-    <a-form-item field="time" label="上门时间" :rules="[{ required: true }]">
+    <a-form-item field="name" label="上门时间" :rules="[{ required: true }]">
       <a-date-picker
-        v-model="form.time"
         style="width: 100%"
         show-time
         format="YYYY-MM-DD hh:mm"
@@ -43,21 +42,17 @@
     </a-form-item>
     <a-form-item
       field="name"
-      label="图纸上传"
+      label="货物清单"
+      :rules="[{ required: true }]"
       :validate-trigger="['change', 'input']"
     >
       <a-upload draggable :disabled="serviceStatus" :limit="3" action="/" />
     </a-form-item>
-    <a-form-item
-      v-if="false"
-      field="name"
-      label="指定人员"
-      :rules="[{ required: true }]"
-    >
+    <a-form-item field="name" label="指定人员" :rules="[{ required: true }]">
       <a-select
         v-model="valuecacs"
         :style="{ width: '100%' }"
-        placeholder="请指定安装人员"
+        placeholder="请指定配送人员"
         allow-clear
         :disabled="serviceStatus"
       >
@@ -66,33 +61,21 @@
         }}</a-option>
       </a-select>
     </a-form-item>
-    <a-form-item>
-      <a-space>
-        <a-button type="primary" html-type="submit">校验信息</a-button>
-      </a-space>
-    </a-form-item>
   </a-form>
 </template>
 
 <script lang="ts">
 import { reactive, ref } from 'vue';
-import { Message } from '@arco-design/web-vue';
 
 export default {
-  name: 'ServiceAssemble',
+  name: 'ServiceDelivery',
   setup() {
     const form: any = reactive({
       size: 'medium',
-      time: '',
     });
-    const handleSubmit = ({ values, errors }: any) => {
-      if (errors === undefined) {
-        // window.localStorage.setItem('user', values);
-        window.localStorage.setItem('assemble', JSON.stringify(values));
-        Message.success('检验成功，请点击下一个表单继续填写信息!');
-      } else {
-        Message.error('请检查表单是否有填写错误或不完整');
-      }
+    const handleSubmit = () => {
+      // eslint-disable-next-line no-console
+      console.log();
     };
     function onSelect(dateString: any, date: any) {
       console.log('onSelect', dateString, date);
@@ -120,11 +103,11 @@ export default {
     ]);
     const valuecacs = ref('');
     const planner = ref([
-      '安装师傅A|1304231321',
-      '安装师傅B|1304231322',
-      '安装师傅C|1304231323',
-      '安装师傅D|1304231324',
-      '安装师傅E|1304231325',
+      '配送员A|1304231321',
+      '配送员B|1304231322',
+      '配送员C|1304231323',
+      '配送员D|1304231324',
+      '配送员E|1304231325',
     ]);
     const serviceStatus = ref(true);
     const changeServiceStatus = () => {

@@ -9,10 +9,10 @@ import localeSearchTable from '@/views/list/search-table/locale/en-US';
 import localeClassify from '@/views/list/classify/locale/en-US';
 import localeCardList from '@/views/list/card/locale/en-US';
 
-import localeStepForm from '@/views/form/step/locale/en-US';
+// import localeStepForm from '@/views/form/step/locale/en-US';
 import localeGroupForm from '@/views/form/group/locale/en-US';
 import localeRolesForm from '@/views/form/roles/locale/en-US';
-import localeUserForm from '@/views/form/userManagement/locale/en-US';
+// import localeUserForm from '@/views/form/userManagement/locale/en-US';
 
 import localeBasicProfile from '@/views/profile/basic/locale/en-US';
 
@@ -51,10 +51,10 @@ export default {
   ...localeSearchTable,
   ...localeClassify,
   ...localeCardList,
-  ...localeStepForm,
+  // ...localeStepForm,
   ...localeGroupForm,
   ...localeRolesForm,
-  ...localeUserForm,
+  // ...localeUserForm,
   ...localeBasicProfile,
   // ...localeDataAnalysis,
   ...localeMultiDAnalysis,

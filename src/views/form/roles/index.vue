@@ -2,161 +2,121 @@
   <div class="container">
     <Breadcrumb :items="['menu.list', 'menu.form.roles']" />
     <a-card class="general-card" :title="$t('menu.form.roles')">
-      <a-row>
-        <a-col :flex="1">
-          <a-form
-            :model="formModel"
-            :label-col-props="{ span: 6 }"
-            :wrapper-col-props="{ span: 18 }"
-            label-align="left"
+      <div class="card">
+        <a-card class="card__left">
+          <a-checkbox-group direction="vertical">
+            <a-checkbox value="7">订单权限</a-checkbox>
+            <a-checkbox value="8">配送权限</a-checkbox>
+            <a-checkbox value="9">安装权限</a-checkbox>
+            <a-checkbox value="1">权限模块一</a-checkbox>
+            <a-checkbox value="2">权限模块二</a-checkbox>
+            <a-checkbox value="3">权限模块三</a-checkbox>
+            <a-checkbox value="4">权限模块四</a-checkbox>
+            <a-checkbox value="5">权限模块五</a-checkbox>
+            <a-checkbox value="6">权限模块六</a-checkbox>
+          </a-checkbox-group>
+        </a-card>
+        <div class="card__right">
+          <div style="text-align: right; padding: 0 10px 10px 10px"
+            ><a-button style="margin-right: 10px">删除</a-button>
+            <a-button type="primary">新建</a-button></div
           >
-            <a-row :gutter="16">
-              <a-col :span="8">
-                <a-form-item field="number" :label="$t('menu.form.number')">
-                  <a-input
-                    v-model="formModel.number"
-                    :placeholder="$t('menu.form.number.placeholder')"
-                  />
-                </a-form-item>
-              </a-col>
-            </a-row>
-          </a-form>
-        </a-col>
-        <a-divider style="height: 54px" direction="vertical" />
-        <a-col :flex="'200px'" style="text-align: center; line-height: 54px">
-          <a-space
-            :flex="'180px'"
-            style="flex-direction: row"
-            direction="vertical"
-            :size="18"
+          <a-table
+            row-key="id"
+            :loading="loading"
+            :pagination="pagination"
+            :data="renderData"
+            :bordered="false"
+            @page-change="onPageChange"
           >
-            <a-button style="margin-right: 10px" type="primary" @click="search">
-              <template #icon>
-                <icon-search />
-              </template>
-              {{ $t('searchTable.form.search') }}
-            </a-button>
-            <a-button @click="reset">
-              <template #icon>
-                <icon-refresh />
-              </template>
-              {{ $t('searchTable.form.reset') }}
-            </a-button>
-          </a-space>
-        </a-col>
-      </a-row>
-      <a-divider style="margin-top: 0" />
-      <a-row style="margin-bottom: 16px">
-        <a-col :span="16">
-          <a-space>
-            <a-button type="primary">
-              <template #icon>
-                <icon-plus />
-              </template>
-              {{ $t('searchTable.operation.create') }}
-            </a-button>
-          </a-space>
-        </a-col>
-        <a-col :span="8" style="text-align: right">
-          <a-button>
-            <template #icon>
-              <icon-download />
+            <template #columns>
+              <a-table-column
+                :title="$t('searchTable.columns.number')"
+                data-index="number"
+              />
+              <a-table-column
+                :title="$t('searchTable.columns.name')"
+                data-index="name"
+              />
+              <a-table-column
+                :title="$t('searchTable.columns.contentType')"
+                data-index="contentType"
+              >
+                <template #cell="{ record }">
+                  <a-space>
+                    <a-avatar
+                      v-if="record.contentType === 'img'"
+                      :size="16"
+                      shape="square"
+                    >
+                      <img
+                        alt="avatar"
+                        src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/581b17753093199839f2e327e726b157.svg~tplv-49unhts6dw-image.image"
+                      />
+                    </a-avatar>
+                    <a-avatar
+                      v-else-if="record.contentType === 'horizontalVideo'"
+                      :size="16"
+                      shape="square"
+                    >
+                      <img
+                        alt="avatar"
+                        src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/77721e365eb2ab786c889682cbc721c1.svg~tplv-49unhts6dw-image.image"
+                      />
+                    </a-avatar>
+                    <a-avatar v-else :size="16" shape="square">
+                      <img
+                        alt="avatar"
+                        src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/ea8b09190046da0ea7e070d83c5d1731.svg~tplv-49unhts6dw-image.image"
+                      />
+                    </a-avatar>
+                    {{ $t(`menu.list.form.contentType.${record.contentType}`) }}
+                  </a-space>
+                </template>
+              </a-table-column>
+              <a-table-column
+                :title="$t('searchTable.columns.filterType')"
+                data-index="filterType"
+              >
+                <template #cell="{ record }">
+                  {{ $t(`searchTable.form.filterType.${record.filterType}`) }}
+                </template>
+              </a-table-column>
+              <a-table-column
+                :title="$t('searchTable.columns.count')"
+                data-index="count"
+              />
+              <a-table-column
+                :title="$t('searchTable.columns.createdTime')"
+                data-index="createdTime"
+              />
+              <a-table-column
+                :title="$t('searchTable.columns.status')"
+                data-index="status"
+              >
+                <template #cell="{ record }">
+                  <span
+                    v-if="record.status === 'offline'"
+                    class="circle"
+                  ></span>
+                  <span v-else class="circle pass"></span>
+                  {{ $t(`searchTable.form.status.${record.status}`) }}
+                </template>
+              </a-table-column>
+              <a-table-column
+                :title="$t('searchTable.columns.operations')"
+                data-index="operations"
+              >
+                <template #cell>
+                  <a-button v-permission="['admin']" type="text" size="small">
+                    {{ $t('searchTable.columns.operations.view') }}
+                  </a-button>
+                </template>
+              </a-table-column>
             </template>
-            {{ $t('searchTable.operation.download') }}
-          </a-button>
-        </a-col>
-      </a-row>
-      <a-table
-        row-key="id"
-        :loading="loading"
-        :pagination="pagination"
-        :data="renderData"
-        :bordered="false"
-        @page-change="onPageChange"
-      >
-        <template #columns>
-          <a-table-column
-            :title="$t('searchTable.columns.number')"
-            data-index="number"
-          />
-          <a-table-column
-            :title="$t('searchTable.columns.name')"
-            data-index="name"
-          />
-          <a-table-column
-            :title="$t('searchTable.columns.contentType')"
-            data-index="contentType"
-          >
-            <template #cell="{ record }">
-              <a-space>
-                <a-avatar
-                  v-if="record.contentType === 'img'"
-                  :size="16"
-                  shape="square"
-                >
-                  <img
-                    alt="avatar"
-                    src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/581b17753093199839f2e327e726b157.svg~tplv-49unhts6dw-image.image"
-                  />
-                </a-avatar>
-                <a-avatar
-                  v-else-if="record.contentType === 'horizontalVideo'"
-                  :size="16"
-                  shape="square"
-                >
-                  <img
-                    alt="avatar"
-                    src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/77721e365eb2ab786c889682cbc721c1.svg~tplv-49unhts6dw-image.image"
-                  />
-                </a-avatar>
-                <a-avatar v-else :size="16" shape="square">
-                  <img
-                    alt="avatar"
-                    src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/ea8b09190046da0ea7e070d83c5d1731.svg~tplv-49unhts6dw-image.image"
-                  />
-                </a-avatar>
-                {{ $t(`menu.list.form.contentType.${record.contentType}`) }}
-              </a-space>
-            </template>
-          </a-table-column>
-          <a-table-column
-            :title="$t('searchTable.columns.filterType')"
-            data-index="filterType"
-          >
-            <template #cell="{ record }">
-              {{ $t(`searchTable.form.filterType.${record.filterType}`) }}
-            </template>
-          </a-table-column>
-          <a-table-column
-            :title="$t('searchTable.columns.count')"
-            data-index="count"
-          />
-          <a-table-column
-            :title="$t('searchTable.columns.createdTime')"
-            data-index="createdTime"
-          />
-          <a-table-column
-            :title="$t('searchTable.columns.status')"
-            data-index="status"
-          >
-            <template #cell="{ record }">
-              <span v-if="record.status === 'offline'" class="circle"></span>
-              <span v-else class="circle pass"></span>
-              {{ $t(`searchTable.form.status.${record.status}`) }}
-            </template>
-          </a-table-column>
-          <a-table-column
-            :title="$t('searchTable.columns.operations')"
-            data-index="operations"
-          >
-            <template #cell>
-              <a-button v-permission="['admin']" type="text" size="small">
-                {{ $t('searchTable.columns.operations.view') }}
-              </a-button>
-            </template>
-          </a-table-column>
-        </template>
-      </a-table>
+          </a-table>
+        </div>
+      </div>
     </a-card>
   </div>
 </template>
@@ -277,6 +237,18 @@ export default defineComponent({
     .arco-table-th-item-title {
       margin-left: 16px;
     }
+  }
+}
+.card {
+  width: 100%;
+  display: flex;
+  &__left {
+    width: 30%;
+    padding: 10px;
+  }
+  &__right {
+    width: 70%;
+    padding: 10px;
   }
 }
 </style>

@@ -16,7 +16,7 @@ export default {
       meta: {
         locale: 'menu.surveyo-order.title',
         requiresAuth: true,
-        roles: ['admin'],
+        roles: ['admin', 'cuscer', 'designer'],
       },
     },
     {
@@ -26,7 +26,7 @@ export default {
       meta: {
         locale: 'menu.measurement.title',
         requiresAuth: true,
-        roles: ['admin'],
+        roles: ['admin', 'cuscer'],
       },
     },
   ],

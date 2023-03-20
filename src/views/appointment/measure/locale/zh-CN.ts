@@ -31,4 +31,14 @@ export default {
   'searchTable.columns.status': '状态',
   'searchTable.columns.operations': '操作',
   'searchTable.columns.operations.view': '查看',
+
+  'menu.columns.title': '配送预约',
+  'menu.columns.number': '订单编号',
+  'menu.columns.clientName': '客户名称',
+  'menu.columns.phone': '联系电话',
+  'menu.columns.address': '所在地址',
+  'menu.columns.time': '上门时间',
+  'menu.columns.status': '当前状态',
+  'menu.columns.car': '停车距离',
+  'menu.columns.op': '操作',
 };

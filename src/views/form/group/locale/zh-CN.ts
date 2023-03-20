@@ -1,7 +1,7 @@
 export default {
-  'menu.form.group': '供应商管理',
-  'menu.form.group.number': '供应商名称',
-  'menu.form.group.number.placeholder': '请输入供应商名称',
+  'menu.form.group': '用户列表',
+  'menu.form.group.number': '用户名称',
+  'menu.form.group.number.placeholder': '请输入用户名称',
   'menu.form.name': '集合名称',
   'menu.form.name.placeholder': '请输入集合名称',
   'menu.list.form.contentType': '类型选择',

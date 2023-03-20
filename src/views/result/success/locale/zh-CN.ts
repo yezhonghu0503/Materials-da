@@ -6,4 +6,12 @@ export default {
   'menu.result.name.placeholder': '请输入订单名称',
   'menu.result.status': '订单状态',
   'menu.result.status.placeholder': '请输入订单编号',
+  'menu.result.clientName': '客户名称',
+  'menu.result.phone': '联系电话',
+  'menu.result.address': '所在地址',
+  'menu.result.time': '上门时间',
+  'menu.result.type': '服务类型',
+  'menu.result.orderstatus': '当前状态',
+  'menu.result.area': '整体面积',
+  'menu.result.op': '操作',
 };

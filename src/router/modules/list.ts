@@ -15,7 +15,7 @@ export default {
       meta: {
         locale: 'menu.list.searchTable',
         requiresAuth: true,
-        roles: ['*'],
+        roles: ['admin'],
       },
     },
     {
@@ -25,7 +25,27 @@ export default {
       meta: {
         locale: 'menu.list.classify',
         requiresAuth: true,
-        roles: ['*'],
+        roles: ['admin'],
+      },
+    },
+    {
+      path: 'basic',
+      name: 'basic',
+      component: () => import('@/views/profile/basic/index.vue'),
+      meta: {
+        locale: 'menu.profile.basic',
+        requiresAuth: true,
+        roles: ['admin'],
+      },
+    },
+    {
+      path: 'activity',
+      name: 'activity',
+      component: () => import('@/views/exception/403/index.vue'),
+      meta: {
+        locale: 'menu.exception.activity',
+        requiresAuth: true,
+        roles: ['admin'],
       },
     },
   ],

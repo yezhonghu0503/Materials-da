@@ -17,8 +17,7 @@ setupMock({
         const role = window.localStorage.getItem('userRole') || 'admin';
         return successResponseWrap({
           name: '叶忠湖',
-          avatar:
-            '//qny.lakeblog.top/logoen.jpeg?e=1676192124&token=8o8Ek1Xx4aM03l7lM3hvTssPjBLIJhZp0MoSVFEH:SewcDUYC9Hmsr_U27t7PtBtoN-w=',
+          avatar: '//47.108.253.231:8090/upload/logoen.jpeg',
           email: 'wangliqun@email.com',
           job: 'frontend',
           jobName: '前端工程师',
@@ -57,6 +56,34 @@ setupMock({
         window.localStorage.setItem('userRole', 'user');
         return successResponseWrap({
           token: '54321',
+        });
+      }
+      // 普通客户
+      if (username === 'customer' && password === 'customer') {
+        window.localStorage.setItem('userRole', 'customer');
+        return successResponseWrap({
+          token: '543212',
+        });
+      }
+      // 客服cusser
+      if (username === 'cuscer' && password === 'cuscer') {
+        window.localStorage.setItem('userRole', 'cuscer');
+        return successResponseWrap({
+          token: '543213',
+        });
+      }
+      // 设计师designer
+      if (username === 'designer' && password === 'designer') {
+        window.localStorage.setItem('userRole', 'designer');
+        return successResponseWrap({
+          token: '543214',
+        });
+      }
+      // 安装师傅engineer
+      if (username === 'engineer' && password === 'engineer') {
+        window.localStorage.setItem('userRole', 'engineer');
+        return successResponseWrap({
+          token: '543215',
         });
       }
       return failResponseWrap(null, '账号或者密码错误', 50000);

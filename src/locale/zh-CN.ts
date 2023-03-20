@@ -9,10 +9,10 @@ import localeSearchTable from '@/views/list/search-table/locale/zh-CN';
 import localeClassify from '@/views/list/classify/locale/zh-CN';
 import localeCardList from '@/views/list/card/locale/zh-CN';
 
-import localeStepForm from '@/views/form/step/locale/zh-CN';
+// import localeStepForm from '@/views/form/step/locale/zh-CN';
 import localeGroupForm from '@/views/form/group/locale/zh-CN';
 import localeRolesForm from '@/views/form/roles/locale/zh-CN';
-import localeUserForm from '@/views/form/userManagement/locale/zh-CN';
+// import localeUserForm from '@/views/form/userManagement/locale/zh-CN';
 
 import localeMeasureForm from '@/views/appointment/measure/locale/zh-CN';
 import localeDistributionForm from '@/views/appointment/distribution/locale/zh-CN';
@@ -54,7 +54,7 @@ import localeSettings from './zh-CN/settings';
 
 export default {
   'menu.dashboard': '5G智慧屏',
-  'menu.list': '商品管理',
+  'menu.list': '商城管理',
   'menu.result': '订单管理',
   'menu.warehouse': '仓库管理',
   'menu.exception': '活动管理',
@@ -77,10 +77,10 @@ export default {
   ...localeSearchTable,
   ...localeClassify,
   ...localeCardList,
-  ...localeStepForm,
+  // ...localeStepForm,
   ...localeGroupForm,
   ...localeRolesForm,
-  ...localeUserForm,
+  // ...localeUserForm,
   ...localeBasicProfile,
   // ...localeDataAnalysis,
   ...localeMultiDAnalysis,

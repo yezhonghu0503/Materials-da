@@ -31,8 +31,13 @@
         </a-checkbox>
       </div>
     </a-form-item>
-    <a-form-item field="name" label="上门时间" :rules="[{ required: true }]">
+    <a-form-item
+      field="time"
+      label="上门时间"
+      :rules="[{ required: true, message: '请选择上门时间' }]"
+    >
       <a-date-picker
+        v-model="form.time"
         style="width: 100%"
         show-time
         format="YYYY-MM-DD hh:mm"
@@ -43,13 +48,13 @@
       />
     </a-form-item>
     <a-form-item
-      field="name"
+      field="type"
       label="产品类型"
-      :rules="[{ required: true }]"
+      :rules="[{ required: true, message: '请选择产品类型' }]"
       :validate-trigger="['change', 'input']"
     >
       <a-select
-        v-model="value"
+        v-model="form.type"
         :style="{ width: '100%' }"
         placeholder="请选择产品类型"
         allow-clear
@@ -60,8 +65,13 @@
         }}</a-option>
       </a-select>
     </a-form-item>
-    <a-form-item field="name" label="整体面积" :rules="[{ required: true }]">
+    <a-form-item
+      field="area"
+      label="整体面积"
+      :rules="[{ required: true, message: '请输入整体面积' }]"
+    >
       <a-input-number
+        v-model="form.area"
         :style="{ width: '100%' }"
         placeholder="请输入整体面积"
         :max="1000"
@@ -73,7 +83,12 @@
         <template #suffix> m² </template>
       </a-input-number>
     </a-form-item>
-    <a-form-item field="name" label="指定人员" :rules="[{ required: true }]">
+    <a-form-item
+      v-if="false"
+      field="name"
+      label="指定人员"
+      :rules="[{ required: true }]"
+    >
       <a-select
         v-model="valuecacs"
         :style="{ width: '100%' }"
@@ -86,21 +101,36 @@
         }}</a-option>
       </a-select>
     </a-form-item>
+    <a-form-item>
+      <a-space>
+        <a-button type="primary" html-type="submit">校验信息</a-button>
+      </a-space>
+    </a-form-item>
   </a-form>
 </template>
 
 <script lang="ts">
 import { reactive, ref } from 'vue';
+import { Message } from '@arco-design/web-vue';
 
 export default {
   name: 'ServiceMeasuringDesign',
   setup() {
     const form: any = reactive({
       size: 'medium',
+      time: '',
+      type: '',
+      area: '',
     });
-    const handleSubmit = () => {
+    const handleSubmit = ({ values, errors }: any) => {
       // eslint-disable-next-line no-console
-      console.log();
+      if (errors === undefined) {
+        // window.localStorage.setItem('user', values);
+        window.localStorage.setItem('measuring', JSON.stringify(values));
+        Message.success('检验成功，若不需要其他服务可直接提交!');
+      } else {
+        Message.error('请检查表单是否有填写错误或不完整');
+      }
     };
     function onSelect(dateString: any, date: any) {
       console.log('onSelect', dateString, date);
