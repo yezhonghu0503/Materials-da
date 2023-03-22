@@ -78,6 +78,7 @@ import { useRouter } from 'vue-router';
 import { Message } from '@arco-design/web-vue';
 import { ValidatedError } from '@arco-design/web-vue/es/form/interface';
 import { useI18n } from 'vue-i18n';
+// import { useUserStore } from '@/store';
 import { useUserStore } from '@/store';
 import useLoading from '@/hooks/loading';
 import { LoginData } from '@/api/user';
@@ -90,8 +91,8 @@ export default defineComponent({
     const { loading, setLoading } = useLoading();
     const userStore = useUserStore();
     const userInfo = reactive({
-      username: 'admin',
-      password: 'admin',
+      username: '',
+      password: '',
     });
     const handleSubmit: any = async ({
       errors,
