@@ -101,10 +101,14 @@ export default defineComponent({
       errors: Record<string, ValidatedError> | undefined;
       values: LoginData;
     }) => {
+      console.log(userInfo);
       if (!errors) {
         setLoading(true);
         try {
-          await userStore.login(values);
+          // console.log(values);
+          await userStore.login(userInfo);
+          // console.log(res);
+          console.log('ass');
           const { redirect, ...othersQuery } = router.currentRoute.value.query;
           router.push({
             name: (redirect as string) || 'workplace',
@@ -114,6 +118,7 @@ export default defineComponent({
           });
           Message.success(t('login.form.login.success'));
         } catch (err) {
+          console.log(err);
           errorMessage.value = (err as Error).message;
         } finally {
           setLoading(false);

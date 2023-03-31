@@ -15,7 +15,7 @@ export default {
       meta: {
         locale: 'menu.logistics-order.title',
         requiresAuth: true,
-        roles: ['admin', 'cuscer'],
+        roles: ['*'],
       },
     },
     {
@@ -25,7 +25,7 @@ export default {
       meta: {
         locale: 'menu.logistics-assgin.title',
         requiresAuth: true,
-        roles: ['admin', 'cuscer'],
+        roles: ['*'],
       },
     },
     {
@@ -35,7 +35,7 @@ export default {
       meta: {
         locale: 'menu.logistics-result.title',
         requiresAuth: true,
-        roles: ['admin', 'cuscer'],
+        roles: ['*'],
       },
     },
   ],

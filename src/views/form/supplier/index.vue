@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.list', 'menu.form.group']" />
-    <a-card class="general-card" :title="$t('menu.form.group')">
+    <Breadcrumb :items="['menu.list', 'menu.form.supplier']" />
+    <a-card class="general-card" :title="$t('menu.form.supplier')">
       <a-row>
         <a-col :flex="1">
           <a-form
@@ -14,11 +14,11 @@
               <a-col :span="8">
                 <a-form-item
                   field="number"
-                  :label="$t('menu.form.group.number')"
+                  :label="$t('menu.form.supplier.number')"
                 >
                   <a-input
                     v-model="formModel.number"
-                    :placeholder="$t('menu.form.group.number.placeholder')"
+                    :placeholder="$t('menu.form.supplier.number.placeholder')"
                   />
                 </a-form-item>
               </a-col>
@@ -58,6 +58,12 @@
               </template>
               {{ $t('searchTable.operation.create') }}
             </a-button>
+            <a-button type="primary" status="danger">
+              <template #icon>
+                <icon-delete />
+              </template>
+              批量删除
+            </a-button>
           </a-space>
           <a-modal
             width="auto"
@@ -65,8 +71,8 @@
             :hide-cancel="true"
             @ok="handleOk"
           >
-            <userAddVue></userAddVue>
-            <template #title> 新增用户 </template>
+            <template #title> 新增供应商 </template>
+            <supplierMsg></supplierMsg>
           </a-modal>
         </a-col>
       </a-row>
@@ -79,17 +85,19 @@
         @page-change="onPageChange"
       >
         <template #columns>
-          <a-table-column title="用户名" data-index="userName" />
-          <a-table-column title="用户名称" data-index="showName" />
-          <a-table-column title="联系电话" data-index="phone" />
-          <a-table-column title="角色" data-index="role" />
-          <a-table-column title="创建时间" data-index="createTime" />
+          <a-table-column title="供应商编号" data-index="id" />
+          <a-table-column title="供应商名称" data-index="supplierName" />
+          <a-table-column title="品牌名称" data-index="brandName" />
+          <a-table-column title="公司名称" data-index="companyName" />
+          <a-table-column title="创建时间" data-index="createTime">
+          </a-table-column>
 
           <a-table-column
             :title="$t('searchTable.columns.operations')"
             data-index="operations"
           >
             <template #cell>
+              <!-- <a-button v-permission="['admin']" type="text" size="small"> -->
               <a-button type="text" size="small"> 编辑 </a-button>
             </template>
           </a-table-column>
@@ -100,13 +108,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue';
+import { defineComponent, computed, ref, reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
 import useLoading from '@/hooks/loading';
 import { PolicyRecord, PolicyParams } from '@/api/list';
-import { Pagination } from '@/types/global';
-import { getUserList } from '@/api/user';
-import userAddVue from './components/user-add.vue';
+import { getSupplier } from '@/api/form';
+import { Pagination, Options } from '@/types/global';
+import supplierMsg from './components/supplier-msg.vue';
 
 const generateFormModel = () => {
   return {
@@ -119,7 +127,7 @@ const generateFormModel = () => {
   };
 };
 export default defineComponent({
-  components: { userAddVue },
+  components: { supplierMsg },
   setup() {
     const { loading, setLoading } = useLoading(true);
     const { t } = useI18n();
@@ -132,6 +140,40 @@ export default defineComponent({
     const pagination = reactive({
       ...basePagination,
     });
+    const contentTypeOptions: any = computed<Options[]>(() => [
+      {
+        label: t('menu.list.form.contentType.img'),
+        value: 'img',
+      },
+      {
+        label: t('menu.list.form.contentType.horizontalVideo'),
+        value: 'horizontalVideo',
+      },
+      {
+        label: t('menu.list.form.contentType.verticalVideo'),
+        value: 'verticalVideo',
+      },
+    ]);
+    const filterTypeOptions: any = computed<Options[]>(() => [
+      {
+        label: t('searchTable.form.filterType.artificial'),
+        value: 'artificial',
+      },
+      {
+        label: t('searchTable.form.filterType.rules'),
+        value: 'rules',
+      },
+    ]);
+    const statusOptions: any = computed<Options[]>(() => [
+      {
+        label: t('searchTable.form.status.online'),
+        value: 'online',
+      },
+      {
+        label: t('searchTable.form.status.offline'),
+        value: 'offline',
+      },
+    ]);
     const fetchData = async (
       params: PolicyParams = { current: 1, pageSize: 20 }
     ) => {
@@ -162,16 +204,16 @@ export default defineComponent({
     const reset = () => {
       formModel.value = generateFormModel();
     };
-    const userList = async () => {
-      const data = { page: 1, limit: 10 };
-      const res = await getUserList(data);
+    const supplierList = async () => {
+      const res = await getSupplier();
       renderData.value = res.data;
+      console.log(res);
     };
-    userList();
     const visible = ref(false);
     const handleOk = () => {
       visible.value = false;
     };
+    supplierList();
     return {
       loading,
       search,
@@ -180,6 +222,9 @@ export default defineComponent({
       pagination,
       formModel,
       reset,
+      contentTypeOptions,
+      filterTypeOptions,
+      statusOptions,
       visible,
       handleOk,
     };
@@ -188,6 +233,9 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+::v-deep .arco-modal-footer {
+  display: none !important;
+}
 :deep(.arco-table-th) {
   &:last-child {
     .arco-table-th-item-title {

@@ -12,6 +12,7 @@ import localeCardList from '@/views/list/card/locale/zh-CN';
 // import localeStepForm from '@/views/form/step/locale/zh-CN';
 import localeGroupForm from '@/views/form/group/locale/zh-CN';
 import localeRolesForm from '@/views/form/roles/locale/zh-CN';
+import localeSupplierForm from '@/views/form/supplier/locale/zh-CN';
 // import localeUserForm from '@/views/form/userManagement/locale/zh-CN';
 
 import localeMeasureForm from '@/views/appointment/measure/locale/zh-CN';
@@ -108,5 +109,6 @@ export default {
   ...localeSurveyoOrderFrom,
   ...localeLogisticAssginFrom,
   ...localeLogisticResultFrom,
+  ...localeSupplierForm,
   /** simple end */
 };

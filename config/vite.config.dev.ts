@@ -10,6 +10,9 @@ export default mergeConfig(
       fs: {
         strict: true,
       },
+      proxy: {
+        '/admin': 'http://42.192.219.155:8081',
+      },
     },
     plugins: [
       eslint({

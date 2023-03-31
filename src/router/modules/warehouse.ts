@@ -16,7 +16,7 @@ export default {
       meta: {
         locale: 'menu.inventory-query.title',
         requiresAuth: true,
-        roles: ['admin'],
+        roles: ['*'],
       },
     },
     // replenishment-query
@@ -28,7 +28,7 @@ export default {
       meta: {
         locale: 'menu.replenishment-query.title',
         requiresAuth: true,
-        roles: ['admin'],
+        roles: ['*'],
       },
     },
   ],

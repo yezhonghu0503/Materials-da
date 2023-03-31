@@ -35,6 +35,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { roleList } from '@/api/user';
 import Banner from './components/banner.vue';
 import DataPanel from './components/data-panel.vue';
 import ContentChart from './components/content-chart.vue';
@@ -58,6 +59,13 @@ export default defineComponent({
     Announcement,
     Carousel,
     Docs,
+  },
+  setup() {
+    const role = async () => {
+      const res = await roleList();
+      console.log(res);
+    };
+    role();
   },
 });
 </script>

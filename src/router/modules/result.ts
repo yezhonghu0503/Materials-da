@@ -15,7 +15,7 @@ export default {
       meta: {
         locale: 'menu.result.title',
         requiresAuth: true,
-        roles: ['admin', 'customer', 'cuscer'],
+        roles: ['*'],
       },
     },
     {
@@ -25,7 +25,7 @@ export default {
       meta: {
         locale: 'menu.create-order.title',
         requiresAuth: true,
-        roles: ['admin', 'customer', 'cuscer'],
+        roles: ['*'],
       },
     },
     {
@@ -35,7 +35,7 @@ export default {
       meta: {
         locale: 'menu.anomalous-reminder.title',
         requiresAuth: true,
-        roles: ['admin', 'cuscer'],
+        roles: ['*'],
       },
     },
     // complex-query
@@ -46,7 +46,7 @@ export default {
       meta: {
         locale: 'menu.complex-query.title',
         requiresAuth: true,
-        roles: ['admin', 'cuscer'],
+        roles: ['*'],
       },
     },
     // order-checkout
@@ -57,7 +57,7 @@ export default {
       meta: {
         locale: 'menu.order-checkout.title',
         requiresAuth: true,
-        roles: ['admin', 'customer'],
+        roles: ['*'],
       },
     },
     // {

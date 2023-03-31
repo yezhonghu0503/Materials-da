@@ -18,5 +18,11 @@ export function logout() {
 }
 
 export function getUserInfo() {
-  return axios.post<UserState>('/api/user/info');
+  return axios.post<UserState>('/admin/user/info');
+}
+export function getUserList(params: any) {
+  return axios.get('/admin/user/list', { params });
+}
+export function roleList() {
+  return axios.get<LoginRes>('/admin/role/rights');
 }

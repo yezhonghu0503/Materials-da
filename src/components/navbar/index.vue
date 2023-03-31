@@ -165,6 +165,7 @@ import { useAppStore, useUserStore } from '@/store';
 import { LOCALE_OPTIONS } from '@/locale';
 import useLocale from '@/hooks/locale';
 import useUser from '@/hooks/user';
+import { useRouter } from 'vue-router';
 import MessageBox from '../message-box/index.vue';
 
 export default defineComponent({
@@ -172,6 +173,7 @@ export default defineComponent({
     MessageBox,
   },
   setup() {
+    const router = useRouter();
     const appStore = useAppStore();
     const userStore = useUserStore();
     const { logout } = useUser();
@@ -209,7 +211,8 @@ export default defineComponent({
       refBtn.value.dispatchEvent(event);
     };
     const handleLogout = () => {
-      logout();
+      localStorage.removeItem('ht-token');
+      router.push({ name: 'login' });
     };
     const setDropDownVisible = () => {
       const event = new MouseEvent('click', {

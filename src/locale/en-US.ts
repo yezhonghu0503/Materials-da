@@ -12,6 +12,7 @@ import localeCardList from '@/views/list/card/locale/en-US';
 // import localeStepForm from '@/views/form/step/locale/en-US';
 import localeGroupForm from '@/views/form/group/locale/en-US';
 import localeRolesForm from '@/views/form/roles/locale/en-US';
+import localeSupplierForm from '@/views/form/supplier/locale/zh-CN';
 // import localeUserForm from '@/views/form/userManagement/locale/en-US';
 
 import localeBasicProfile from '@/views/profile/basic/locale/en-US';
@@ -65,5 +66,6 @@ export default {
   ...locale500,
   ...localeUserInfo,
   ...localeUserSetting,
+  ...localeSupplierForm,
   /** simple end */
 };

@@ -15,7 +15,7 @@ export default {
       meta: {
         locale: 'menu.form.group',
         requiresAuth: true,
-        roles: ['admin'],
+        roles: ['*'],
       },
     },
     {
@@ -25,7 +25,17 @@ export default {
       meta: {
         locale: 'menu.form.roles',
         requiresAuth: true,
-        roles: ['admin'],
+        roles: ['*'],
+      },
+    },
+    {
+      path: 'supplier',
+      name: 'supplier',
+      component: () => import('@/views/form/supplier/index.vue'),
+      meta: {
+        locale: 'menu.form.supplier',
+        requiresAuth: true,
+        roles: ['*'],
       },
     },
   ],

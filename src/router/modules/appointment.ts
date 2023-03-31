@@ -15,7 +15,7 @@ export default {
       meta: {
         locale: 'appointment.measure.title',
         requiresAuth: true,
-        roles: ['admin', 'cuscer', 'engineer'],
+        roles: ['*'],
       },
     },
     // distribution
@@ -26,7 +26,7 @@ export default {
       meta: {
         locale: 'appointment.distribution.title',
         requiresAuth: true,
-        roles: ['admin', 'cuscer', 'engineer'],
+        roles: ['*'],
       },
     },
     // appointment.fix.title
@@ -37,7 +37,7 @@ export default {
       meta: {
         locale: 'appointment.fix.title',
         requiresAuth: true,
-        roles: ['admin', 'cuscer'],
+        roles: ['*'],
       },
     },
   ],

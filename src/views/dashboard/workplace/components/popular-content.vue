@@ -70,18 +70,19 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import useLoading from '@/hooks/loading';
-import { queryPopularList, PopularRecord } from '@/api/dashboard';
+// import { queryPopularList, PopularRecord } from '@/api/dashboard';
 
 export default defineComponent({
   setup() {
     const type = ref('text');
     const { loading, setLoading } = useLoading();
-    const renderList: any = ref<PopularRecord[]>();
+    // const renderList: any = ref<PopularRecord[]>();
+    const renderList: any = [];
     const fetchData = async (contentType: string) => {
       try {
-        setLoading(true);
-        const { data } = await queryPopularList({ type: contentType });
-        renderList.value = data;
+        // setLoading(true);
+        // const { data } = await queryPopularList({ type: contentType });
+        // renderList.value = data;
       } catch (err) {
         // you can report use errorHandler or other
       } finally {

@@ -1,17 +1,17 @@
 const isLogin = () => {
-  return !!localStorage.getItem('token');
+  return !!localStorage.getItem('ht-token');
 };
 
 const getToken = () => {
-  return localStorage.getItem('token');
+  return localStorage.getItem('ht-token');
 };
 
 const setToken = (token: string) => {
-  localStorage.setItem('token', token);
+  localStorage.setItem('ht-token', token);
 };
 
 const clearToken = () => {
-  localStorage.removeItem('token');
+  localStorage.removeItem('ht-token');
 };
 
 export { isLogin, getToken, setToken, clearToken };

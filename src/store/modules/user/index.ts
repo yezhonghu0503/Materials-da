@@ -2,7 +2,6 @@ import { defineStore } from 'pinia';
 import {
   login as userLogin,
   logout as userLogout,
-  getUserInfo,
   LoginData,
 } from '@/api/user';
 import { setToken, clearToken } from '@/utils/auth';
@@ -53,9 +52,8 @@ const useUserStore = defineStore('user', {
 
     // Get user's information
     async info() {
-      const res = await getUserInfo();
-
-      this.setInfo(res.data);
+      // const res = await getUserInfo();
+      // this.setInfo(res.data);
     },
 
     // Login

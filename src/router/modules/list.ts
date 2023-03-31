@@ -15,7 +15,7 @@ export default {
       meta: {
         locale: 'menu.list.searchTable',
         requiresAuth: true,
-        roles: ['admin'],
+        roles: ['*'],
       },
     },
     {
@@ -25,7 +25,7 @@ export default {
       meta: {
         locale: 'menu.list.classify',
         requiresAuth: true,
-        roles: ['admin'],
+        roles: ['*'],
       },
     },
     {
@@ -45,7 +45,7 @@ export default {
       meta: {
         locale: 'menu.exception.activity',
         requiresAuth: true,
-        roles: ['admin'],
+        roles: ['*'],
       },
     },
   ],
