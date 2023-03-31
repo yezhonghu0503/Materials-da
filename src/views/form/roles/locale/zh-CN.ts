@@ -1,5 +1,5 @@
 export default {
-  'menu.form.roles': '职权树',
+  'menu.form.roles': '角色管理',
   'menu.form.number': '角色名称',
   'menu.form.number.placeholder': '请输入角色名称',
   'searchTable.form.name': '集合名称',

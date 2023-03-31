@@ -1,15 +1,14 @@
 <template>
   <div class="container">
     <Breadcrumb :items="['menu.list', 'menu.form.roles']" />
-    <a-card class="general-card" :title="$t('menu.form.roles')">
+    <a-card class="general-card" title="职权树">
       <div class="card">
         <a-card class="card__left">
           <a-tree :field-names="newdata" checkable show-line :data="treeData">
           </a-tree>
         </a-card>
         <div class="card__right">
-          <div style="text-align: right; padding: 0 10px 10px 10px"
-            ><a-button style="margin-right: 10px">删除</a-button>
+          <div style="text-align: right; padding: 0 10px 10px 10px">
             <a-button type="primary" @click="visible = true"
               >新建</a-button
             ></div
@@ -61,7 +60,6 @@
             :pagination="pagination"
             :data="renderData"
             :bordered="false"
-            @cancel="visible = false"
           >
             <template #columns>
               <a-table-column title="角色编号" data-index="id" />
@@ -72,8 +70,16 @@
               <a-table-column
                 :title="$t('searchTable.columns.operations')"
                 data-index="operations"
+                :width="200"
+                align="center"
               >
                 <template #cell="{ record }">
+                  <a-popconfirm
+                    content="删除后不可恢复，是否确定删除该角色?"
+                    @ok="deleteRole(record.id)"
+                  >
+                    <a-button type="text" size="small"> 删除 </a-button>
+                  </a-popconfirm>
                   <a-button
                     type="text"
                     size="small"
@@ -97,7 +103,13 @@ import { useI18n } from 'vue-i18n';
 import useLoading from '@/hooks/loading';
 import { PolicyRecord, PolicyParams } from '@/api/list';
 import { Pagination, Options } from '@/types/global';
-import { getRoleList, postAddRole, getRoleRights } from '@/api/form';
+import {
+  getRoleList,
+  postAddRole,
+  getRoleRights,
+  getRoleDetailed,
+  getDeleteRole,
+} from '@/api/form';
 import { Message } from '@arco-design/web-vue';
 
 const generateFormModel = () => {
@@ -127,6 +139,15 @@ export default defineComponent({
       children: 'children',
     };
     roleList();
+    const deleteRole = async (id: any) => {
+      try {
+        await getDeleteRole({ roleId: id });
+        Message.success('删除成功！');
+        roleList();
+      } catch (error: any) {
+        Message.error(error);
+      }
+    };
     const addForm = reactive({ ruleName: '', rights: [], roleDesc: '' });
     // const { t } = useI18n();
     const formModel = ref(generateFormModel());
@@ -155,8 +176,10 @@ export default defineComponent({
         Message.error('请检查表单是否填写完整');
       }
     };
-    const editRole = (event: any) => {
-      console.log(event);
+    const editRole = async (id: any) => {
+      const roleId = { roleId: id };
+      // const res = await getRoleDetailed(roleId);
+      // console.log(res);
       visible.value = true;
     };
     return {
@@ -171,6 +194,7 @@ export default defineComponent({
       treeData,
       newdata,
       editRole,
+      deleteRole,
     };
   },
 });

@@ -44,3 +44,8 @@ export function postAddRole(data: any) {
 export function getRoleDetailed(params: any) {
   return axios.get('/admin/role/info', { params });
 }
+
+// 删除角色
+export function getDeleteRole(params: any) {
+  return axios.get('/admin/role/del', { params });
+}

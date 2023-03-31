@@ -19,7 +19,6 @@ export interface HttpResponse<T = unknown> {
 axios.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     // config.headers['ht-token'] = localStorage.getItem('ht-token');
-    console.log(config);
     return config;
   },
   (error) => {
@@ -56,6 +55,7 @@ axios.interceptors.response.use(
           },
         });
       }
+      console.log(res.msg);
       return Promise.reject(new Error(res.msg || 'Error'));
     }
     return res;
