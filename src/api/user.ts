@@ -26,3 +26,7 @@ export function getUserList(params: any) {
 export function roleList() {
   return axios.get<LoginRes>('/admin/role/rights');
 }
+
+export function postAddUser(data: any) {
+  return axios.post('/admin/user/add', data);
+}

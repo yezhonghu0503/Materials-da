@@ -8,198 +8,62 @@
       @submit="handleSubmit"
     >
       <a-form-item
-        field="supplierName"
+        field="userName"
         label="用户名称"
-        :rules="[{ required: true, message: '供应商名称不能为空' }]"
+        :rules="[{ required: true, message: '用户名称不能为空' }]"
       >
-        <a-input v-model="form.supplierName" placeholder="请输入供应商名称" />
+        <a-input v-model="form.userName" placeholder="请输入用户名称" />
       </a-form-item>
       <a-form-item
-        field="brandName"
-        label="品牌名称"
-        :rules="[{ required: true, message: '品牌名称不能为空' }]"
+        field="showName"
+        label="用户昵称"
+        :rules="[{ required: true, message: '用户昵称不能为空' }]"
         :validate-trigger="['change', 'input']"
       >
-        <a-input v-model="form.brandName" placeholder="请输入品牌名称" />
+        <a-input v-model="form.showName" placeholder="请输入用户昵称" />
       </a-form-item>
       <a-form-item
-        field="companyName"
-        label="公司名称"
-        :rules="[
-          { required: true, message: '公司名称不能为空' },
-          { minLength: 5, message: '供应商公司名称至少包含五个字符' },
-        ]"
-        :validate-trigger="['change', 'input']"
+        field="password"
+        label="用户密码"
+        :rules="[{ required: true, message: '用户密码不能为空' }]"
       >
         <a-input
-          v-model="form.companyName"
-          placeholder="请输入您的供应商公司名称"
+          v-model="form.password"
+          type="password"
+          placeholder="请输入您的用户密码"
+        />
+      </a-form-item>
+      <a-form-item field="againPassword" label="再次输入" :rules="rules">
+        <a-input
+          v-model="form.againPassword"
+          type="password"
+          placeholder="请再次输入您的用户密码"
         />
       </a-form-item>
       <a-form-item
-        field="supplyMode"
-        label="供货方式"
-        :rules="[{ required: true, message: '请选择性别' }]"
+        field="phone"
+        label="联系电话"
+        :rules="[{ required: true, message: '联系电话不能为空' }]"
       >
-        <a-radio-group v-model="form.supplyMode">
-          <a-radio value="0" @click="isDeliveryInfos = false">干线提货</a-radio>
-          <a-radio value="1" @click="isDeliveryInfos = true">本地仓配</a-radio>
-          <a-radio value="2" @click="isDeliveryInfos = true">安装售后</a-radio>
-        </a-radio-group>
+        <a-input v-model="form.phone" placeholder="请输入您的联系电话" />
       </a-form-item>
-
       <a-form-item
-        v-for="(post, index) of form.deliveryInfos"
-        :key="index"
-        :field="`posts.${index}.value`"
-        :label="`提货信息-${index}`"
+        field="roleId"
+        label="选择角色"
+        :rules="[{ required: true, message: '角色选择不能为空' }]"
       >
-        <a-form
-          ref="formRef"
-          :size="size"
-          :model="form.deliveryInfos[index]"
-          :style="{ width: '600px' }"
-          :disabled="isDeliveryInfos"
-          @submit="handleSubmit"
-        >
-          <a-form-item
-            field="companyName"
-            label="单位名称"
-            :rules="[{ required: true, message: '单位名称不能为空' }]"
-            :validate-trigger="['change', 'input']"
+        <a-select v-model="form.roleId" placeholder="请选择角色" allow-clear>
+          <a-option
+            v-for="(item, index) in roleData"
+            :key="index"
+            @click="getKey(item.id)"
+            >{{ item.roleName }}</a-option
           >
-            <a-input
-              v-model="form.deliveryInfos[index].companyName"
-              placeholder="请输入提货单位名称"
-            />
-          </a-form-item>
-          <a-form-item
-            field="contactName"
-            label="提货联系人"
-            :rules="[{ required: true, message: '提货联系人不能为空' }]"
-            :validate-trigger="['change', 'input']"
-          >
-            <a-input
-              v-model="form.deliveryInfos[index].contactName"
-              placeholder="请输入提货联系人名称"
-            />
-          </a-form-item>
-          <a-form-item
-            field="contactPhoneNum"
-            label="联系电话"
-            :rules="[
-              { required: true, message: '联系电话不能为空' },
-              { minLength: 11, message: '请输入正确的联系方式' },
-            ]"
-            :validate-trigger="['change', 'input']"
-          >
-            <a-input
-              v-model="form.deliveryInfos[index].contactPhoneNum"
-              placeholder="请输入提货联系人联系电话"
-            />
-          </a-form-item>
-          <a-form-item
-            field="address"
-            label="提货地址"
-            :rules="[{ required: true, message: '提货地址不能为空' }]"
-            :validate-trigger="['change', 'input']"
-          >
-            <a-input
-              v-model="form.deliveryInfos[index].address"
-              placeholder="请输入提货地址"
-            />
-          </a-form-item>
-          <!-- <div style="text-align: right"
-            ><a-button @click="handleAdd">新增</a-button>
-            <a-button @click="handleDelete">删除</a-button></div
-          > -->
-          <a-form-item field="remark" label="备注">
-            <a-textarea
-              v-model="form.deliveryInfos[index].remark"
-              placeholder="若有其他疑问或问题，请在备注中描述"
-              :max-length="100"
-              allow-clear
-              show-word-limit
-              style="min-height: 95px"
-            />
-          </a-form-item>
-        </a-form>
+        </a-select>
       </a-form-item>
-      <div style="text-align: right; margin-bottom: 20px"
-        ><a-button @click="handleAdd">新增</a-button>
-        <a-button @click="handleDelete">删除</a-button></div
-      >
-      <a-form-item
-        v-for="(post, index) of form.principalInfos"
-        :key="index"
-        :field="`posts.${index}.value`"
-        :label="`委托人信息-${index}`"
-      >
-        <a-form
-          ref="formRef"
-          :size="size"
-          :model="form.principalInfos[index]"
-          :style="{ width: '600px' }"
-          @submit="handleSubmit"
-        >
-          <a-form-item
-            field="contactName"
-            label="委托人姓名"
-            :rules="[{ required: true, message: '委托人姓名不能为空' }]"
-            :validate-trigger="['change', 'input']"
-          >
-            <a-input
-              v-model="form.principalInfos[index].contactName"
-              placeholder="请输入委托人姓名"
-            />
-          </a-form-item>
-          <a-form-item
-            field="position"
-            label="职务"
-            :rules="[{ required: true, message: '委托人职务不能为空' }]"
-            :validate-trigger="['change', 'input']"
-          >
-            <a-input
-              v-model="form.principalInfos[index].position"
-              placeholder="请输入委托人职务名称"
-            />
-          </a-form-item>
-          <a-form-item
-            field="contactPhoneNum"
-            label="联系电话"
-            :rules="[{ required: true, message: '委托人联系电话不能为空' }]"
-            :validate-trigger="['change', 'input']"
-          >
-            <a-input
-              v-model="form.principalInfos[index].contactPhoneNum"
-              :placeholder="`请输入提货委托人${form.contactName}联系电话`"
-            />
-          </a-form-item>
-          <a-form-item
-            field="address"
-            label="地址"
-            :rules="[{ required: true, message: '地址不能为空' }]"
-            :validate-trigger="['change', 'input']"
-          >
-            <a-input
-              v-model="form.principalInfos[index].address"
-              placeholder="请输入提货地址"
-            />
-          </a-form-item>
-          <!-- <div style="text-align: right"
-            ><a-button @click="handleAdd">新增</a-button>
-            <a-button @click="handleDelete">删除</a-button></div
-          > -->
-        </a-form>
-      </a-form-item>
-      <div style="text-align: right; margin-bottom: 20px"
-        ><a-button @click="bailorHandleAdd">新增</a-button>
-        <a-button @click="bailorHandleDelete">删除</a-button></div
-      >
       <a-form-item>
         <a-space>
-          <a-button type="primary" html-type="submit">校验信息</a-button>
-          <a-button type="primary" @click="addSupplier">提交</a-button>
+          <a-button type="primary" html-type="submit">确认创建</a-button>
         </a-space>
       </a-form-item>
     </a-form>
@@ -207,9 +71,9 @@
 </template>
 
 <script lang="ts">
-import { reactive, ref } from 'vue';
+import { reactive, ref, useSSRContext } from 'vue';
 import { Message } from '@arco-design/web-vue';
-import { addNewSupplier } from '@/api/form';
+import { postAddUser } from '@/api/user';
 
 export default {
   name: 'SupplierMsg',
@@ -221,25 +85,53 @@ export default {
       // companyName: '',
       showName: '',
       password: '',
+      againPassword: '',
       phone: '',
+      roleId: '',
     });
+    const roleData: any = ref([]);
     let formCheck = false;
-    const handleSubmit = ({ values, errors }: any) => {
-      console.log(form);
+    let delId: any = null;
+    const getKey = (index: any) => {
+      delId = index;
+    };
+    const inconsistency = ref(true);
+    const rules = [
+      {
+        required: true,
+        validator: (value: any, cb: any) => {
+          return new Promise((resolve) => {
+            window.setTimeout(() => {
+              if (form.password !== value) {
+                cb('两次输入密码不一致');
+              }
+              resolve(value);
+            }, 500);
+          });
+        },
+      },
+    ];
+    const handleSubmit = async ({ values, errors }: any) => {
       // eslint-disable-next-line no-console
       if (errors === undefined) {
         // window.localStorage.setItem('user', values);
         formCheck = true;
-        Message.success('检验完成，信息已填写完整!');
+        const data = {
+          userName: form.userName,
+          showName: form.showName,
+          password: form.password,
+          phone: form.phone,
+          roleId: delId,
+        };
+        try {
+          await postAddUser(data);
+          Message.success('创建完成!');
+        } catch (error) {
+          Message.error(`错误:${error}`);
+        }
       } else {
         formCheck = false;
         Message.error('请检查表单是否有填写错误或不完整');
-      }
-    };
-    const addSupplier = async () => {
-      if (formCheck) {
-        const res = await addNewSupplier(form);
-        console.log(res);
       }
     };
     const handleAdd = () => {
@@ -280,7 +172,10 @@ export default {
       bailorHandleAdd,
       isDeliveryInfos,
       size,
-      addSupplier,
+      roleData,
+      getKey,
+      rules,
+      inconsistency,
     };
   },
 };

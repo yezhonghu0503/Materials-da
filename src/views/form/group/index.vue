@@ -63,6 +63,7 @@
             width="auto"
             :visible="visible"
             :hide-cancel="true"
+            ok-text="取消"
             @ok="handleOk"
           >
             <userAddVue></userAddVue>
