@@ -33,7 +33,7 @@
             direction="vertical"
             :size="18"
           >
-            <a-button style="margin-right: 10px" type="primary" @click="search">
+            <a-button style="margin-right: 10px" type="primary">
               <template #icon>
                 <icon-search />
               </template>
@@ -64,9 +64,10 @@
             :visible="visible"
             :hide-cancel="true"
             ok-text="取消"
+            @cancel="visible = false"
             @ok="handleOk"
           >
-            <userAddVue></userAddVue>
+            <userAddVue :user-info="userinfo"></userAddVue>
             <template #title> 新增用户 </template>
           </a-modal>
         </a-col>
@@ -77,7 +78,6 @@
         :pagination="pagination"
         :data="renderData"
         :bordered="false"
-        @page-change="onPageChange"
       >
         <template #columns>
           <a-table-column title="用户名" data-index="userName" />
@@ -89,9 +89,22 @@
           <a-table-column
             :title="$t('searchTable.columns.operations')"
             data-index="operations"
+            align="center"
           >
-            <template #cell>
-              <a-button type="text" size="small"> 编辑 </a-button>
+            <template #cell="{ record }">
+              <a-popconfirm
+                content="删除后不可恢复，是否确定删除该角色?"
+                @ok="deleteRole(record.userId)"
+              >
+                <a-button type="text" size="small"> 删除 </a-button>
+              </a-popconfirm>
+              <a-button
+                type="text"
+                size="small"
+                @click="editUser(record.userId)"
+              >
+                编辑
+              </a-button>
             </template>
           </a-table-column>
         </template>
@@ -104,9 +117,10 @@
 import { defineComponent, ref, reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
 import useLoading from '@/hooks/loading';
-import { PolicyRecord, PolicyParams } from '@/api/list';
+import { PolicyRecord } from '@/api/list';
 import { Pagination } from '@/types/global';
-import { getUserList } from '@/api/user';
+import { getUserList, getDelUser } from '@/api/user';
+import { Message } from '@arco-design/web-vue';
 import userAddVue from './components/user-add.vue';
 
 const generateFormModel = () => {
@@ -122,7 +136,7 @@ const generateFormModel = () => {
 export default defineComponent({
   components: { userAddVue },
   setup() {
-    const { loading, setLoading } = useLoading(true);
+    const { loading } = useLoading(false);
     const { t } = useI18n();
     const renderData = ref<PolicyRecord[]>([]);
     const formModel = ref(generateFormModel());
@@ -133,39 +147,13 @@ export default defineComponent({
     const pagination = reactive({
       ...basePagination,
     });
-    const fetchData = async (
-      params: PolicyParams = { current: 1, pageSize: 20 }
-    ) => {
-      setLoading(true);
-      try {
-        // const { data } = await queryPolicyList(params);
-        // renderData.value = data.list;
-        // pagination.current = params.current;
-        // pagination.total = data.total;
-      } catch (err) {
-        // you can report use errorHandler or other
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    const search = () => {
-      fetchData({
-        ...basePagination,
-        ...formModel.value,
-      } as unknown as PolicyParams);
-    };
-    const onPageChange = (current: number) => {
-      fetchData({ ...basePagination, current });
-    };
-
-    fetchData();
     const reset = () => {
       formModel.value = generateFormModel();
     };
     const userList = async () => {
       const data = { page: 1, limit: 10 };
       const res = await getUserList(data);
+      console.log(res);
       renderData.value = res.data;
     };
     userList();
@@ -173,16 +161,32 @@ export default defineComponent({
     const handleOk = () => {
       visible.value = false;
     };
+    const userinfo = ref('');
+    const editUser = (id: any) => {
+      userinfo.value = id;
+      visible.value = true;
+    };
+    const deleteRole = async (id: any) => {
+      try {
+        await getDelUser({ userId: id });
+        Message.success('删除成功！');
+        visible.value = false;
+        userList();
+      } catch (error: any) {
+        Message.error(error);
+      }
+    };
     return {
       loading,
-      search,
-      onPageChange,
       renderData,
       pagination,
       formModel,
       reset,
       visible,
       handleOk,
+      editUser,
+      userinfo,
+      deleteRole,
     };
   },
 });

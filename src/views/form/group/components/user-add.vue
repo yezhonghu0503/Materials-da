@@ -63,7 +63,9 @@
       </a-form-item>
       <a-form-item>
         <a-space>
-          <a-button type="primary" html-type="submit">确认创建</a-button>
+          <a-button type="primary" html-type="submit">
+            {{ $props.userInfo ? '确认修改' : '确认创建' }}</a-button
+          >
         </a-space>
       </a-form-item>
     </a-form>
@@ -71,14 +73,15 @@
 </template>
 
 <script lang="ts">
-import { reactive, ref, useSSRContext } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import { Message } from '@arco-design/web-vue';
-import { postAddUser } from '@/api/user';
+import { postAddUser, getUserInfo } from '@/api/user';
+import { getRoleList } from '@/api/form';
 
 export default {
   name: 'SupplierMsg',
-  setup() {
-    const size: any = ref('medium');
+  props: ['userInfo'],
+  setup(props) {
     const form: any = reactive({
       userName: '',
       // brandName: '',
@@ -90,6 +93,26 @@ export default {
       roleId: '',
     });
     const roleData: any = ref([]);
+    const RoleList = async () => {
+      roleData.value = (await getRoleList()).data;
+    };
+    RoleList();
+    watch(
+      () => props.userInfo,
+      async (id) => {
+        console.log(roleData);
+        const res = await getUserInfo({ userId: id });
+        form.userName = res.data.userName;
+        form.showName = res.data.showName;
+        form.phone = res.data.phone;
+        roleData.value.forEach((item: any) => {
+          if (item.id === res.data.roleId) {
+            form.roleId = item.roleName;
+          }
+        });
+      }
+    );
+    const size: any = ref('medium');
     let formCheck = false;
     let delId: any = null;
     const getKey = (index: any) => {

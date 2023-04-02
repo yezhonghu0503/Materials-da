@@ -55,7 +55,9 @@ axios.interceptors.response.use(
           },
         });
       }
-      console.log(res.msg);
+      if (res.msg === '登录已过期,请重新登录') {
+        window.location.href = '/';
+      }
       return Promise.reject(new Error(res.msg || 'Error'));
     }
     return res;

@@ -33,7 +33,7 @@
             direction="vertical"
             :size="18"
           >
-            <a-button style="margin-right: 10px" type="primary" @click="search">
+            <a-button style="margin-right: 10px" type="primary">
               <template #icon>
                 <icon-search />
               </template>
@@ -69,20 +69,20 @@
             width="auto"
             :visible="visible"
             :hide-cancel="true"
+            :ok-text="`取消`"
+            @cancel="visible = false"
             @ok="handleOk"
           >
             <template #title> 新增供应商 </template>
-            <supplierMsg></supplierMsg>
+            <supplierMsg @handle="createOk"></supplierMsg>
           </a-modal>
         </a-col>
       </a-row>
       <a-table
         row-key="id"
         :loading="loading"
-        :pagination="pagination"
         :data="renderData"
         :bordered="false"
-        @page-change="onPageChange"
       >
         <template #columns>
           <a-table-column title="供应商编号" data-index="id" />
@@ -96,7 +96,13 @@
             :title="$t('searchTable.columns.operations')"
             data-index="operations"
           >
-            <template #cell>
+            <template #cell="{ record }">
+              <a-popconfirm
+                content="删除后不可恢复，是否确定删除该角色?"
+                @ok="deleteRole(record.id)"
+              >
+                <a-button type="text" size="small"> 删除 </a-button>
+              </a-popconfirm>
               <!-- <a-button v-permission="['admin']" type="text" size="small"> -->
               <a-button type="text" size="small"> 编辑 </a-button>
             </template>
@@ -107,13 +113,13 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed, ref, reactive } from 'vue';
+<script lang="ts" setup>
+import { computed, ref, reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
 import useLoading from '@/hooks/loading';
-import { PolicyRecord, PolicyParams } from '@/api/list';
-import { getSupplier } from '@/api/form';
-import { Pagination, Options } from '@/types/global';
+import { PolicyRecord } from '@/api/list';
+import { getSupplier, getDeleteSupplier } from '@/api/form';
+import { Message } from '@arco-design/web-vue';
 import supplierMsg from './components/supplier-msg.vue';
 
 const generateFormModel = () => {
@@ -126,110 +132,33 @@ const generateFormModel = () => {
     status: '',
   };
 };
-export default defineComponent({
-  components: { supplierMsg },
-  setup() {
-    const { loading, setLoading } = useLoading(true);
-    const { t } = useI18n();
-    const renderData = ref<PolicyRecord[]>([]);
-    const formModel = ref(generateFormModel());
-    const basePagination: Pagination = {
-      current: 1,
-      pageSize: 20,
-    };
-    const pagination = reactive({
-      ...basePagination,
-    });
-    const contentTypeOptions: any = computed<Options[]>(() => [
-      {
-        label: t('menu.list.form.contentType.img'),
-        value: 'img',
-      },
-      {
-        label: t('menu.list.form.contentType.horizontalVideo'),
-        value: 'horizontalVideo',
-      },
-      {
-        label: t('menu.list.form.contentType.verticalVideo'),
-        value: 'verticalVideo',
-      },
-    ]);
-    const filterTypeOptions: any = computed<Options[]>(() => [
-      {
-        label: t('searchTable.form.filterType.artificial'),
-        value: 'artificial',
-      },
-      {
-        label: t('searchTable.form.filterType.rules'),
-        value: 'rules',
-      },
-    ]);
-    const statusOptions: any = computed<Options[]>(() => [
-      {
-        label: t('searchTable.form.status.online'),
-        value: 'online',
-      },
-      {
-        label: t('searchTable.form.status.offline'),
-        value: 'offline',
-      },
-    ]);
-    const fetchData = async (
-      params: PolicyParams = { current: 1, pageSize: 20 }
-    ) => {
-      setLoading(true);
-      try {
-        // const { data } = await queryPolicyList(params);
-        // renderData.value = data.list;
-        // pagination.current = params.current;
-        // pagination.total = data.total;
-      } catch (err) {
-        // you can report use errorHandler or other
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    const search = () => {
-      fetchData({
-        ...basePagination,
-        ...formModel.value,
-      } as unknown as PolicyParams);
-    };
-    const onPageChange = (current: number) => {
-      fetchData({ ...basePagination, current });
-    };
+const { loading } = useLoading(false);
+const { t } = useI18n();
+const renderData = ref<PolicyRecord[]>([]);
+const formModel = ref(generateFormModel());
 
-    fetchData();
-    const reset = () => {
-      formModel.value = generateFormModel();
-    };
-    const supplierList = async () => {
-      const res = await getSupplier();
-      renderData.value = res.data;
-      console.log(res);
-    };
-    const visible = ref(false);
-    const handleOk = () => {
-      visible.value = false;
-    };
-    supplierList();
-    return {
-      loading,
-      search,
-      onPageChange,
-      renderData,
-      pagination,
-      formModel,
-      reset,
-      contentTypeOptions,
-      filterTypeOptions,
-      statusOptions,
-      visible,
-      handleOk,
-    };
-  },
-});
+const reset = () => {
+  formModel.value = generateFormModel();
+};
+const supplierList = async () => {
+  const res = await getSupplier();
+  renderData.value = res.data;
+};
+const visible = ref(false);
+const handleOk = () => {
+  visible.value = false;
+};
+const createOk = () => {
+  visible.value = false;
+  supplierList();
+};
+const deleteRole = async (ids: any) => {
+  await getDeleteSupplier({ id: ids });
+  Message.success('删除成功');
+  supplierList();
+};
+supplierList();
 </script>
 
 <style scoped lang="less">

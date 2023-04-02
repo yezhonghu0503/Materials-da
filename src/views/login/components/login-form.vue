@@ -3,7 +3,7 @@
     <div class="login-form-title">{{ $t('login.form.title') }}</div>
     <div class="login-form-sub-title">{{ $t('login.form.title') }}</div>
     <div class="login-form-error-msg">{{ errorMessage }}</div>
-    <a-tabs default-active-key="2">
+    <a-tabs default-active-key="1">
       <a-tab-pane key="1" title="账号密码">
         <a-form
           ref="loginForm"

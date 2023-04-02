@@ -49,3 +49,8 @@ export function getRoleDetailed(params: any) {
 export function getDeleteRole(params: any) {
   return axios.get('/admin/role/del', { params });
 }
+
+// 删除供应商
+export function getDeleteSupplier(params: any) {
+  return axios.get('/admin/supplier/del', { params });
+}

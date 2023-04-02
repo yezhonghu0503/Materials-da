@@ -17,8 +17,8 @@ export function logout() {
   return axios.post<LoginRes>('/api/user/logout');
 }
 
-export function getUserInfo() {
-  return axios.post<UserState>('/admin/user/info');
+export function getUserInfo(params: any) {
+  return axios.get('/admin/user/info', { params });
 }
 export function getUserList(params: any) {
   return axios.get('/admin/user/list', { params });
@@ -29,4 +29,9 @@ export function roleList() {
 
 export function postAddUser(data: any) {
   return axios.post('/admin/user/add', data);
+}
+
+// 删除用户
+export function getDelUser(params: any) {
+  return axios.get('/admin/user/del', { params });
 }

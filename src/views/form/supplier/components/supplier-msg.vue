@@ -211,103 +211,105 @@
   </div>
 </template>
 
-<script lang="ts">
-import { reactive, ref } from 'vue';
+<script lang="ts" setup>
+import { reactive, ref, defineEmits } from 'vue';
 import { Message } from '@arco-design/web-vue';
-import { addNewSupplier } from '@/api/form';
+import { addNewSupplier, getRoleList } from '@/api/form';
+import { postAddUser } from '@/api/user';
 
-export default {
-  name: 'SupplierMsg',
-  setup() {
-    const size: any = ref('medium');
-    const form: any = reactive({
-      supplierName: '',
-      // brandName: '',
-      // companyName: '',
-      supplyMode: '',
-      createTime: '',
-      deliveryInfos: [
-        {
-          companyName: '',
-          contactName: '',
-          contactPhoneNum: '',
-          address: '',
-          remark: '',
-        },
-      ],
-      principalInfos: [
-        {
-          contactName: '',
-          contactPhoneNum: '',
-          position: '',
-          address: '',
-        },
-      ],
-      // bailorName: 'abc',
-      // posts: [{ value: '' }],
-      // bailorPosts: [{ value: '' }],
-    });
-    let formCheck = false;
-    const handleSubmit = ({ values, errors }: any) => {
-      console.log(form);
-      // eslint-disable-next-line no-console
-      if (errors === undefined) {
-        // window.localStorage.setItem('user', values);
-        formCheck = true;
-        Message.success('检验完成，信息已填写完整!');
-      } else {
-        formCheck = false;
-        Message.error('请检查表单是否有填写错误或不完整');
-      }
-    };
-    const addSupplier = async () => {
-      if (formCheck) {
-        const res = await addNewSupplier(form);
-        console.log(res);
-      }
-    };
-    const handleAdd = () => {
-      form.deliveryInfos.push({
-        goodsName: '',
-        goodsUserName: '',
-        goodsNumber: '',
-        goodsAddress: '',
-        remarks: '',
-      });
-    };
-    const bailorHandleAdd = () => {
-      form.principalInfos.push({
-        bailorName: '',
-        goodsUserName: '',
-        contactPhoneNum: '',
-        bailorJob: '',
-        goodsAddress: '',
-      });
-    };
-    const handleDelete = (index: any) => {
-      if (form.deliveryInfos.length !== 1) {
-        form.deliveryInfos.splice(index, 1);
-      }
-    };
-    const bailorHandleDelete = (index: any) => {
-      if (form.principalInfos.length !== 1) {
-        form.principalInfos.splice(index, 1);
-      }
-    };
-    const isDeliveryInfos = ref(false);
-    return {
-      form,
-      handleSubmit,
-      handleAdd,
-      handleDelete,
-      bailorHandleDelete,
-      bailorHandleAdd,
-      isDeliveryInfos,
-      size,
-      addSupplier,
-    };
-  },
+const size: any = ref('medium');
+const form: any = reactive({
+  supplierName: '',
+  // brandName: '',
+  // companyName: '',
+  supplyMode: '',
+  createTime: '',
+  deliveryInfos: [
+    {
+      companyName: '',
+      contactName: '',
+      contactPhoneNum: '',
+      address: '',
+      remark: '',
+    },
+  ],
+  principalInfos: [
+    {
+      contactName: '',
+      contactPhoneNum: '',
+      position: '',
+      address: '',
+    },
+  ],
+  // bailorName: 'abc',
+  // posts: [{ value: '' }],
+  // bailorPosts: [{ value: '' }],
+});
+let formCheck = false;
+const handleSubmit = async ({ values, errors }: any) => {
+  // eslint-disable-next-line no-console
+  if (errors === undefined) {
+    // window.localStorage.setItem('user', values);
+    formCheck = true;
+    Message.success('检验完成，信息已填写完整!');
+  } else {
+    formCheck = false;
+    Message.error('请检查表单是否有填写错误或不完整');
+  }
 };
+const emit = defineEmits(['handle']);
+const addSupplier = async () => {
+  let supplierRoleId = null;
+  const res = await getRoleList();
+  res.data.forEach((item: any) => {
+    if (item.roleName === '供应商') {
+      supplierRoleId = item.id;
+    }
+  });
+  if (!supplierRoleId) {
+    Message.error('暂无供应商角色，请先创建!');
+  } else if (formCheck) {
+    await addNewSupplier(form);
+    await postAddUser({
+      userName: form.principalInfos[0].contactPhoneNum,
+      showName: form.supplierName,
+      password: '123456',
+      roleId: supplierRoleId,
+      phone: form.principalInfos[0].contactPhoneNum,
+    });
+    Message.success('创建完成！');
+    emit('handle');
+  }
+};
+const handleAdd = () => {
+  form.deliveryInfos.push({
+    goodsName: '',
+    goodsUserName: '',
+    goodsNumber: '',
+    goodsAddress: '',
+    remarks: '',
+  });
+};
+const bailorHandleAdd = () => {
+  form.principalInfos.push({
+    bailorName: '',
+    goodsUserName: '',
+    contactPhoneNum: '',
+    bailorJob: '',
+    goodsAddress: '',
+  });
+};
+const handleDelete = (index: any) => {
+  if (form.deliveryInfos.length !== 1) {
+    form.deliveryInfos.splice(index, 1);
+  }
+};
+const bailorHandleDelete = (index: any) => {
+  if (form.principalInfos.length !== 1) {
+    form.principalInfos.splice(index, 1);
+  }
+};
+const isDeliveryInfos = ref(false);
 </script>
 
 <style lang="less" scoped>

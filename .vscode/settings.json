@@ -1,6 +1,6 @@
 {
   "[vue]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
   "editor.quickSuggestions": {
     "strings": true
