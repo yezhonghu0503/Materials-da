@@ -101,14 +101,12 @@ export default defineComponent({
       errors: Record<string, ValidatedError> | undefined;
       values: LoginData;
     }) => {
-      console.log(userInfo);
       if (!errors) {
         setLoading(true);
         try {
           // console.log(values);
           await userStore.login(userInfo);
           // console.log(res);
-          console.log('ass');
           const { redirect, ...othersQuery } = router.currentRoute.value.query;
           router.push({
             name: (redirect as string) || 'workplace',

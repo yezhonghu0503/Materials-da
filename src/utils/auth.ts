@@ -14,4 +14,8 @@ const clearToken = () => {
   localStorage.removeItem('ht-token');
 };
 
-export { isLogin, getToken, setToken, clearToken };
+const setuserInfo = (info: any) => {
+  localStorage.setItem('userInfo', info);
+};
+
+export { isLogin, getToken, setToken, clearToken, setuserInfo };

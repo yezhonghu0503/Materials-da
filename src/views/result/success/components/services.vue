@@ -15,6 +15,7 @@
       <ServiceDelivery></ServiceDelivery>
     </a-tab-pane>
     <a-tab-pane
+      v-if="ordinaryUser"
       key="3"
       style="display: flex; justify-content: center"
       title="安装服务"
@@ -24,21 +25,18 @@
   </a-tabs>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
+import { ref } from 'vue';
 import ServiceMeasuringDesign from './service-measuring-design.vue';
 import ServiceDelivery from './service-delivery.vue';
 import ServiceAssemble from './service-assemble.vue';
 
-export default {
-  name: 'Services',
-  components: { ServiceMeasuringDesign, ServiceDelivery, ServiceAssemble },
-  setup() {
-    const position: any = 'top';
-    return {
-      position,
-    };
-  },
-};
+const position: any = 'top';
+const ordinaryUser = ref(false);
+const userinfo = JSON.parse(localStorage.getItem('userInfo') as any);
+if (userinfo.role.roleName !== '普通用户') {
+  ordinaryUser.value = true;
+}
 </script>
 
 <style lang="scss" scoped></style>

@@ -104,7 +104,13 @@
                 <a-button type="text" size="small"> 删除 </a-button>
               </a-popconfirm>
               <!-- <a-button v-permission="['admin']" type="text" size="small"> -->
-              <a-button type="text" size="small"> 编辑 </a-button>
+              <a-button
+                type="text"
+                size="small"
+                @click="editSupplier(record.id)"
+              >
+                编辑
+              </a-button>
             </template>
           </a-table-column>
         </template>
@@ -118,7 +124,7 @@ import { computed, ref, reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
 import useLoading from '@/hooks/loading';
 import { PolicyRecord } from '@/api/list';
-import { getSupplier, getDeleteSupplier } from '@/api/form';
+import { getSupplier, getDeleteSupplier, getSupplierInfo } from '@/api/form';
 import { Message } from '@arco-design/web-vue';
 import supplierMsg from './components/supplier-msg.vue';
 
@@ -157,6 +163,10 @@ const deleteRole = async (ids: any) => {
   await getDeleteSupplier({ id: ids });
   Message.success('删除成功');
   supplierList();
+};
+const editSupplier = async (ids: any) => {
+  const res = await getSupplierInfo({ id: ids });
+  console.log(res);
 };
 supplierList();
 </script>

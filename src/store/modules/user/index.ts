@@ -4,7 +4,7 @@ import {
   logout as userLogout,
   LoginData,
 } from '@/api/user';
-import { setToken, clearToken } from '@/utils/auth';
+import { setToken, clearToken, setuserInfo } from '@/utils/auth';
 import { UserState } from './types';
 
 const useUserStore = defineStore('user', {
@@ -61,6 +61,8 @@ const useUserStore = defineStore('user', {
       try {
         const res = await userLogin(loginForm);
         setToken(res.data.token);
+        setuserInfo(JSON.stringify(res.data));
+        // console.log(res.data);
       } catch (err) {
         clearToken();
         throw err;

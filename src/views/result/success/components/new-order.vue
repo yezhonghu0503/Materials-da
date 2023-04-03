@@ -7,14 +7,14 @@
     >
       <CustomerMsg></CustomerMsg>
     </a-tab-pane>
-    <a-tab-pane
+    <!-- <a-tab-pane
       key="2"
       style="display: flex; justify-content: center"
       title="供应商信息"
     >
       <SupplierMsg></SupplierMsg>
-    </a-tab-pane>
-    <a-tab-pane key="3">
+    </a-tab-pane> -->
+    <a-tab-pane key="2">
       <template #title>服务内容</template>
       <Services></Services>
     </a-tab-pane>
@@ -23,12 +23,12 @@
 
 <script lang="ts">
 import CustomerMsg from './customer-msg.vue';
-import SupplierMsg from './supplier-msg.vue';
+// import SupplierMsg from './supplier-msg.vue';
 import Services from './services.vue';
 
 export default {
   name: 'NewOrder',
-  components: { CustomerMsg, SupplierMsg, Services },
+  components: { CustomerMsg, Services },
   setup() {
     const position: any = 'right';
     return {
