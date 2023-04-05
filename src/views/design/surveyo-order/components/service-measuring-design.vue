@@ -122,18 +122,10 @@ export default {
   setup() {
     const area = 200;
     const size: any = 'medium';
-    const measuring = JSON.parse(
-      window.localStorage.getItem('measuring') as any
-    );
+
     const userRole = window.localStorage.getItem('userRole');
     const designStatus = window.localStorage.getItem('designStatus');
-    const form: any = reactive([
-      {
-        time: measuring.time,
-        type: measuring.type,
-        area: measuring.area,
-      },
-    ]);
+    const form: any = reactive([]);
     const handleSubmit = () => {
       // eslint-disable-next-line no-console
       console.log();

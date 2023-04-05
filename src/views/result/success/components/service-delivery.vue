@@ -34,7 +34,7 @@
         style="width: 100%"
         show-time
         format="YYYY-MM-DD hh:mm"
-        :disabled="serviceStatus"
+        :disabled="!serviceStatus"
         @change="onChange"
         @select="onSelect"
         @ok="onOk"
@@ -46,7 +46,7 @@
       :rules="[{ required: true }]"
       :validate-trigger="['change', 'input']"
     >
-      <a-upload draggable :disabled="serviceStatus" :limit="3" action="/" />
+      <a-upload draggable :disabled="!serviceStatus" :limit="3" action="/" />
     </a-form-item>
     <a-form-item
       v-if="false"
@@ -59,7 +59,7 @@
         :style="{ width: '100%' }"
         placeholder="请指定配送人员"
         allow-clear
-        :disabled="serviceStatus"
+        :disabled="!serviceStatus"
       >
         <a-option v-for="(item, index) in planner" :key="index">{{
           item
@@ -114,7 +114,7 @@ export default {
       '配送员D|1304231324',
       '配送员E|1304231325',
     ]);
-    const serviceStatus = ref(true);
+    const serviceStatus = ref(false);
     const changeServiceStatus = () => {
       // eslint-disable-next-line no-unused-expressions
       serviceStatus.value

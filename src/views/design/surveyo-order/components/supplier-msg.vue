@@ -142,28 +142,9 @@ import { reactive } from 'vue';
 export default {
   name: 'SupplierMsg',
   setup() {
-    const form: any = reactive({
-      name: '装得快供应链',
-      scene: '装得快供应链有限公司',
-      size: 'medium',
-      bailorName: 'abc',
-      posts: [{ value: '' }],
-      bailorPosts: [{ value: '' }],
-    });
-    const puform: any = reactive({
-      size: 'medium',
-      goodsName: '装得快贵阳本地仓',
-      goodsUserName: '叶先生',
-      goodsNumber: '13023219321',
-      goodsAddress: '贵阳市观山湖区金融城',
-    });
-    const bform: any = reactive({
-      size: 'medium',
-      bailorName: '陈女士',
-      goodsUserName: '职业代理',
-      bailorNumber: '18201332113',
-      bailorAddress: '贵阳市观山湖区金融城',
-    });
+    const form: any = reactive({});
+    const puform: any = reactive({});
+    const bform: any = reactive({});
     const handleSubmit = ({ values, errors }: any) => {
       // eslint-disable-next-line no-console
       console.log('values:', values, '\nerrors:', errors);

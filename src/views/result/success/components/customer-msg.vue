@@ -7,22 +7,11 @@
       :style="{ width: '600px' }"
       @submit="handleSubmit"
     >
-      <!-- <a-form-item field="size" label="表单类别">
-        <a-radio-group v-model="form.size" type="button">
-          <a-radio value="basic">客户信息</a-radio>
-          <a-radio value="supplier">供应商信息</a-radio>
-          <a-radio value="content">服务内容</a-radio>
-        </a-radio-group>
-      </a-form-item> -->
       <a-form-item>
-        <a-alert
-          >检测到您的身份为基本客户，一键<span style="color: #3491fa"
-            >填入信息</span
-          ></a-alert
-        >
+        <a-alert>为了避免信息错误造成的影响，请填写完成后手动校验信息 </a-alert>
       </a-form-item>
       <a-form-item
-        field="name"
+        field="realName"
         label="客户姓名"
         :rules="[
           { required: true, message: '姓名不能为空' },
@@ -30,10 +19,10 @@
         ]"
         :validate-trigger="['change', 'input']"
       >
-        <a-input v-model="form.name" placeholder="请输入您的姓名" />
+        <a-input v-model="form.realName" placeholder="请输入您的姓名" />
       </a-form-item>
       <a-form-item
-        field="sex"
+        field="gender"
         label="性别"
         :rules="[{ required: true, message: '请选择性别' }]"
       >
@@ -41,42 +30,43 @@
           v-model="form.age"
           placeholder="please enter your age..."
         /> -->
-        <a-radio-group v-model="form.sex">
-          <a-radio value="0">男</a-radio>
-          <a-radio value="1">女</a-radio>
+        <a-radio-group v-model="form.gender">
+          <a-radio value="1">男</a-radio>
+          <a-radio value="2">女</a-radio>
         </a-radio-group>
       </a-form-item>
       <a-form-item
-        field="number"
+        field="phoneNum"
         label="电话号码"
         :rules="[
           { required: true, message: '请输入电话号码' },
           { minLength: 11, message: '请输入正确的手机号码' },
         ]"
       >
-        <a-input v-model="form.number" placeholder="请输入您的电话号码" />
+        <a-input v-model="form.phoneNum" placeholder="请输入您的电话号码" />
       </a-form-item>
-      <a-form-item field="standbyName" label="备用联系人">
+      <a-form-item field="alternateRealName" label="备用联系人">
         <a-input
-          v-model="form.standbyName"
+          v-model="form.alternateRealName"
           placeholder="请输入备用联系人姓名"
         />
       </a-form-item>
-      <a-form-item field="standbyNumber" label="电话号码">
+      <a-form-item field="alternatePhoneNum" label="电话号码">
         <a-input
-          v-model="form.standbyNumber"
+          v-model="form.alternatePhoneNum"
           placeholder="请输入备用联系人电话号码"
         />
       </a-form-item>
       <a-form-item
-        field="region"
+        field="cityCode"
         label="省市区"
         :rules="[{ required: true, message: '请选择所处地区' }]"
       >
         <a-cascader
-          v-model="form.region"
+          v-model="form.cityCode"
           :options="options"
           placeholder="请选择地区"
+          :field-names="fieldNames"
           allow-clear
         />
       </a-form-item>
@@ -88,12 +78,12 @@
         <a-input v-model="form.address" placeholder="请输入您的详细地址" />
       </a-form-item>
       <a-form-item
-        field="residence"
+        field="dwellType"
         label="住宅类型"
         :rules="[{ required: true, message: '请选择住宅类型' }]"
       >
         <a-select
-          v-model="form.residence"
+          v-model="form.dwellType"
           allow-create
           placeholder="请选择住宅类型，或手动输入其他"
         >
@@ -106,17 +96,19 @@
         </a-select>
       </a-form-item>
       <a-form-item
-        field="stairs"
+        field="stairType"
         label="楼梯类型"
         :rules="[{ required: true, message: '请选择楼梯类型' }]"
       >
         <a-select
-          v-model="form.stairs"
+          v-model="form.stairType"
           allow-create
           placeholder="请选择入户楼梯类型"
         >
-          <a-option value="step">步梯</a-option>
-          <a-option value="elevator">电梯</a-option>
+          <a-option value="1">步梯</a-option>
+          <a-option value="2">电梯</a-option>
+          <a-option value="3">步梯转电梯</a-option>
+          <a-option value="4">电梯转步梯</a-option>
         </a-select>
       </a-form-item>
       <div style="display: flex; flex-direction: row">
@@ -124,34 +116,37 @@
           style="margin-top: 5px; color: #57a9fb; font-size: 20px"
         />
         <a-form-item
-          field="range"
+          field="parkDistance"
           label="车辆停放距离"
           :rules="[{ required: true, message: '请选择车辆可停放距离' }]"
         >
-          <a-radio-group v-model="form.range">
-            <a-radio value="50">50米以内</a-radio>
-            <a-radio value="100">100米以内</a-radio>
-            <a-radio value="101">100米以上</a-radio>
-            <a-radio value="200">较远</a-radio>
+          <a-radio-group v-model="form.parkDistance">
+            <a-radio value="1">50米以内</a-radio>
+            <a-radio value="2">100米以内</a-radio>
+            <a-radio value="3">100米以上</a-radio>
+            <a-radio value="4">较远</a-radio>
           </a-radio-group>
         </a-form-item></div
       >
       <a-form-item
         field="scene"
-        label="现场情况"
-        :rules="[{ required: true, message: '请选择现场情况' }]"
+        label="装修情况"
+        :rules="[{ required: true, message: '请选择装修情况' }]"
       >
         <a-select
           v-model="form.scene"
           allow-create
-          placeholder="请选择或输入现场情况"
+          placeholder="请选择或输入装修情况"
         >
-          <a-option value="new">新装修</a-option>
-          <a-option value="old">以旧换新</a-option>
+          <a-option value="既有装修">既有装修</a-option>
+          <a-option value="待装修">待装修</a-option>
+          <a-option value="装修过程中">装修过程中</a-option>
+          <a-option value="新装修完成">新装修完成</a-option>
         </a-select>
       </a-form-item>
-      <a-form-item field="remarks" label="备注">
+      <a-form-item field="remark" label="备注">
         <a-textarea
+          v-model="form.remark"
           placeholder="若有其他信息或问题，请在备注中描述"
           :max-length="100"
           allow-clear
@@ -172,174 +167,89 @@
 </template>
 
 <script lang="ts">
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { Message } from '@arco-design/web-vue';
+import city from '@province-city-china/level/index';
 
 export default {
   name: 'CustomerMsg',
   setup() {
+    const size: any = 'medium';
+    const form: any = reactive({
+      realName: '', // 客户姓名
+      gender: undefined, // 性别(1:男/2:女/3:未知)
+      phoneNum: '', // 电话号码
+      alternateRealName: '', // 备用联系人姓名
+      alternatePhoneNum: '', // 备用联系人电话号码
+      cityCode: '', // 客户省市区
+      address: '', // 详情地址
+      dwellType: '', // 住宅类型(1:多层/2:高层/3:别墅/4:标准商办物业/5:临街商铺/6:特殊单位)
+      stairType: '', // 楼梯类型(1:电梯/2:步梯)
+      parkDistance: '', // 车辆可停放距离(1:50米以内/2:100米以内/3:100以上/4:较远)
+      decoration: '', // 装修情况
+      remark: '',
+    });
+    const fieldNames = { value: 'name', label: 'name' };
+    const options = city;
+    const isError: any = ref(false);
+    const housingType: any = [
+      {
+        value: '1',
+        label: '多层',
+      },
+      {
+        value: '2',
+        label: '高层',
+      },
+      {
+        value: '3',
+        label: '别墅',
+      },
+      // 标准商办物业
+      {
+        value: '4',
+        label: '标准商办物业',
+      },
+      {
+        value: '5',
+        label: '临街商铺',
+      },
+      {
+        value: '6',
+        label: '特殊单位',
+      },
+      {
+        value: '7',
+        label: '店中店商铺',
+      },
+      {
+        value: '8',
+        label: '写字楼',
+      },
+    ];
     const handleSubmit = ({ values, errors }: any) => {
       // eslint-disable-next-line no-console
       if (errors === undefined) {
-        // window.localStorage.setItem('user', values);
-        window.localStorage.setItem('customer', JSON.stringify(values));
-        Message.success('检验成功，请点击下一个表单继续填写信息!');
+        isError.value = true;
+        Message.success('检验完成!');
       } else {
+        isError.value = false;
         Message.error('请检查表单是否有填写错误或不完整');
       }
     };
     const handleReset = () => {
       // console.log();
     };
-    const size: any = 'medium';
-    const form: any = reactive({
-      name: '',
-      sex: undefined,
-      standbyName: '',
-      standbyNumber: '',
-      section: '',
-      region: '',
-      address: '',
-      residence: '',
-      stairs: '',
-      range: '',
-      scene: '',
-    });
-    const options = [
-      {
-        value: '上海市',
-        label: '上海市',
-        children: [
-          {
-            value: '黄浦区',
-            label: '黄浦区',
-          },
-          {
-            value: '徐汇区',
-            label: '徐汇区',
-          },
-          {
-            value: '长宁区',
-            label: '长宁区',
-          },
-          {
-            value: '静安区',
-            label: '静安区',
-          },
-          {
-            value: '普陀区',
-            label: '普陀区',
-          },
-          {
-            value: '虹口区',
-            label: '虹口区',
-          },
-          {
-            value: '杨浦区',
-            label: '杨浦区',
-          },
-          {
-            value: '浦东新区',
-            label: '浦东新区',
-          },
-          {
-            value: '闵行区',
-            label: '闵行区',
-          },
-          {
-            value: '宝山区',
-            label: '宝山区',
-          },
-          {
-            value: '嘉定区',
-            label: '嘉定区',
-          },
-          {
-            value: '金山区',
-            label: '金山区',
-          },
-          {
-            value: '松江区',
-            label: '松江区',
-          },
-          {
-            value: '青浦区',
-            label: '青浦区',
-          },
-          {
-            value: '奉贤区',
-            label: '奉贤区',
-          },
-          {
-            value: '崇明区',
-            label: '崇明区',
-          },
-        ],
-      },
-    ];
-    const treeData = [
-      {
-        key: 'node1',
-        title: 'Node1',
-        children: [
-          {
-            key: 'node2',
-            title: 'Node2',
-          },
-        ],
-      },
-      {
-        key: 'node3',
-        title: 'Node3',
-        children: [
-          {
-            key: 'node4',
-            title: 'Node4',
-          },
-          {
-            key: 'node5',
-            title: 'Node5',
-          },
-        ],
-      },
-    ];
-    const position: any = 'right';
-    const housingType: any = [
-      {
-        value: '多层',
-        label: '多层',
-      },
-      {
-        value: '多层',
-        label: '高层',
-      },
-      {
-        value: '多层',
-        label: '别墅',
-      },
-      // 标准商办物业
-      {
-        value: '标准商办物业',
-        label: '标准商办物业',
-      },
-      {
-        value: '临街商铺',
-        label: '临街商铺',
-      },
-      {
-        value: '特殊单位',
-        label: '特殊单位',
-      },
-    ];
+
     return {
       form,
       options,
-      treeData,
       handleSubmit,
       handleReset,
-      position,
       housingType,
       size,
+      fieldNames,
+      isError,
     };
   },
 };

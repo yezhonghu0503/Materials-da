@@ -36,6 +36,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.3.0",
     "@commitlint/config-conventional": "^17.3.0",
+    "@province-city-china/level": "^8.5.6",
     "@types/lodash": "^4.14.191",
     "@types/nprogress": "^0.2.0",
     "@typescript-eslint/eslint-plugin": "^5.45.1",

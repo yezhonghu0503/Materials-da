@@ -82,7 +82,7 @@
       <a-row style="margin-bottom: 16px">
         <a-col :span="16">
           <a-space>
-            <a-button type="primary">
+            <a-button type="primary" @click="errormsg">
               <template #icon>
                 <icon-plus />
               </template>
@@ -193,6 +193,7 @@ import useLoading from '@/hooks/loading';
 import { queryPolicyList, PolicyRecord, PolicyParams } from '@/api/list';
 import { Pagination, Options } from '@/types/global';
 import components from '@/components';
+import { Message } from '@arco-design/web-vue';
 import orderDetail from './components/order-detail.vue';
 
 const generateFormModel: any = () => {
@@ -210,6 +211,9 @@ const generateFormModel: any = () => {
 export default defineComponent({
   components: { orderDetail },
   setup() {
+    const errormsg = () => {
+      Message.error('请求参数错误！');
+    };
     const { loading, setLoading } = useLoading(true);
     const { t } = useI18n();
     const renderData: any = ref<PolicyRecord[]>([]);
@@ -323,6 +327,7 @@ export default defineComponent({
       handleClick,
       handleOk,
       handleCancel,
+      errormsg,
     };
   },
 });

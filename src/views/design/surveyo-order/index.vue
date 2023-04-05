@@ -82,7 +82,7 @@
       <a-row style="margin-bottom: 16px">
         <a-col :span="16">
           <a-space>
-            <a-button type="primary">
+            <a-button type="primary" @click="errormsg">
               <template #icon>
                 <icon-plus />
               </template>
@@ -209,13 +209,7 @@
               @cancel="handleCancel"
             >
               <template #title> 核验订单 </template>
-              <div
-                style="
-                  display: flex;
-                  align-items: center;
-                  flex-direction: column;
-                "
-              >
+              <div class="order__modal">
                 <orderDetail style="width: 900px"></orderDetail>
               </div>
             </a-modal>
@@ -232,7 +226,8 @@ import { useI18n } from 'vue-i18n';
 import useLoading from '@/hooks/loading';
 import { PolicyRecord, PolicyParams } from '@/api/list';
 import { Pagination, Options } from '@/types/global';
-import orderDetail from './components/order-detail.vue';
+import { Message } from '@arco-design/web-vue';
+import orderDetail from '../../result/success/components/order-detail.vue';
 
 const generateFormModel: any = () => {
   return {
@@ -256,6 +251,9 @@ export default defineComponent({
     const basePagination: Pagination = {
       current: 1,
       pageSize: 20,
+    };
+    const errormsg = () => {
+      Message.error('请求参数错误!');
     };
     const pagination = reactive({
       ...basePagination,
@@ -363,6 +361,7 @@ export default defineComponent({
       handleClick,
       handleOk,
       handleCancel,
+      errormsg,
     };
   },
 });
@@ -375,5 +374,10 @@ export default defineComponent({
       margin-left: 16px;
     }
   }
+}
+.order_modal {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 </style>

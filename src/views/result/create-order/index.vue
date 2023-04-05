@@ -1,88 +1,74 @@
-<!-- <template>
-  <div class="container">
-    <Breadcrumb :items="['menu.result', 'menu.create-order.title']" />
-    <customerMsg></customerMsg>
-  </div>
-</template>
-
-<script lang="ts">
-import customerMsg from '../success/components/customer-msg.vue';
-
-export default {
-  components: {
-    customerMsg,
-  },
-};
-</script>
-
-<style lang="scss" scoped></style> -->
 <template>
-  <div class="container">
-    <Breadcrumb :items="['menu.result', 'menu.create-order.title']" />
-    <div style="padding: 20px">
-      <a-steps changeable :current="current" @change="setCurrent">
-        <a-step description="请填写订单客户基本信息">填写客户信息</a-step>
-        <a-step description="请填写供应商基本信息">填写供应商信息</a-step>
-        <a-step description="请选择填写所需服务内容">选择服务内容</a-step>
-      </a-steps>
-      <div
-        :style="{
-          width: '100%',
-          height: 'auto',
-          textAlign: 'center',
-          background: 'var(--color-bg-2)',
-          color: '#C2C7CC',
-        }"
-      >
-        <div style="padding: 20px; display: flex; justify-content: center"
-          ><customerMsg v-if="current === 1"></customerMsg>
-          <SupplierMsg v-if="current === 2"></SupplierMsg>
-          <Services v-if="current === 3"></Services>
-        </div>
-        <a-space
-          style="padding: 20px; display: flex; justify-content: right"
-          size="large"
-        >
-          <a-button type="secondary" :disabled="current <= 1" @click="onPrev">
-            <IconLeft /> 上一步
-          </a-button>
-          <a-button type="primary" @click="onNext">
-            {{ current !== 3 ? '下一步' : '提交' }} <IconRight />
-          </a-button>
-        </a-space>
+  <div>
+    <a-steps changeable :current="current" @change="setCurrent">
+      <a-step description="customer information">客户信息</a-step>
+      <a-step description="Select service content">服务内容</a-step>
+    </a-steps>
+    <div
+      :style="{
+        width: '100%',
+        textAlign: 'center',
+        background: 'var(--color-bg-2)',
+        color: '#C2C7CC',
+        padding: '20px 0 20px 0',
+      }"
+    >
+      <div style="display: flex; justify-content: center">
+        <CustomerMsg v-if="current === 1" ref="customerRef"></CustomerMsg>
+        <Services v-else ref="serviceRef"></Services>
       </div>
+      <a-space size="large">
+        <a-button type="secondary" :disabled="current <= 1" @click="onPrev">
+          <IconLeft /> 上一步
+        </a-button>
+        <a-button type="primary" :disabled="current >= 3" @click="onNext">
+          <icon-check-circle v-if="current !== 1" />{{
+            current === 1 ? '下一步' : '提交'
+          }}
+          <IconRight v-if="current === 1" />
+        </a-button>
+      </a-space>
     </div>
   </div>
 </template>
 
-<script>
-import customerMsg from '../success/components/customer-msg.vue';
-import SupplierMsg from '../success/components/supplier-msg.vue';
+<script lang="ts" setup>
+import { ref } from 'vue';
+import { Message } from '@arco-design/web-vue';
+import { postAddCustomer } from '@/api/resulet';
+import CustomerMsg from '../success/components/customer-msg.vue';
+// import SupplierMsg from './supplier-msg.vue';
 import Services from '../success/components/services.vue';
 
-export default {
-  components: {
-    customerMsg,
-    SupplierMsg,
-    Services,
-  },
-  data() {
-    return {
-      current: 1,
-    };
-  },
-  methods: {
-    onPrev() {
-      this.current = Math.max(1, this.current - 1);
-    },
+const current = ref(1);
+const customerRef = ref();
+const serviceRef = ref();
+const onPrev = () => {
+  current.value = Math.max(1, current.value - 1);
+};
 
-    onNext() {
-      this.current = Math.min(3, this.current + 1);
-    },
+const onNext = async () => {
+  if (current.value === 1) {
+    if (customerRef.value.isError) {
+      const res = await postAddCustomer(customerRef.value.form);
+      console.log(res);
+      Message.success('检验成功，请点击下一个表单继续填写信息!');
+      current.value = Math.min(3, current.value + 1);
+    } else {
+      Message.error('请先校验信息再进行下一步操作!');
+    }
+  } else if (
+    !serviceRef.value.designRef.serviceStatus &&
+    !serviceRef.value.deliveryRef.serviceStatus &&
+    !serviceRef.value.assembleRef.serviceStatus
+  ) {
+    Message.error('至少选择一种预约服务!');
+  } else {
+    Message.error('提交成功!');
+  }
+};
 
-    setCurrent(current) {
-      this.current = current;
-    },
-  },
+const setCurrent = (cur: any) => {
+  current.value = cur;
 };
 </script>

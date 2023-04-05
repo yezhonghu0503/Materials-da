@@ -160,29 +160,7 @@ export default {
       // console.log();
     };
     const customer = JSON.parse(window.localStorage.getItem('customer') as any);
-    const form: any = reactive({
-      size: 'medium',
-      name: customer.name,
-      sex: customer.sex,
-      number: customer.number,
-      standbyName: customer.standbyName,
-      standbyNumber: customer.standbyNumber,
-      address: customer.address,
-      section: customer.residence,
-      stairs: customer.stairs === 'elevator' ? '电梯' : '步梯',
-      scene: customer.scene === 'new' ? '新装修' : '旧屋翻新',
-      range: customer.range,
-      province: 'haidian',
-      options: [],
-      date: '',
-      time: '',
-      radio: 'radio one',
-      slider: 5,
-      score: 5,
-      switch: false,
-      multiSelect: ['section one'],
-      treeSelect: '',
-    });
+    const form: any = reactive({});
     const options = [
       {
         value: 'Shanghai',

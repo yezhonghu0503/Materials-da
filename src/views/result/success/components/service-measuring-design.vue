@@ -41,7 +41,7 @@
         style="width: 100%"
         show-time
         format="YYYY-MM-DD hh:mm"
-        :disabled="serviceStatus"
+        :disabled="!serviceStatus"
         @change="onChange"
         @select="onSelect"
         @ok="onOk"
@@ -58,7 +58,7 @@
         :style="{ width: '100%' }"
         placeholder="请选择产品类型"
         allow-clear
-        :disabled="serviceStatus"
+        :disabled="!serviceStatus"
       >
         <a-option v-for="(item, index) in productType" :key="index">{{
           item
@@ -78,7 +78,7 @@
         :precision="2"
         allow-clear
         hide-button
-        :disabled="serviceStatus"
+        :disabled="!serviceStatus"
       >
         <template #suffix> m² </template>
       </a-input-number>
@@ -94,7 +94,7 @@
         :style="{ width: '100%' }"
         placeholder="请指定测量设计人员"
         allow-clear
-        :disabled="serviceStatus"
+        :disabled="!serviceStatus"
       >
         <a-option v-for="(item, index) in planner" :key="index">{{
           item
@@ -164,7 +164,7 @@ export default {
       '设计师D|1304231324',
       '设计师E|1304231325',
     ]);
-    const serviceStatus = ref(true);
+    const serviceStatus = ref(false);
     const changeServiceStatus = () => {
       // eslint-disable-next-line no-unused-expressions
       serviceStatus.value

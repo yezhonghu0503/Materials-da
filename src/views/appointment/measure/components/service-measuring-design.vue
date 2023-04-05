@@ -96,17 +96,10 @@ export default {
   name: 'ServiceMeasuringDesign',
   setup() {
     const size: any = 'medium';
-    const assemble = JSON.parse(window.localStorage.getItem('assemble') as any);
+
     const userRole = window.localStorage.getItem('userRole');
     const assembleStatus = window.localStorage.getItem('assembleStatus');
-    const form: any = reactive([
-      {
-        time: assemble.time,
-        area: '200',
-        valuecacs: '安装师傅A|1304231321',
-        bid: '',
-      },
-    ]);
+    const form: any = reactive([]);
     const handleSubmit = () => {
       // eslint-disable-next-line no-console
       console.log();

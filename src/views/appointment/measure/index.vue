@@ -82,7 +82,7 @@
       <a-row style="margin-bottom: 16px">
         <a-col :span="16">
           <a-space>
-            <a-button type="primary">
+            <a-button type="primary" @click="errormsg">
               <template #icon>
                 <icon-plus />
               </template>
@@ -221,6 +221,7 @@ import { useI18n } from 'vue-i18n';
 import useLoading from '@/hooks/loading';
 import { queryPolicyList, PolicyRecord, PolicyParams } from '@/api/list';
 import { Pagination, Options } from '@/types/global';
+import { Message } from '@arco-design/web-vue';
 import orderDetail from './components/order-detail.vue';
 
 const generateFormModel: any = () => {
@@ -238,6 +239,9 @@ const generateFormModel: any = () => {
 export default defineComponent({
   components: { orderDetail },
   setup() {
+    const errormsg = () => {
+      Message.error('请求参数错误！');
+    };
     const { loading, setLoading } = useLoading(true);
     const { t } = useI18n();
     const renderData: any = ref<PolicyRecord[]>([]);
@@ -249,19 +253,8 @@ export default defineComponent({
     const pagination = reactive({
       ...basePagination,
     });
-    const customer = JSON.parse(window.localStorage.getItem('customer') as any);
-    renderData.value = [
-      {
-        number: 1,
-        clientName: customer.name,
-        phone: '13018242023',
-        address: '贵阳市',
-        time: '2023年3月16日',
-        car: '<50m',
-        status: '待指派',
-        area: '200平',
-      },
-    ];
+
+    renderData.value = [];
     const contentTypeOptions: any = computed<Options[]>(() => [
       {
         label: t('menu.list.form.contentType.img'),
@@ -352,6 +345,7 @@ export default defineComponent({
       contentTypeOptions,
       filterTypeOptions,
       statusOptions,
+      errormsg,
     };
   },
 });

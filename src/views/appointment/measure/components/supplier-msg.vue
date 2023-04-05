@@ -157,29 +157,9 @@ export default {
   name: 'SupplierMsg',
   setup() {
     const supplier = JSON.parse(window.localStorage.getItem('supplier') as any);
-    const form: any = reactive({
-      name: supplier.name,
-      scene: supplier.sname,
-      supplying: supplier.supplying,
-      size: 'medium',
-      bailorName: 'abc',
-      posts: supplier.sourcing,
-      bailorPosts: supplier.bailorPosts,
-    });
-    const puform: any = reactive({
-      size: 'medium',
-      goodsName: '装得快贵阳本地仓',
-      goodsUserName: '叶先生',
-      goodsNumber: '13023219321',
-      goodsAddress: '贵阳市观山湖区金融城',
-    });
-    const bform: any = reactive({
-      size: 'medium',
-      bailorName: '陈女士',
-      goodsUserName: '职业代理',
-      bailorNumber: '18201332113',
-      bailorAddress: '贵阳市观山湖区金融城',
-    });
+    const form: any = reactive({});
+    const puform: any = reactive({});
+    const bform: any = reactive({});
     const handleSubmit = ({ values, errors }: any) => {
       // eslint-disable-next-line no-console
       console.log('values:', values, '\nerrors:', errors);
