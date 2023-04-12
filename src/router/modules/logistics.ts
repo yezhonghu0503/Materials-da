@@ -13,9 +13,10 @@ export default {
       name: 'LogisticsOrder',
       component: () => import('@/views/logistics/logistics-order/index.vue'),
       meta: {
+        id: '21',
         locale: 'menu.logistics-order.title',
         requiresAuth: true,
-        roles: ['*'],
+        roles: [],
       },
     },
     {
@@ -23,9 +24,10 @@ export default {
       name: 'LogisticsAssgin',
       component: () => import('@/views/logistics/logistics-assgin/index.vue'),
       meta: {
+        id: '22',
         locale: 'menu.logistics-assgin.title',
         requiresAuth: true,
-        roles: ['*'],
+        roles: [],
       },
     },
     {
@@ -33,9 +35,10 @@ export default {
       name: 'LogisticsResult',
       component: () => import('@/views/logistics/logistics-result/index.vue'),
       meta: {
+        id: '23',
         locale: 'menu.logistics-result.title',
         requiresAuth: true,
-        roles: ['*'],
+        roles: [],
       },
     },
   ],

@@ -1,6 +1,15 @@
 <template>
   <div class="customer">
+    <!-- <a-alert>客户通讯录 </a-alert> -->
+    <a-card v-if="false" class="general-card" title="客户通讯录">
+      <a-table :columns="columns" :data="data" :row-selection="rowSelection">
+      </a-table>
+    </a-card>
+    <!-- <a-table>
+      <a-table-column>123</a-table-column>
+    </a-table> -->
     <a-form
+      v-if="true"
       ref="formRef"
       :size="size"
       :model="form"
@@ -174,6 +183,36 @@ import city from '@province-city-china/level/index';
 export default {
   name: 'CustomerMsg',
   setup() {
+    const rowSelection: any = {
+      type: 'radio',
+    };
+    const columns = [
+      {
+        title: '姓名',
+        dataIndex: 'realName',
+      },
+      {
+        title: '联系电话',
+        dataIndex: 'phoneNum',
+      },
+      {
+        title: '地址',
+        dataIndex: 'address',
+      },
+      {
+        title: '操作',
+        dataIndex: 'ope',
+      },
+    ];
+    const data = reactive([
+      {
+        key: '1',
+        realName: 'Jane Doe',
+        phoneNum: 23000,
+        address: '32 Park Road, London',
+        ope: '编辑/删除/详情',
+      },
+    ]);
     const size: any = 'medium';
     const form: any = reactive({
       realName: '', // 客户姓名
@@ -250,6 +289,9 @@ export default {
       size,
       fieldNames,
       isError,
+      rowSelection,
+      columns,
+      data,
     };
   },
 };

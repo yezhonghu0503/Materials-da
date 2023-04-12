@@ -32,9 +32,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { defineEmits, ref } from 'vue';
 import { Message } from '@arco-design/web-vue';
-import { postAddCustomer } from '@/api/resulet';
+import { postAddCustomer, postAddappointment } from '@/api/resulet';
 import CustomerMsg from './customer-msg.vue';
 // import SupplierMsg from './supplier-msg.vue';
 import Services from './services.vue';
@@ -45,25 +45,46 @@ const serviceRef = ref();
 const onPrev = () => {
   current.value = Math.max(1, current.value - 1);
 };
-
+const cusform = ref();
+const emit = defineEmits(['handle']);
 const onNext = async () => {
   if (current.value === 1) {
     if (customerRef.value.isError) {
-      const res = await postAddCustomer(customerRef.value.form);
-      console.log(res);
       Message.success('检验成功，请点击下一个表单继续填写信息!');
       current.value = Math.min(3, current.value + 1);
+      cusform.value = (await postAddCustomer(customerRef.value.form)).data;
     } else {
       Message.error('请先校验信息再进行下一步操作!');
     }
   } else if (
     !serviceRef.value.designRef.serviceStatus &&
-    !serviceRef.value.deliveryRef.serviceStatus &&
-    !serviceRef.value.assembleRef.serviceStatus
+    !serviceRef.value.assembleRef.serviceStatus &&
+    !serviceRef.value.deliveryRef.serviceStatus
   ) {
     Message.error('至少选择一种预约服务!');
   } else {
-    Message.error('提交成功!');
+    // postAddCustomer(customerRef.value.form).then((res) => {
+    // console.log(cusform.value.id);
+    const appointmentForm = {
+      customerId: cusform.value.id,
+      installInfo: serviceRef.value.assembleRef.serviceStatus
+        ? serviceRef.value.assembleRef.form
+        : {},
+      measurementInfo: serviceRef.value.designRef.serviceStatus
+        ? serviceRef.value.designRef.form
+        : {},
+      deliveryInfo: serviceRef.value.deliveryRef.serviceStatus
+        ? serviceRef.value.deliveryRef.form
+        : {},
+    };
+    // });
+    const res = await postAddappointment(appointmentForm);
+    if (res.data) {
+      Message.success('订单创建成功！');
+      emit('handle');
+    } else {
+      Message.error(res.data);
+    }
   }
 };
 

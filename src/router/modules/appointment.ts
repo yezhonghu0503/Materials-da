@@ -13,9 +13,10 @@ export default {
       name: 'measure',
       component: () => import('@/views/appointment/measure/index.vue'),
       meta: {
+        id: '24',
         locale: 'appointment.measure.title',
         requiresAuth: true,
-        roles: ['*'],
+        roles: [],
       },
     },
     // distribution
@@ -24,9 +25,10 @@ export default {
       name: 'distribution',
       component: () => import('@/views/appointment/distribution/index.vue'),
       meta: {
+        id: '25',
         locale: 'appointment.distribution.title',
         requiresAuth: true,
-        roles: ['*'],
+        roles: [],
       },
     },
     // appointment.fix.title
@@ -35,9 +37,10 @@ export default {
       name: 'fix',
       component: () => import('@/views/appointment/fix/index.vue'),
       meta: {
+        id: '26',
         locale: 'appointment.fix.title',
         requiresAuth: true,
-        roles: ['*'],
+        roles: [],
       },
     },
   ],

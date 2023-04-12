@@ -215,7 +215,7 @@
 import { reactive, ref, defineEmits } from 'vue';
 import { Message } from '@arco-design/web-vue';
 import { addNewSupplier, getRoleList } from '@/api/form';
-import { postAddUser } from '@/api/user';
+// import { postAddUser } from '@/api/user';
 
 const size: any = ref('medium');
 const form: any = reactive({
@@ -270,13 +270,13 @@ const addSupplier = async () => {
     Message.error('暂无供应商角色，请先创建!');
   } else if (formCheck) {
     await addNewSupplier(form);
-    await postAddUser({
-      userName: form.principalInfos[0].contactPhoneNum,
-      showName: form.supplierName,
-      password: '123456',
-      roleId: supplierRoleId,
-      phone: form.principalInfos[0].contactPhoneNum,
-    });
+    // await postAddUser({
+    //   userName: form.principalInfos[0].contactPhoneNum,
+    //   showName: form.supplierName,
+    //   password: '123456',
+    //   roleId: supplierRoleId,
+    //   phone: form.principalInfos[0].contactPhoneNum,
+    // });
     Message.success('创建完成！');
     emit('handle');
   }

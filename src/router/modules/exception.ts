@@ -15,7 +15,7 @@ export default {
       meta: {
         locale: 'menu.exception.403',
         requiresAuth: true,
-        roles: ['*'],
+        roles: [],
       },
     },
     // {
@@ -25,7 +25,7 @@ export default {
     //   meta: {
     //     locale: 'menu.exception.404',
     //     requiresAuth: true,
-    //     roles: ['*'],
+    //     roles: [],
     //   },
     // },
     // {
@@ -35,7 +35,7 @@ export default {
     //   meta: {
     //     locale: 'menu.exception.500',
     //     requiresAuth: true,
-    //     roles: ['*'],
+    //     roles: [],
     //   },
     // },
   ],

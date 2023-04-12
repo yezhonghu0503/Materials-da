@@ -13,9 +13,10 @@ export default {
       name: 'success',
       component: () => import('@/views/result/success/index.vue'),
       meta: {
+        id: '12',
         locale: 'menu.result.title',
         requiresAuth: true,
-        roles: ['*'],
+        roles: [],
       },
     },
     {
@@ -23,9 +24,10 @@ export default {
       name: 'CreateOrder',
       component: () => import('@/views/result/create-order/index.vue'),
       meta: {
+        id: '13',
         locale: 'menu.create-order.title',
         requiresAuth: true,
-        roles: ['*'],
+        roles: [],
       },
     },
     {
@@ -33,9 +35,10 @@ export default {
       name: 'AnomalousReminder',
       component: () => import('@/views/result/anomalous-reminder/index.vue'),
       meta: {
+        id: '14',
         locale: 'menu.anomalous-reminder.title',
         requiresAuth: true,
-        roles: ['*'],
+        roles: [],
       },
     },
     // complex-query
@@ -44,9 +47,10 @@ export default {
       name: 'ComplexQuery',
       component: () => import('@/views/result/complex-query/index.vue'),
       meta: {
+        id: '15',
         locale: 'menu.complex-query.title',
         requiresAuth: true,
-        roles: ['*'],
+        roles: [],
       },
     },
     // order-checkout
@@ -55,9 +59,10 @@ export default {
       name: 'OrderCheckout',
       component: () => import('@/views/result/order-checkout/index.vue'),
       meta: {
+        id: '16',
         locale: 'menu.order-checkout.title',
         requiresAuth: true,
-        roles: ['*'],
+        roles: [],
       },
     },
     // {

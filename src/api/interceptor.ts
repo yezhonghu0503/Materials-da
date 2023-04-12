@@ -18,6 +18,8 @@ export interface HttpResponse<T = unknown> {
 
 axios.interceptors.request.use(
   (config: AxiosRequestConfig) => {
+    // if (!window.localStorage.getItem('roleList')) {
+    // }
     // config.headers['ht-token'] = localStorage.getItem('ht-token');
     return config;
   },

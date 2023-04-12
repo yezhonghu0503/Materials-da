@@ -7,3 +7,11 @@ export function postAddCustomer(data: any) {
 export function getSupplierInfo(params: any) {
   return axios.get('/admin/supplier/info', { params });
 }
+
+export function getUserSupplier(params: any) {
+  return axios.get('/admin/supplier/getByUserId', { params });
+}
+
+export function postAddappointment(data: any) {
+  return axios.post('/admin/appointment/add', data);
+}

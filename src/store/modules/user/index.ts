@@ -4,7 +4,8 @@ import {
   logout as userLogout,
   LoginData,
 } from '@/api/user';
-import { setToken, clearToken, setuserInfo } from '@/utils/auth';
+import { setToken, clearToken, setuserInfo, setRoleList } from '@/utils/auth';
+import { getRoleDetailed } from '@/api/form';
 import { UserState } from './types';
 
 const useUserStore = defineStore('user', {
@@ -54,6 +55,12 @@ const useUserStore = defineStore('user', {
     async info() {
       // const res = await getUserInfo();
       // this.setInfo(res.data);
+    },
+    // 权限列表
+    async roleList(id: any) {
+      const res = await getRoleDetailed({ roleId: id });
+      setRoleList(res.data.hasIds);
+      // localStorage.setItem('roleList', JSON.stringify(res.data.hasIds));
     },
 
     // Login

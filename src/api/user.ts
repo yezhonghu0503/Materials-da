@@ -7,6 +7,7 @@ export interface LoginData {
 }
 
 export interface LoginRes {
+  role: any;
   token: string;
 }
 export function login(data: LoginData) {

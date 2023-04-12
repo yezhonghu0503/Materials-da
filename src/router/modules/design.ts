@@ -14,9 +14,10 @@ export default {
       name: 'SurveyoOrder',
       component: () => import('@/views/design/surveyo-order/index.vue'),
       meta: {
+        id: '19',
         locale: 'menu.surveyo-order.title',
         requiresAuth: true,
-        roles: ['*'],
+        roles: [],
       },
     },
     {
@@ -24,9 +25,10 @@ export default {
       name: 'measurement',
       component: () => import('@/views/design/measurement/index.vue'),
       meta: {
+        id: '20',
         locale: 'menu.measurement.title',
         requiresAuth: true,
-        roles: ['*'],
+        roles: [],
       },
     },
   ],

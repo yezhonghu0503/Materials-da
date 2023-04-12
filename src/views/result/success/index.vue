@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Breadcrumb :items="['menu.result', 'menu.result.title']" />
-    <a-card class="general-card" :title="$t('menu.list.classify')">
+    <a-card class="general-card" :title="$t('menu.result.title')">
       <a-row>
         <a-col :flex="1">
           <a-form
@@ -20,17 +20,17 @@
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item field="name" :label="$t('searchTable.form.name')">
+                <a-form-item field="name" :label="$t('menu.result.name')">
                   <a-input
                     v-model="formModel.name"
-                    :placeholder="$t('searchTable.form.name.placeholder')"
+                    :placeholder="$t('menu.result.name.placeholder')"
                   />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
                 <a-form-item
                   field="contentType"
-                  :label="$t('menu.list.form.contentType')"
+                  :label="$t('menu.result.status')"
                 >
                   <a-select
                     v-model="formModel.contentType"
@@ -114,7 +114,7 @@
             >
               <template #title> 新建订单 </template>
               <div class="neworder">
-                <NewOrder style="width: 900px"></NewOrder>
+                <NewOrder style="width: 900px" @handle="isComplete"></NewOrder>
               </div>
             </a-modal>
             <a-upload action="/">
@@ -393,6 +393,9 @@ export default defineComponent({
       isNewOrder.value = true;
     };
     const visible = ref(false);
+    const isComplete = () => {
+      isNewOrder.value = false;
+    };
     return {
       visible,
       loading,
@@ -410,6 +413,7 @@ export default defineComponent({
       handleCancel,
       handleOpenNewOrder,
       userType,
+      isComplete,
     };
   },
 });

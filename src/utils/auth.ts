@@ -17,5 +17,7 @@ const clearToken = () => {
 const setuserInfo = (info: any) => {
   localStorage.setItem('userInfo', info);
 };
-
-export { isLogin, getToken, setToken, clearToken, setuserInfo };
+const setRoleList = (roleList: any) => {
+  localStorage.setItem('roleList', JSON.stringify(roleList));
+};
+export { isLogin, getToken, setToken, clearToken, setuserInfo, setRoleList };

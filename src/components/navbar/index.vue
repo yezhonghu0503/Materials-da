@@ -115,7 +115,7 @@
       <li>
         <a-dropdown trigger="click">
           <a-avatar :size="32" :style="{ marginRight: '8px' }">
-            <img alt="avatar" :src="avatar" />
+            <img alt="avatar" src="https://blog.al2p.xyz/upload/logoen.jpeg" />
           </a-avatar>
           <template #content>
             <a-doption>

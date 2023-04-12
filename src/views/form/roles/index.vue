@@ -131,6 +131,7 @@ export default defineComponent({
       const res = await getRoleRights();
       treeData.value = res.data;
       renderData.value = (await getRoleList()).data;
+      console.log(renderData);
       loading.value = false;
     };
     const newdata = {
@@ -178,8 +179,8 @@ export default defineComponent({
     };
     const editRole = async (id: any) => {
       const roleId = { roleId: id };
-      // const res = await getRoleDetailed(roleId);
-      // console.log(res);
+      const res = await getRoleDetailed(roleId);
+      console.log(res);
       visible.value = true;
     };
     return {

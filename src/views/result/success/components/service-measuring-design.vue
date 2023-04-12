@@ -1,7 +1,6 @@
 <template>
   <a-form
     ref="formRef"
-    :size="form.size"
     :model="form"
     :style="{ width: '600px' }"
     @submit="handleSubmit"
@@ -31,11 +30,7 @@
         </a-checkbox>
       </div>
     </a-form-item>
-    <a-form-item
-      field="time"
-      label="上门时间"
-      :rules="[{ required: true, message: '请选择上门时间' }]"
-    >
+    <a-form-item field="time" label="上门时间" :rules="[{ required: true }]">
       <a-date-picker
         v-model="form.time"
         style="width: 100%"
@@ -48,21 +43,45 @@
       />
     </a-form-item>
     <a-form-item
-      field="type"
+      field="productType"
       label="产品类型"
       :rules="[{ required: true, message: '请选择产品类型' }]"
       :validate-trigger="['change', 'input']"
     >
       <a-select
-        v-model="form.type"
+        v-model="form.productType"
         :style="{ width: '100%' }"
         placeholder="请选择产品类型"
         allow-clear
         :disabled="!serviceStatus"
       >
-        <a-option v-for="(item, index) in productType" :key="index">{{
-          item
-        }}</a-option>
+        <a-option
+          v-for="(item, index) in productType"
+          :key="index"
+          :value="index + 1"
+          >{{ item }}</a-option
+        >
+      </a-select>
+    </a-form-item>
+    <a-form-item
+      field="measurementType"
+      label="测量类型"
+      :rules="[{ required: true, message: '请选择测量类型' }]"
+      :validate-trigger="['change', 'input']"
+    >
+      <a-select
+        v-model="form.measurementType"
+        :style="{ width: '100%' }"
+        placeholder="请选择测量类型"
+        allow-clear
+        :disabled="!serviceStatus"
+      >
+        <a-option
+          v-for="(item, index) in measurementType"
+          :key="index"
+          :value="index + 1"
+          >{{ item }}</a-option
+        >
       </a-select>
     </a-form-item>
     <a-form-item
@@ -83,14 +102,14 @@
         <template #suffix> m² </template>
       </a-input-number>
     </a-form-item>
-    <a-form-item
-      v-if="false"
-      field="name"
+    <!-- <a-form-item
+      v-if="true"
+      field="workerId"
       label="指定人员"
       :rules="[{ required: true }]"
     >
       <a-select
-        v-model="valuecacs"
+        v-model="form.workerId"
         :style="{ width: '100%' }"
         placeholder="请指定测量设计人员"
         allow-clear
@@ -100,12 +119,20 @@
           item
         }}</a-option>
       </a-select>
-    </a-form-item>
-    <a-form-item>
+    </a-form-item> -->
+    <!-- <a-form-item>
       <a-space>
         <a-button type="primary" html-type="submit">校验信息</a-button>
       </a-space>
-    </a-form-item>
+    </a-form-item> -->
+    <!-- <a-form-item field="price" label="服务报价"
+      ><a-input-number
+        v-model="form.price"
+        placeholder="Please Enter"
+        :default-value="0"
+        mode="button"
+        class="input-demo"
+    /></a-form-item> -->
   </a-form>
 </template>
 
@@ -117,10 +144,12 @@ export default {
   name: 'ServiceMeasuringDesign',
   setup() {
     const form: any = reactive({
-      size: 'medium',
       time: '',
-      type: '',
+      productType: '',
+      measurementType: '',
       area: '',
+      attachUrl: 'https://blog.al2p.xyz/upload/logoen.jpeg',
+      price: '',
     });
     const handleSubmit = ({ values, errors }: any) => {
       // eslint-disable-next-line no-console
@@ -156,6 +185,11 @@ export default {
       '成品家具（床）',
       '其他',
     ]);
+    const measurementType = ref([
+      '多空间全屋定制测量',
+      '厨房空间测量',
+      '⻔窗测量',
+    ]);
     const valuecacs = ref('');
     const planner = ref([
       '设计师A|1304231321',
@@ -183,6 +217,7 @@ export default {
       changeServiceStatus,
       serviceStatus,
       planner,
+      measurementType,
     };
   },
 };

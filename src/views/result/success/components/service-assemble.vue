@@ -1,7 +1,6 @@
 <template>
   <a-form
     ref="formRef"
-    :size="form.size"
     :model="form"
     :style="{ width: '600px' }"
     @submit="handleSubmit"
@@ -42,14 +41,32 @@
       />
     </a-form-item>
     <a-form-item
-      field="name"
+      field="installNum"
+      label="家具个数"
+      :rules="[{ required: true, message: '请输入安装家具空间数量' }]"
+    >
+      <a-input-number
+        v-model="form.installNum"
+        :style="{ width: '100%' }"
+        placeholder="请输入安装家具空间数量"
+        :max="1000"
+        :precision="2"
+        allow-clear
+        hide-button
+        :disabled="!serviceStatus"
+      >
+        <template #suffix> 个 </template>
+      </a-input-number>
+    </a-form-item>
+    <a-form-item
+      field="attachUrl"
       label="图纸上传"
       :validate-trigger="['change', 'input']"
     >
       <a-upload draggable :disabled="!serviceStatus" :limit="3" action="/" />
     </a-form-item>
-    <a-form-item
-      v-if="false"
+    <!-- <a-form-item
+      v-if="true"
       field="name"
       label="指定人员"
       :rules="[{ required: true }]"
@@ -65,12 +82,15 @@
           item
         }}</a-option>
       </a-select>
-    </a-form-item>
-    <a-form-item>
-      <a-space>
-        <a-button type="primary" html-type="submit">校验信息</a-button>
-      </a-space>
-    </a-form-item>
+    </a-form-item> -->
+    <!-- <a-form-item field="price" label="服务报价"
+      ><a-input-number
+        v-model="form.price"
+        placeholder="Please Enter"
+        :default-value="0"
+        mode="button"
+        class="input-demo"
+    /></a-form-item> -->
   </a-form>
 </template>
 
@@ -81,9 +101,12 @@ import { Message } from '@arco-design/web-vue';
 export default {
   name: 'ServiceAssemble',
   setup() {
-    const form: any = reactive({
-      size: 'medium',
+    let form: any = reactive({
       time: '',
+      // time: '',
+      installNum: '',
+      attachUrl: '',
+      price: '',
     });
     const handleSubmit = ({ values, errors }: any) => {
       if (errors === undefined) {
@@ -119,19 +142,24 @@ export default {
       '其他',
     ]);
     const valuecacs = ref('');
-    const planner = ref([
-      '安装师傅A|1304231321',
-      '安装师傅B|1304231322',
-      '安装师傅C|1304231323',
-      '安装师傅D|1304231324',
-      '安装师傅E|1304231325',
-    ]);
+    const planner = ref([]);
     const serviceStatus = ref(false);
     const changeServiceStatus = () => {
       // eslint-disable-next-line no-unused-expressions
       serviceStatus.value
         ? (serviceStatus.value = false)
         : (serviceStatus.value = true);
+      if (serviceStatus.value) {
+        form = {
+          time: '',
+          // time: '',
+          installNum: '',
+          attachUrl: '',
+          price: '',
+        };
+      } else {
+        form = {};
+      }
     };
     return {
       form,

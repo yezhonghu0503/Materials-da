@@ -1,7 +1,6 @@
 <template>
   <a-form
     ref="formRef"
-    :size="form.size"
     :model="form"
     :style="{ width: '600px' }"
     @submit="handleSubmit"
@@ -29,8 +28,9 @@
         </a-checkbox>
       </div>
     </a-form-item>
-    <a-form-item field="name" label="上门时间" :rules="[{ required: true }]">
+    <a-form-item field="time" label="上门时间" :rules="[{ required: true }]">
       <a-date-picker
+        v-model="form.time"
         style="width: 100%"
         show-time
         format="YYYY-MM-DD hh:mm"
@@ -40,16 +40,76 @@
         @ok="onOk"
       />
     </a-form-item>
+    <a-form-item label="配送方式" field="deliveryTyp">
+      <a-radio-group
+        v-model="form.deliveryType"
+        default-value="0"
+        :disabled="!serviceStatus"
+        @change="changeType"
+      >
+        <a-radio value="1">干线提货</a-radio>
+        <a-radio value="2">本地仓库</a-radio>
+      </a-radio-group>
+    </a-form-item>
     <a-form-item
-      field="name"
+      v-for="(post, index) of deliveryInfos"
+      v-show="islocal"
+      :key="index"
+      :field="`posts.${index}.value`"
+      :label="`提货信息-${index}`"
+    >
+      <a-form
+        ref="formRef"
+        disabled
+        :model="deliveryInfos[index]"
+        :style="{ width: '600px' }"
+      >
+        <a-form-item field="companyName" label="单位名称">
+          <a-input
+            v-model="deliveryInfos[index].companyName"
+            placeholder="请输入提货单位名称"
+          />
+        </a-form-item>
+        <a-form-item field="contactName" label="提货联系人">
+          <a-input
+            v-model="deliveryInfos[index].contactName"
+            placeholder="请输入提货联系人名称"
+          />
+        </a-form-item>
+        <a-form-item field="contactPhoneNum" label="联系电话">
+          <a-input
+            v-model="deliveryInfos[index].contactPhoneNum"
+            placeholder="请输入提货联系人联系电话"
+          />
+        </a-form-item>
+        <a-form-item field="address" label="提货地址">
+          <a-input
+            v-model="deliveryInfos[index].address"
+            placeholder="请输入提货地址"
+          />
+        </a-form-item>
+        <a-form-item field="remark" label="备注">
+          <a-textarea
+            v-model="deliveryInfos[index].remark"
+            placeholder="若有其他疑问或问题，请在备注中描述"
+            :max-length="100"
+            allow-clear
+            show-word-limit
+            style="min-height: 95px"
+          />
+        </a-form-item>
+      </a-form>
+    </a-form-item>
+    <a-form-item
+      field="attachUrl"
       label="货物清单"
       :rules="[{ required: true }]"
       :validate-trigger="['change', 'input']"
     >
       <a-upload draggable :disabled="!serviceStatus" :limit="3" action="/" />
     </a-form-item>
-    <a-form-item
-      v-if="false"
+    <!-- <a-form-item
+      v-if="true"
       field="name"
       label="指定人员"
       :rules="[{ required: true }]"
@@ -65,19 +125,33 @@
           item
         }}</a-option>
       </a-select>
-    </a-form-item>
+    </a-form-item> -->
   </a-form>
 </template>
 
 <script lang="ts">
 import { reactive, ref } from 'vue';
+import { getUserSupplier } from '@/api/resulet';
 
 export default {
   name: 'ServiceDelivery',
   setup() {
     const form: any = reactive({
-      size: 'medium',
+      time: '',
+      deliveryType: '',
+      supplierId: '',
+      attachUrl: '',
+      price: '',
     });
+    const islocal: any = ref(false);
+    const deliveryInfos: any = ref([]);
+    const getSupplier = async (id: any) => {
+      const res = await getUserSupplier({ userId: id });
+      deliveryInfos.value = res.data.deliveryInfos;
+    };
+    getSupplier(
+      JSON.parse(localStorage.getItem('userInfo') as any).user.userId
+    );
     const handleSubmit = () => {
       // eslint-disable-next-line no-console
       console.log();
@@ -107,19 +181,29 @@ export default {
       '其他',
     ]);
     const valuecacs = ref('');
-    const planner = ref([
-      '配送员A|1304231321',
-      '配送员B|1304231322',
-      '配送员C|1304231323',
-      '配送员D|1304231324',
-      '配送员E|1304231325',
-    ]);
+    const planner = ref([]);
     const serviceStatus = ref(false);
     const changeServiceStatus = () => {
       // eslint-disable-next-line no-unused-expressions
       serviceStatus.value
         ? (serviceStatus.value = false)
         : (serviceStatus.value = true);
+      if (!serviceStatus.value) {
+        form.deliveryType = '';
+        islocal.value = false;
+      }
+    };
+    const changeType = () => {
+      // eslint-disable-next-line no-unused-expressions
+      console.log(form.deliveryType);
+      if (form.deliveryType === '1') {
+        islocal.value = true;
+      } else {
+        islocal.value = false;
+      }
+      // form.deliveryType === '1'
+      //   ? (islocal.value = true)
+      //   : (islocal.value = false);
     };
     return {
       form,
@@ -133,6 +217,9 @@ export default {
       planner,
       changeServiceStatus,
       serviceStatus,
+      deliveryInfos,
+      islocal,
+      changeType,
     };
   },
 };

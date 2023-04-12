@@ -51,7 +51,6 @@ const onNext = async () => {
   if (current.value === 1) {
     if (customerRef.value.isError) {
       const res = await postAddCustomer(customerRef.value.form);
-      console.log(res);
       Message.success('检验成功，请点击下一个表单继续填写信息!');
       current.value = Math.min(3, current.value + 1);
     } else {
@@ -59,12 +58,12 @@ const onNext = async () => {
     }
   } else if (
     !serviceRef.value.designRef.serviceStatus &&
-    !serviceRef.value.deliveryRef.serviceStatus &&
+    // !serviceRef.value.deliveryRef.serviceStatus &&
     !serviceRef.value.assembleRef.serviceStatus
   ) {
     Message.error('至少选择一种预约服务!');
   } else {
-    Message.error('提交成功!');
+    Message.error('代理错误，无法连接到服务器！');
   }
 };
 

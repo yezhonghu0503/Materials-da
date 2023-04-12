@@ -14,9 +14,10 @@ export default {
       name: 'InventoryQuery',
       component: () => import('@/views/warehouse/inventory-query/index.vue'),
       meta: {
+        id: '17',
         locale: 'menu.inventory-query.title',
         requiresAuth: true,
-        roles: ['*'],
+        roles: [],
       },
     },
     // replenishment-query
@@ -26,9 +27,10 @@ export default {
       component: () =>
         import('@/views/warehouse/replenishment-query/index.vue'),
       meta: {
+        id: '18',
         locale: 'menu.replenishment-query.title',
         requiresAuth: true,
-        roles: ['*'],
+        roles: [],
       },
     },
   ],

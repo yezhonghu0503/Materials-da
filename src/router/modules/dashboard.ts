@@ -13,9 +13,10 @@ export default {
       name: 'workplace',
       component: () => import('@/views/dashboard/workplace/index.vue'),
       meta: {
+        id: '9',
         locale: 'menu.dashboard.workplace',
         requiresAuth: true,
-        roles: ['*'],
+        roles: [],
       },
     },
     {
@@ -24,9 +25,10 @@ export default {
       component: () =>
         import('@/views/dashboard/multi-dimension-data-analysis/index.vue'),
       meta: {
+        id: '10',
         locale: 'menu.visualization.multiDimensionDataAnalysis',
         requiresAuth: true,
-        roles: ['*'],
+        roles: [],
       },
     },
     {
@@ -34,9 +36,10 @@ export default {
       name: 'ScreenMode',
       component: () => import('@/views/dashboard/screen-mode/index.vue'),
       meta: {
+        id: '11',
         locale: 'menu.screen-mode.title',
         requiresAuth: true,
-        roles: ['*'],
+        roles: [],
       },
     },
     /** simple */

@@ -13,9 +13,10 @@ export default {
       name: 'searchTable',
       component: () => import('@/views/list/search-table/index.vue'),
       meta: {
+        id: '27',
         locale: 'menu.list.searchTable',
         requiresAuth: true,
-        roles: ['*'],
+        roles: [],
       },
     },
     {
@@ -23,9 +24,10 @@ export default {
       name: 'classify',
       component: () => import('@/views/list/classify/index.vue'),
       meta: {
+        id: '28',
         locale: 'menu.list.classify',
         requiresAuth: true,
-        roles: ['*'],
+        roles: [],
       },
     },
     {
@@ -33,6 +35,7 @@ export default {
       name: 'basic',
       component: () => import('@/views/profile/basic/index.vue'),
       meta: {
+        id: '29',
         locale: 'menu.profile.basic',
         requiresAuth: true,
         roles: ['admin'],
@@ -43,9 +46,10 @@ export default {
       name: 'activity',
       component: () => import('@/views/exception/403/index.vue'),
       meta: {
+        id: '30',
         locale: 'menu.exception.activity',
         requiresAuth: true,
-        roles: ['*'],
+        roles: [],
       },
     },
   ],
