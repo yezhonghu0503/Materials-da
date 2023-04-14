@@ -34,20 +34,20 @@
                 >
                   <a-select
                     v-model="formModel.contentType"
-                    :options="contentTypeOptions"
-                    :placeholder="$t('searchTable.form.selectDefault')"
+                    :options="productType"
+                    :placeholder="$t('menu.result.status.placeholder')"
                   />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
                 <a-form-item
                   field="filterType"
-                  :label="$t('searchTable.form.filterType')"
+                  :label="$t('menu.result.time.type')"
                 >
                   <a-select
                     v-model="formModel.filterType"
                     :options="filterTypeOptions"
-                    :placeholder="$t('searchTable.form.selectDefault')"
+                    :placeholder="$t('menu.result.time.type.placeholder')"
                   />
                 </a-form-item>
               </a-col>
@@ -65,12 +65,14 @@
               <a-col :span="8">
                 <a-form-item
                   field="status"
-                  :label="$t('searchTable.form.status')"
+                  :label="$t('menu.result.time.reservation')"
                 >
                   <a-select
                     v-model="formModel.status"
                     :options="statusOptions"
-                    :placeholder="$t('searchTable.form.selectDefault')"
+                    :placeholder="
+                      $t('menu.result.time.reservation.placeholder')
+                    "
                   />
                 </a-form-item>
               </a-col>
@@ -153,37 +155,6 @@
             data-index="clientName"
           />
           <a-table-column :title="$t('menu.result.phone')" data-index="phone">
-            <!-- <template #cell="{ record }">
-            <a-space>
-              <a-avatar
-                v-if="record.contentType === 'img'"
-                :size="16"
-                shape="square"
-              >
-                <img
-                  alt="avatar"
-                  src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/581b17753093199839f2e327e726b157.svg~tplv-49unhts6dw-image.image"
-                />
-              </a-avatar>
-              <a-avatar
-                v-else-if="record.contentType === 'horizontalVideo'"
-                :size="16"
-                shape="square"
-              >
-                <img
-                  alt="avatar"
-                  src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/77721e365eb2ab786c889682cbc721c1.svg~tplv-49unhts6dw-image.image"
-                />
-              </a-avatar>
-              <a-avatar v-else :size="16" shape="square">
-                <img
-                  alt="avatar"
-                  src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/ea8b09190046da0ea7e070d83c5d1731.svg~tplv-49unhts6dw-image.image"
-                />
-              </a-avatar>
-              {{ $t(`menu.list.form.contentType.${record.contentType}`) }}
-            </a-space>
-          </template> -->
           </a-table-column>
           <a-table-column
             :title="$t('menu.result.address')"
@@ -291,25 +262,13 @@ export default defineComponent({
         value: 'verticalVideo',
       },
     ]);
-    const filterTypeOptions: any = computed<Options[]>(() => [
-      {
-        label: t('searchTable.form.filterType.artificial'),
-        value: 'artificial',
-      },
-      {
-        label: t('searchTable.form.filterType.rules'),
-        value: 'rules',
-      },
-    ]);
-    const statusOptions: any = computed<Options[]>(() => [
-      {
-        label: t('searchTable.form.status.online'),
-        value: 'online',
-      },
-      {
-        label: t('searchTable.form.status.offline'),
-        value: 'offline',
-      },
+    const filterTypeOptions: any = ref(['测量设计', '安装服务', '配送服务']);
+    const statusOptions: any = ref([
+      '待处理',
+      '待指派',
+      '待指派',
+      '进行中',
+      '已完成',
     ]);
     const fetchData = async (
       params: PolicyParams = { current: 1, pageSize: 20 }
@@ -341,6 +300,13 @@ export default defineComponent({
       formModel.value = generateFormModel();
     };
 
+    const appointmentState = ref([
+      '待处理',
+      '待指派',
+      '待指派',
+      '进行中',
+      '已完成',
+    ]);
     // 创建订单
     const isNewOrder = ref(false);
     const handleOk = () => {
@@ -396,6 +362,18 @@ export default defineComponent({
     const isComplete = () => {
       isNewOrder.value = false;
     };
+    const productType = ref([
+      '橱柜',
+      '人造石台面',
+      '全屋定制',
+      '床垫',
+      '沙发',
+      '成品家具（桌几柜）',
+      '五金配件',
+      '工具',
+      '成品家具（床）',
+      '其他',
+    ]);
     return {
       visible,
       loading,
@@ -414,6 +392,8 @@ export default defineComponent({
       handleOpenNewOrder,
       userType,
       isComplete,
+      productType,
+      appointmentState,
     };
   },
 });

@@ -1,81 +1,99 @@
 <template>
   <a-form
     ref="formRef"
-    :size="form.size"
     :model="form"
     :style="{ width: '600px' }"
     @submit="handleSubmit"
   >
     <a-form-item>
-      <div :style="{ marginTop: '20px' }">
-        <a-checkbox @change="changeServiceStatus">
-          <template #checkbox="{ checked }">
-            <a-space
-              align="start"
-              class="custom-checkbox-card"
-              :class="{ 'custom-checkbox-card-checked': checked }"
-            >
-              <div className="custom-checkbox-card-mask">
-                <div className="custom-checkbox-card-mask-dot" />
-              </div>
-              <div>
-                <div className="custom-checkbox-card-title"> 勾选配送服务 </div>
-                <a-typography-text style="font-size: 12px" type="secondary">
-                  若需要配送服务，请勾选此项并填入下列信息
-                </a-typography-text>
-              </div>
-            </a-space>
-          </template>
-        </a-checkbox>
-      </div>
+      <div :style="{ marginTop: '20px' }"> </div>
     </a-form-item>
-    <a-form-item field="name" label="上门时间" :rules="[{ required: true }]">
+    <a-form-item field="time" label="上门时间" :rules="[{ required: true }]">
       <a-date-picker
+        v-model="form.time"
         style="width: 100%"
         show-time
         format="YYYY-MM-DD hh:mm"
-        :disabled="serviceStatus"
         @change="onChange"
         @select="onSelect"
         @ok="onOk"
       />
     </a-form-item>
     <a-form-item
-      field="name"
-      label="货物清单"
-      :rules="[{ required: true }]"
+      field="installNum"
+      label="家具个数"
+      :rules="[{ required: true, message: '请输入安装家具空间数量' }]"
+    >
+      <a-input-number
+        v-model="form.installNum"
+        :style="{ width: '100%' }"
+        placeholder="请输入安装家具空间数量"
+        :max="1000"
+        :precision="2"
+        allow-clear
+        hide-button
+      >
+        <template #suffix> 个 </template>
+      </a-input-number>
+    </a-form-item>
+    <a-form-item
+      field="attachUrl"
+      label="图纸上传"
       :validate-trigger="['change', 'input']"
     >
-      <a-upload draggable :disabled="serviceStatus" :limit="3" action="/" />
+      <a-upload draggable :limit="3" action="/" />
     </a-form-item>
-    <a-form-item field="name" label="指定人员" :rules="[{ required: true }]">
+    <!-- <a-form-item
+      v-if="true"
+      field="name"
+      label="指定人员"
+      :rules="[{ required: true }]"
+    >
       <a-select
         v-model="valuecacs"
         :style="{ width: '100%' }"
-        placeholder="请指定配送人员"
+        placeholder="请指定安装人员"
         allow-clear
-        :disabled="serviceStatus"
+        :disabled="!serviceStatus"
       >
         <a-option v-for="(item, index) in planner" :key="index">{{
           item
         }}</a-option>
       </a-select>
-    </a-form-item>
+    </a-form-item> -->
+    <!-- <a-form-item field="price" label="服务报价"
+      ><a-input-number
+        v-model="form.price"
+        placeholder="Please Enter"
+        :default-value="0"
+        mode="button"
+        class="input-demo"
+    /></a-form-item> -->
   </a-form>
 </template>
 
 <script lang="ts">
 import { reactive, ref } from 'vue';
+import { Message } from '@arco-design/web-vue';
 
 export default {
-  name: 'ServiceDelivery',
+  name: 'ServiceAssemble',
   setup() {
-    const form: any = reactive({
-      size: 'medium',
+    let form: any = reactive({
+      time: '',
+      // time: '',
+      installNum: '',
+      attachUrl: '',
+      price: '',
     });
-    const handleSubmit = () => {
-      // eslint-disable-next-line no-console
-      console.log();
+    const handleSubmit = ({ values, errors }: any) => {
+      if (errors === undefined) {
+        // window.localStorage.setItem('user', values);
+        window.localStorage.setItem('assemble', JSON.stringify(values));
+        Message.success('检验成功，请点击下一个表单继续填写信息!');
+      } else {
+        Message.error('请检查表单是否有填写错误或不完整');
+      }
     };
     function onSelect(dateString: any, date: any) {
       console.log('onSelect', dateString, date);
@@ -102,19 +120,24 @@ export default {
       '其他',
     ]);
     const valuecacs = ref('');
-    const planner = ref([
-      '配送员A|1304231321',
-      '配送员B|1304231322',
-      '配送员C|1304231323',
-      '配送员D|1304231324',
-      '配送员E|1304231325',
-    ]);
-    const serviceStatus = ref(true);
+    const planner = ref([]);
+    const serviceStatus = ref(false);
     const changeServiceStatus = () => {
       // eslint-disable-next-line no-unused-expressions
       serviceStatus.value
         ? (serviceStatus.value = false)
         : (serviceStatus.value = true);
+      if (serviceStatus.value) {
+        form = {
+          time: '',
+          // time: '',
+          installNum: '',
+          attachUrl: '',
+          price: '',
+        };
+      } else {
+        form = {};
+      }
     };
     return {
       form,

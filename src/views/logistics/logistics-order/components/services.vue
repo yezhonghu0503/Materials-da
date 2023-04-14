@@ -1,22 +1,58 @@
 <template>
-  <a-tabs :position="position" size="large" default-active-key="1">
-    <ServiceMeasuringDesign></ServiceMeasuringDesign>
-  </a-tabs>
+  <div class="service__list">
+    <serviceDelivery ref="designRef"></serviceDelivery>
+  </div>
 </template>
 
 <script lang="ts">
-import ServiceMeasuringDesign from './service-measuring-design.vue';
+import { ref, reactive } from 'vue';
+
+import serviceDelivery from './service-delivery.vue';
 
 export default {
-  name: 'Services',
-  components: { ServiceMeasuringDesign },
+  components: { serviceDelivery },
   setup() {
     const position: any = 'top';
+    const ordinaryUser = ref(false);
+    const userinfo = JSON.parse(localStorage.getItem('userInfo') as any);
+    if (userinfo.role.roleName !== '普通用户') {
+      ordinaryUser.value = true;
+    }
+    const designRef = ref();
+    const deliveryRef = ref();
+    const assembleRef = ref();
+    const baseform = reactive({ appointmentTime: '' });
+    function onSelect(dateString: any, date: any) {
+      console.log('onSelect', dateString, date);
+    }
+
+    function onChange(dateString: any, date: any) {
+      console.log('onChange: ', dateString, date);
+    }
+
+    function onOk(dateString: any, date: any) {
+      console.log('onOk: ', dateString, date);
+    }
     return {
       position,
+      ordinaryUser,
+      designRef,
+      deliveryRef,
+      assembleRef,
+      baseform,
+      onSelect,
+      onChange,
+      onOk,
     };
   },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="less" scoped>
+.service__list {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+</style>

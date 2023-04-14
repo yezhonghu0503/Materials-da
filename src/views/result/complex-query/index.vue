@@ -1,14 +1,3 @@
-<!-- <template>
-  <div class="container">
-    <Breadcrumb :items="['menu.result', 'menu.complex-query.title']" />
-  </div>
-</template>
-
-<script lang="ts">
-export default {};
-</script>
-
-<style lang="scss" scoped></style> -->
 <template>
   <div class="container">
     <Breadcrumb :items="['menu.result', 'menu.complex-query.title']" />
@@ -25,61 +14,64 @@ export default {};
               <a-col :span="8">
                 <a-form-item
                   field="number"
-                  :label="$t('searchTable.form.number')"
+                  :label="$t('menu.complex-query.number')"
                 >
                   <a-input
                     v-model="formModel.number"
-                    :placeholder="$t('searchTable.form.number.placeholder')"
+                    :placeholder="$t('menu.complex-query.number.placeholder')"
                   />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
                 <a-form-item
-                  field="number"
-                  :label="$t('searchTable.form.number')"
+                  field="name"
+                  :label="$t('menu.complex-query.name')"
                 >
                   <a-input
-                    v-model="formModel.number"
-                    :placeholder="$t('searchTable.form.number.placeholder')"
+                    v-model="formModel.name"
+                    :placeholder="$t('menu.complex-query.name.placeholder')"
                   />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item field="name" :label="$t('searchTable.form.name')">
+                <a-form-item
+                  field="name"
+                  :label="$t('menu.complex-query.phone')"
+                >
                   <a-input
                     v-model="formModel.name"
-                    :placeholder="$t('searchTable.form.name.placeholder')"
+                    :placeholder="$t('menu.complex-query.phone.placeholder')"
                   />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
                 <a-form-item
                   field="contentType"
-                  :label="$t('menu.list.form.contentType')"
+                  :label="$t('menu.complex-query.status')"
                 >
                   <a-select
                     v-model="formModel.contentType"
-                    :options="contentTypeOptions"
-                    :placeholder="$t('searchTable.form.selectDefault')"
+                    :options="productType"
+                    :placeholder="$t('menu.complex-query.status.placeholder')"
                   />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
                 <a-form-item
                   field="filterType"
-                  :label="$t('searchTable.form.filterType')"
+                  :label="$t('menu.complex-query.type')"
                 >
                   <a-select
                     v-model="formModel.filterType"
                     :options="filterTypeOptions"
-                    :placeholder="$t('searchTable.form.selectDefault')"
+                    :placeholder="$t('menu.complex-query.type.placeholder')"
                   />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
                 <a-form-item
                   field="createdTime"
-                  :label="$t('searchTable.form.createdTime')"
+                  :label="$t('menu.complex-query.time')"
                 >
                   <a-range-picker
                     v-model="formModel.createdTime"
@@ -90,12 +82,42 @@ export default {};
               <a-col :span="8">
                 <a-form-item
                   field="status"
-                  :label="$t('searchTable.form.status')"
+                  :label="$t('menu.complex-query.time.type')"
                 >
                   <a-select
                     v-model="formModel.status"
-                    :options="statusOptions"
-                    :placeholder="$t('searchTable.form.selectDefault')"
+                    :options="appointmentType"
+                    :placeholder="
+                      $t('menu.complex-query.time.type.placeholder')
+                    "
+                  />
+                </a-form-item>
+              </a-col>
+              <a-col :span="8">
+                <a-form-item
+                  field="status"
+                  :label="$t('menu.complex-query.time.reservation')"
+                >
+                  <a-select
+                    v-model="formModel.status"
+                    :options="appointmentState"
+                    :placeholder="
+                      $t('menu.complex-query.time.reservation.placeholder')
+                    "
+                  />
+                </a-form-item>
+              </a-col>
+              <a-col :span="8">
+                <a-form-item
+                  field="status"
+                  :label="$t('menu.complex-query.time.dewellType')"
+                >
+                  <a-select
+                    v-model="formModel.status"
+                    :options="dewellType"
+                    :placeholder="
+                      $t('menu.complex-query.time.dewellType.placeholder')
+                    "
                   />
                 </a-form-item>
               </a-col>
@@ -131,84 +153,65 @@ export default {};
       >
         <template #columns>
           <a-table-column
-            :title="$t('searchTable.columns.number')"
+            :title="$t('menu.result.number')"
             data-index="number"
           />
           <a-table-column
-            :title="$t('searchTable.columns.name')"
-            data-index="name"
+            :title="$t('menu.result.clientName')"
+            data-index="clientName"
           />
-          <a-table-column
-            :title="$t('searchTable.columns.contentType')"
-            data-index="contentType"
-          >
-            <template #cell="{ record }">
-              <a-space>
-                <a-avatar
-                  v-if="record.contentType === 'img'"
-                  :size="16"
-                  shape="square"
-                >
-                  <img
-                    alt="avatar"
-                    src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/581b17753093199839f2e327e726b157.svg~tplv-49unhts6dw-image.image"
-                  />
-                </a-avatar>
-                <a-avatar
-                  v-else-if="record.contentType === 'horizontalVideo'"
-                  :size="16"
-                  shape="square"
-                >
-                  <img
-                    alt="avatar"
-                    src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/77721e365eb2ab786c889682cbc721c1.svg~tplv-49unhts6dw-image.image"
-                  />
-                </a-avatar>
-                <a-avatar v-else :size="16" shape="square">
-                  <img
-                    alt="avatar"
-                    src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/ea8b09190046da0ea7e070d83c5d1731.svg~tplv-49unhts6dw-image.image"
-                  />
-                </a-avatar>
-                {{ $t(`menu.list.form.contentType.${record.contentType}`) }}
-              </a-space>
-            </template>
+          <a-table-column :title="$t('menu.result.phone')" data-index="phone">
           </a-table-column>
           <a-table-column
-            :title="$t('searchTable.columns.filterType')"
-            data-index="filterType"
+            :title="$t('menu.result.address')"
+            data-index="address"
           >
-            <template #cell="{ record }">
-              {{ $t(`searchTable.form.filterType.${record.filterType}`) }}
-            </template>
           </a-table-column>
+          <a-table-column :title="$t('menu.result.time')" data-index="time" />
+          <a-table-column :title="$t('menu.result.type')" data-index="type" />
           <a-table-column
-            :title="$t('searchTable.columns.count')"
-            data-index="count"
-          />
-          <a-table-column
-            :title="$t('searchTable.columns.createdTime')"
-            data-index="createdTime"
-          />
-          <a-table-column
-            :title="$t('searchTable.columns.status')"
-            data-index="status"
+            :title="$t('menu.result.orderstatus')"
+            data-index="orderstatus"
           >
             <template #cell="{ record }">
               <span v-if="record.status === 'offline'" class="circle"></span>
               <span v-else class="circle pass"></span>
-              {{ $t(`searchTable.form.status.${record.status}`) }}
+              {{ record.orderstatus }}
             </template>
           </a-table-column>
-          <a-table-column
-            :title="$t('searchTable.columns.operations')"
-            data-index="operations"
-          >
+          <!-- <a-table-column :title="$t('menu.result.area')" data-index="area">
+          </a-table-column> -->
+          <a-table-column :title="$t('menu.result.op')" data-index="op">
             <template #cell>
-              <a-button v-permission="['admin']" type="text" size="small">
-                {{ $t('searchTable.columns.operations.view') }}
+              <a-button
+                v-permission="['admin', 'cuscer']"
+                type="text"
+                size="small"
+                @click="visible = true"
+              >
+                核验
+              </a-button>
+              <a-button
+                v-permission="['customer']"
+                type="text"
+                size="small"
+                @click="visible = true"
+              >
+                查看
               </a-button>
             </template>
+            <a-modal
+              v-model:visible="visible"
+              width="auto"
+              ok-text="确认"
+              @ok="handleOk"
+              @cancel="handleCancel"
+            >
+              <template #title> 订单详情 </template>
+              <div class="order__detail">
+                <orderDetail style="width: 900px"></orderDetail>
+              </div>
+            </a-modal>
           </a-table-column>
         </template>
       </a-table>
@@ -260,16 +263,7 @@ export default defineComponent({
         value: 'verticalVideo',
       },
     ]);
-    const filterTypeOptions: any = computed<Options[]>(() => [
-      {
-        label: t('searchTable.form.filterType.artificial'),
-        value: 'artificial',
-      },
-      {
-        label: t('searchTable.form.filterType.rules'),
-        value: 'rules',
-      },
-    ]);
+    const filterTypeOptions: any = ref(['测量设计', '安装服务', '配送服务']);
     const statusOptions: any = computed<Options[]>(() => [
       {
         label: t('searchTable.form.status.online'),
@@ -322,6 +316,54 @@ export default defineComponent({
     const handleOpenNewOrder = () => {
       isNewOrder.value = true;
     };
+    const productType = ref([
+      '橱柜',
+      '人造石台面',
+      '全屋定制',
+      '床垫',
+      '沙发',
+      '成品家具（桌几柜）',
+      '五金配件',
+      '工具',
+      '成品家具（床）',
+      '其他',
+    ]);
+    const appointmentType = ref([]);
+    const appointmentState = ref([
+      '待处理',
+      '待指派',
+      '待指派',
+      '进行中',
+      '已完成',
+    ]);
+    const dewellType = ref([
+      {
+        value: 'duoceng',
+        label: '多层',
+      },
+      {
+        value: 'gaoceng',
+        label: '高层',
+      },
+      {
+        value: 'bieshu',
+        label: '别墅',
+      },
+      // 标准商办物业
+      {
+        value: 'biaozhun',
+        label: '标准商办物业',
+      },
+      {
+        value: 'shangpu',
+        label: '临街商铺',
+      },
+      {
+        value: 'danwei',
+        label: '特殊单位',
+      },
+    ]);
+    const visible = ref(false);
     return {
       loading,
       search,
@@ -337,6 +379,11 @@ export default defineComponent({
       handleOk,
       handleCancel,
       handleOpenNewOrder,
+      productType,
+      appointmentType,
+      appointmentState,
+      dewellType,
+      visible,
     };
   },
 });

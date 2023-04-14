@@ -19,121 +19,103 @@
         @ok="onOk"
       />
     </a-form-item>
-    <a-form-item
-      field="productType"
-      label="产品类型"
-      :rules="[{ required: true, message: '请选择产品类型' }]"
-      :validate-trigger="['change', 'input']"
-    >
-      <a-select
-        v-model="form.productType"
-        :style="{ width: '100%' }"
-        placeholder="请选择产品类型"
-        allow-clear
+    <a-form-item label="配送方式" field="deliveryTyp">
+      <a-radio-group
+        v-model="form.deliveryType"
+        default-value="0"
+        @change="changeType"
       >
-        <a-option
-          v-for="(item, index) in productType"
-          :key="index"
-          :value="index + 1"
-          >{{ item }}</a-option
-        >
-      </a-select>
+        <a-radio value="1">干线提货</a-radio>
+        <a-radio value="2">本地仓库</a-radio>
+      </a-radio-group>
     </a-form-item>
     <a-form-item
-      field="measurementType"
-      label="测量类型"
-      :rules="[{ required: true, message: '请选择测量类型' }]"
-      :validate-trigger="['change', 'input']"
+      v-for="(post, index) of deliveryInfos"
+      v-show="islocal"
+      :key="index"
+      :field="`posts.${index}.value`"
+      :label="`提货信息-${index}`"
     >
-      <a-select
-        v-model="form.measurementType"
-        :style="{ width: '100%' }"
-        placeholder="请选择测量类型"
-        allow-clear
+      <a-form
+        ref="formRef"
+        disabled
+        :model="deliveryInfos[index]"
+        :style="{ width: '600px' }"
       >
-        <a-option
-          v-for="(item, index) in measurementType"
-          :key="index"
-          :value="index + 1"
-          >{{ item }}</a-option
-        >
-      </a-select>
+        <a-form-item field="companyName" label="单位名称">
+          <a-input
+            v-model="deliveryInfos[index].companyName"
+            placeholder="请输入提货单位名称"
+          />
+        </a-form-item>
+        <a-form-item field="contactName" label="提货联系人">
+          <a-input
+            v-model="deliveryInfos[index].contactName"
+            placeholder="请输入提货联系人名称"
+          />
+        </a-form-item>
+        <a-form-item field="contactPhoneNum" label="联系电话">
+          <a-input
+            v-model="deliveryInfos[index].contactPhoneNum"
+            placeholder="请输入提货联系人联系电话"
+          />
+        </a-form-item>
+        <a-form-item field="address" label="提货地址">
+          <a-input
+            v-model="deliveryInfos[index].address"
+            placeholder="请输入提货地址"
+          />
+        </a-form-item>
+        <a-form-item field="remark" label="备注">
+          <a-textarea
+            v-model="deliveryInfos[index].remark"
+            placeholder="若有其他疑问或问题，请在备注中描述"
+            :max-length="100"
+            allow-clear
+            show-word-limit
+            style="min-height: 95px"
+          />
+        </a-form-item>
+      </a-form>
     </a-form-item>
     <a-form-item
-      field="area"
-      label="整体面积"
-      :rules="[{ required: true, message: '请输入整体面积' }]"
-    >
-      <a-input-number
-        v-model="form.area"
-        :style="{ width: '100%' }"
-        placeholder="请输入整体面积"
-        :max="1000"
-        :precision="2"
-        allow-clear
-        hide-button
-      >
-        <template #suffix> m² </template>
-      </a-input-number>
-    </a-form-item>
-    <!-- <a-form-item
-      v-if="true"
-      field="workerId"
-      label="指定人员"
+      field="attachUrl"
+      label="货物清单"
       :rules="[{ required: true }]"
+      :validate-trigger="['change', 'input']"
     >
-      <a-select
-        v-model="form.workerId"
-        :style="{ width: '100%' }"
-        placeholder="请指定测量设计人员"
-        allow-clear
-        :disabled="!serviceStatus"
-      >
-        <a-option v-for="(item, index) in planner" :key="index">{{
-          item
-        }}</a-option>
-      </a-select>
-    </a-form-item> -->
-    <!-- <a-form-item>
-      <a-space>
-        <a-button type="primary" html-type="submit">校验信息</a-button>
-      </a-space>
-    </a-form-item> -->
-    <!-- <a-form-item field="price" label="服务报价"
-      ><a-input-number
-        v-model="form.price"
-        placeholder="Please Enter"
-        :default-value="0"
-        mode="button"
-        class="input-demo"
-    /></a-form-item> -->
+      <a-upload draggable :limit="3" action="/" />
+    </a-form-item>
   </a-form>
 </template>
 
 <script lang="ts">
 import { reactive, ref } from 'vue';
+import { getUserSupplier } from '@/api/resulet';
 import { Message } from '@arco-design/web-vue';
 
 export default {
-  name: 'ServiceMeasuringDesign',
+  name: 'ServiceDelivery',
   setup() {
     const form: any = reactive({
       time: '',
-      productType: '',
-      measurementType: '',
-      area: '',
-      attachUrl: 'https://blog.al2p.xyz/upload/logoen.jpeg',
+      deliveryType: '',
+      supplierId: '',
+      attachUrl: '',
       price: '',
     });
-    const handleSubmit = ({ values, errors }: any) => {
+    const islocal: any = ref(false);
+    const deliveryInfos: any = ref([]);
+    const getSupplier = async (id: any) => {
+      const res = await getUserSupplier({ userId: id });
+      deliveryInfos.value = res.data.deliveryInfos;
+    };
+    getSupplier(
+      JSON.parse(localStorage.getItem('userInfo') as any).user.userId
+    );
+    const handleSubmit = () => {
       // eslint-disable-next-line no-console
-      if (errors === undefined) {
-        // window.localStorage.setItem('user', values);
-        window.localStorage.setItem('measuring', JSON.stringify(values));
-        Message.success('检验成功，若不需要其他服务可直接提交!');
-      } else {
-        Message.error('请检查表单是否有填写错误或不完整');
-      }
+      console.log();
     };
     function onSelect(dateString: any, date: any) {
       console.log('onSelect', dateString, date);
@@ -159,25 +141,33 @@ export default {
       '成品家具（床）',
       '其他',
     ]);
-    const measurementType = ref([
-      '多空间全屋定制测量',
-      '厨房空间测量',
-      '⻔窗测量',
-    ]);
     const valuecacs = ref('');
-    const planner = ref([
-      '设计师A|1304231321',
-      '设计师B|1304231322',
-      '设计师C|1304231323',
-      '设计师D|1304231324',
-      '设计师E|1304231325',
-    ]);
+    const planner = ref([]);
     const serviceStatus = ref(false);
     const changeServiceStatus = () => {
       // eslint-disable-next-line no-unused-expressions
       serviceStatus.value
         ? (serviceStatus.value = false)
         : (serviceStatus.value = true);
+      if (!serviceStatus.value) {
+        form.deliveryType = '';
+        islocal.value = false;
+      }
+    };
+    const changeType = () => {
+      // eslint-disable-next-line no-unused-expressions
+      if (form.deliveryType === '1') {
+        if (deliveryInfos.value.length <= 0) {
+          Message.error('当前用户没有绑定供应商！');
+        } else {
+          islocal.value = true;
+        }
+      } else {
+        islocal.value = false;
+      }
+      // form.deliveryType === '1'
+      //   ? (islocal.value = true)
+      //   : (islocal.value = false);
     };
     return {
       form,
@@ -188,10 +178,12 @@ export default {
       value,
       valuecacs,
       productType,
+      planner,
       changeServiceStatus,
       serviceStatus,
-      planner,
-      measurementType,
+      deliveryInfos,
+      islocal,
+      changeType,
     };
   },
 };

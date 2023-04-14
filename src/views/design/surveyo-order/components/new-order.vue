@@ -1,11 +1,6 @@
 <template>
   <div>
-    <a-steps
-      style="padding: 10px 20px"
-      changeable
-      :current="current"
-      @change="setCurrent"
-    >
+    <a-steps changeable :current="current" @change="setCurrent">
       <a-step description="customer information">客户信息</a-step>
       <a-step description="Select service content">服务内容</a-step>
     </a-steps>
@@ -40,11 +35,10 @@
 import { defineEmits, ref } from 'vue';
 import { Message } from '@arco-design/web-vue';
 import { postAddCustomer, postAddappointment } from '@/api/resulet';
-import { useRouter } from 'vue-router';
-import CustomerMsg from '../success/components/customer-msg.vue';
-import Services from '../success/components/services.vue';
+import CustomerMsg from './customer-msg.vue';
+// import SupplierMsg from './supplier-msg.vue';
+import Services from './services.vue';
 
-const router = useRouter();
 const current = ref(1);
 const customerRef = ref();
 const serviceRef = ref();
@@ -52,6 +46,7 @@ const onPrev = () => {
   current.value = Math.max(1, current.value - 1);
 };
 const cusform = ref();
+const emit = defineEmits(['handle']);
 const onNext = async () => {
   if (current.value === 1) {
     if (customerRef.value.isError) {
@@ -61,12 +56,8 @@ const onNext = async () => {
     } else {
       Message.error('请先校验信息再进行下一步操作!');
     }
-  } else if (
-    !serviceRef.value.designRef.serviceStatus &&
-    !serviceRef.value.assembleRef.serviceStatus &&
-    !serviceRef.value.deliveryRef.serviceStatus
-  ) {
-    Message.error('至少选择一种预约服务!');
+  } else if (!serviceRef.value.designRef.serviceStatus) {
+    Message.error('请正确填写表单!');
   } else {
     // postAddCustomer(customerRef.value.form).then((res) => {
     // console.log(cusform.value.id);
@@ -86,7 +77,7 @@ const onNext = async () => {
     const res = await postAddappointment(appointmentForm);
     if (res.data) {
       Message.success('订单创建成功！');
-      router.go(0);
+      emit('handle');
     } else {
       Message.error(res.data);
     }
