@@ -6,7 +6,7 @@
     :body-style="{ padding: '24px 20px 0 20px' }"
   >
     <template #extra>
-      <a-link>{{ $t('workplace.quickOperation.setup') }}</a-link>
+      <!-- <a-link>{{ $t('workplace.quickOperation.setup') }}</a-link> -->
     </template>
     <a-row :gutter="8">
       <a-col
@@ -14,6 +14,7 @@
         :key="link as unknown as string"
         :span="8"
         class="wrapper"
+        @click="openMenu(link)"
       >
         <div class="icon">
           <component :is="link.icon" />
@@ -29,19 +30,46 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
 
 const links = [
-  { text: 'workplace.contentManagement', icon: 'icon-file' },
-  { text: 'workplace.contentStatistical', icon: 'icon-storage' },
-  { text: 'workplace.advanced', icon: 'icon-settings' },
-  { text: 'workplace.onlinePromotion', icon: 'icon-mobile' },
-  { text: 'workplace.contentPutIn', icon: 'icon-fire' },
+  {
+    name: 'searchTable',
+    text: 'workplace.contentManagement',
+    icon: 'icon-file',
+  },
+  {
+    name: 'success',
+    text: 'workplace.contentStatistical',
+    icon: 'icon-storage',
+  },
+  { name: 'measure', text: 'workplace.advanced', icon: 'icon-settings' },
+  {
+    name: 'LogisticsOrder',
+    text: 'workplace.onlinePromotion',
+    icon: 'icon-mobile',
+  },
+  {
+    name: 'SurveyoOrder',
+    text: '测量设计',
+    icon: 'icon-mobile',
+  },
+  {
+    name: 'LogisticsOrder',
+    text: 'workplace.onlinePromotion',
+    icon: 'icon-mobile',
+  },
 ];
 
 export default defineComponent({
   setup() {
+    const router = useRouter();
+    const openMenu = (value: any) => {
+      router.push({ name: value.name });
+    };
     return {
       links,
+      openMenu,
     };
   },
 });

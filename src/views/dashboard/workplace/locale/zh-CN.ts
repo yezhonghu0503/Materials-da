@@ -17,7 +17,7 @@ export default {
   'workplace.contentManagement': '商品管理',
   'workplace.contentStatistical': '订单管理',
   'workplace.advanced': '安装管理',
-  'workplace.onlinePromotion': '物流管理',
+  'workplace.onlinePromotion': '配送管理',
   'workplace.contentPutIn': '预约管理',
   'workplace.announcement': '公告',
   'workplace.recently.visited': '最近访问',
