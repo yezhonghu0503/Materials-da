@@ -1,5 +1,30 @@
 <template>
-  <div class="container">
+  <div v-if="!isWelcome" class="welcome">
+    <img style="width: 520px; height: 500px" src="@/assets/images/home.gif" />
+    <!-- <welcome style="width: 520px; height: 500px" /> -->
+
+    <div style="margin-top: 50px">
+      <a-typography-title style="color: black">
+        装得快供应链整合平台
+      </a-typography-title>
+      <a-typography-paragraph style="color: black">
+        Materials da Chain Integration Platform
+      </a-typography-paragraph>
+      <a-typography-paragraph style="color: black">
+        装得快整合平台全称装得快供应链整合平台，是一个集供应商、仓库管理、家具销售、家具配送、
+      </a-typography-paragraph>
+      <a-typography-paragraph style="color: black">
+        家具安装、测量设计等全方面多方位服务的家具整合平台，平台为普通家装客户提供常用家装服
+      </a-typography-paragraph>
+      <a-typography-paragraph style="color: black">
+        务，为供应商提供快捷订单操作方式，为设计师、安装师傅、配送师傅提供信息化订单模式
+      </a-typography-paragraph>
+      <a-button style="margin-top: 100px" type="primary" @click="quickStart"
+        >快速开始</a-button
+      >
+    </div>
+  </div>
+  <div v-if="isWelcome" class="container">
     <div class="left-side">
       <div class="panel">
         <Banner />
@@ -34,8 +59,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { roleList } from '@/api/user';
+import { useRouter } from 'vue-router';
 import Banner from './components/banner.vue';
 import DataPanel from './components/data-panel.vue';
 import ContentChart from './components/content-chart.vue';
@@ -46,6 +72,7 @@ import QuickOperation from './components/quick-operation.vue';
 import Announcement from './components/announcement.vue';
 import Carousel from './components/carousel.vue';
 import Docs from './components/docs.vue';
+// import welcome from './components/welcome.vue';
 
 export default defineComponent({
   components: {
@@ -59,18 +86,40 @@ export default defineComponent({
     Announcement,
     Carousel,
     Docs,
+    // welcome,
   },
   setup() {
+    const userinfo = JSON.parse(localStorage.getItem('userInfo') as any);
+    const isWelcome = ref(false);
+    if (userinfo.role.roleName === '普通用户') {
+      isWelcome.value = true;
+    }
+    const router = useRouter();
+    const quickStart = () => {
+      router.push({ name: 'success' });
+    };
     const role = async () => {
       const res = await roleList();
       console.log(res);
     };
     role();
+    return {
+      quickStart,
+      isWelcome,
+    };
   },
 });
 </script>
 
 <style lang="less" scoped>
+.welcome {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 50px 100px;
+  background-color: white;
+  height: 100%;
+}
 .container {
   background-color: var(--color-fill-2);
   padding: 16px 20px;

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.result', 'menu.surveyo-order.title']" />
-    <a-card class="general-card" :title="$t('menu.surveyo-order.title')">
+    <Breadcrumb :items="['menu.result', 'menu.logistics-order.title']" />
+    <a-card class="general-card" :title="$t('menu.logistics-order.title')">
       <a-row>
         <a-col :flex="1">
           <a-form
@@ -148,51 +148,51 @@
         <template #columns>
           <a-table-column
             :title="$t('menu.result.number')"
-            data-index="number"
+            data-index="orderNo"
+            :width="200"
           />
           <a-table-column
             :title="$t('menu.result.clientName')"
-            data-index="clientName"
+            data-index="customer.realName"
           />
-          <a-table-column :title="$t('menu.result.phone')" data-index="phone">
+          <a-table-column
+            :title="$t('menu.result.phone')"
+            data-index="customer.address"
+          >
           </a-table-column>
           <a-table-column
             :title="$t('menu.result.address')"
-            data-index="address"
+            data-index="customer.phoneNum"
           >
           </a-table-column>
-          <a-table-column :title="$t('menu.result.time')" data-index="time" />
-          <a-table-column :title="$t('menu.result.type')" data-index="type" />
+          <a-table-column
+            :title="$t('menu.result.time')"
+            data-index="createTime"
+          />
+          <a-table-column title="备注" data-index="remark" />
           <a-table-column
             :title="$t('menu.result.orderstatus')"
-            data-index="orderstatus"
+            data-index="state"
           >
             <template #cell="{ record }">
               <span v-if="record.status === 'offline'" class="circle"></span>
               <span v-else class="circle pass"></span>
-              {{ record.orderstatus }}
+              {{ record.state === 0 ? '待指派' : '进行中' }}
             </template>
           </a-table-column>
           <!-- <a-table-column :title="$t('menu.result.area')" data-index="area">
           </a-table-column> -->
-          <a-table-column :title="$t('menu.result.op')" data-index="op">
+          <a-table-column
+            align="center"
+            :title="$t('menu.result.op')"
+            data-index="op"
+          >
             <template #cell>
-              <a-button
-                v-permission="['admin', 'cuscer']"
-                type="text"
-                size="small"
-                @click="visible = true"
-              >
-                核验
-              </a-button>
-              <a-button
-                v-permission="['customer']"
-                type="text"
-                size="small"
-                @click="visible = true"
-              >
+              <!-- <a-button type="text" size="small" @click="visible = true"> -->
+              <a-button type="text" size="small"> 核验 </a-button>
+              <!-- <a-button type="text" size="small" @click="visible = true">
                 查看
-              </a-button>
+              </a-button> -->
             </template>
             <a-modal
               v-model:visible="visible"
@@ -217,9 +217,14 @@
 import { defineComponent, computed, ref, reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
 import useLoading from '@/hooks/loading';
-import { queryPolicyList, PolicyRecord, PolicyParams } from '@/api/list';
+import { PolicyRecord, PolicyParams } from '@/api/list';
 import { Pagination, Options } from '@/types/global';
 import { Message } from '@arco-design/web-vue';
+import {
+  getMeasurementList,
+  getInstallList,
+  getDeliveryList,
+} from '@/api/appointment';
 import orderDetail from './components/order-detail.vue';
 import NewOrder from './components/new-order.vue';
 
@@ -239,7 +244,6 @@ export default defineComponent({
     const userType = window.localStorage.getItem('userRole');
     const { loading, setLoading } = useLoading(true);
     const { t } = useI18n();
-    const renderData: any = ref<PolicyRecord[]>([]);
     const formModel = ref(generateFormModel());
     const basePagination: Pagination = {
       current: 1,
@@ -351,7 +355,6 @@ export default defineComponent({
         Message.error('您尚有未填写完的信息或未选择服务！');
       }
     };
-    renderData.value = JSON.parse(window.localStorage.getItem('order') as any);
     const handleCancel = () => {
       isNewOrder.value = false;
     };
@@ -374,6 +377,13 @@ export default defineComponent({
       '成品家具（床）',
       '其他',
     ]);
+    const renderData: any = ref([]);
+    const getDesignList = async () => {
+      const res = await getDeliveryList({ pageNum: 1, pageSize: 10 });
+      renderData.value = res.data.records;
+      console.log(renderData);
+    };
+    getDesignList();
     return {
       visible,
       loading,

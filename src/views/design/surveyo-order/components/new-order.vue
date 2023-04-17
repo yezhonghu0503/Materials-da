@@ -56,31 +56,24 @@ const onNext = async () => {
     } else {
       Message.error('请先校验信息再进行下一步操作!');
     }
-  } else if (!serviceRef.value.designRef.serviceStatus) {
-    Message.error('请正确填写表单!');
   } else {
     // postAddCustomer(customerRef.value.form).then((res) => {
     // console.log(cusform.value.id);
     const appointmentForm = {
       customerId: cusform.value.id,
-      installInfo: serviceRef.value.assembleRef.serviceStatus
-        ? serviceRef.value.assembleRef.form
-        : {},
-      measurementInfo: serviceRef.value.designRef.serviceStatus
-        ? serviceRef.value.designRef.form
-        : {},
-      deliveryInfo: serviceRef.value.deliveryRef.serviceStatus
-        ? serviceRef.value.deliveryRef.form
-        : {},
+      installInfo: {},
+      measurementInfo: serviceRef.value.designRef.form,
+      deliveryInfo: {},
     };
     // });
-    const res = await postAddappointment(appointmentForm);
-    if (res.data) {
-      Message.success('订单创建成功！');
-      emit('handle');
-    } else {
-      Message.error(res.data);
-    }
+    console.log(appointmentForm);
+    // const res = await postAddappointment(appointmentForm);
+    // if (res.data) {
+    //   Message.success('订单创建成功！');
+    //   emit('handle');
+    // } else {
+    //   Message.error(res.data);
+    // }
   }
 };
 

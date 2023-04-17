@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Breadcrumb :items="['menu.list', 'appointment.fix.title']" />
+    <Breadcrumb :items="['menu.result', 'appointment.fix.title']" />
     <a-card class="general-card" :title="$t('appointment.fix.title')">
       <a-row>
         <a-col :flex="1">
@@ -12,10 +12,7 @@
           >
             <a-row :gutter="16">
               <a-col :span="8">
-                <a-form-item
-                  field="number"
-                  :label="$t('searchTable.form.number')"
-                >
+                <a-form-item field="number" :label="$t('menu.result.number')">
                   <a-input
                     v-model="formModel.number"
                     :placeholder="$t('searchTable.form.number.placeholder')"
@@ -23,34 +20,34 @@
                 </a-form-item>
               </a-col>
               <a-col :span="8">
-                <a-form-item field="name" :label="$t('searchTable.form.name')">
+                <a-form-item field="name" :label="$t('menu.result.name')">
                   <a-input
                     v-model="formModel.name"
-                    :placeholder="$t('searchTable.form.name.placeholder')"
+                    :placeholder="$t('menu.result.name.placeholder')"
                   />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
                 <a-form-item
                   field="contentType"
-                  :label="$t('menu.list.form.contentType')"
+                  :label="$t('menu.result.status')"
                 >
                   <a-select
                     v-model="formModel.contentType"
-                    :options="contentTypeOptions"
-                    :placeholder="$t('searchTable.form.selectDefault')"
+                    :options="productType"
+                    :placeholder="$t('menu.result.status.placeholder')"
                   />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
                 <a-form-item
                   field="filterType"
-                  :label="$t('searchTable.form.filterType')"
+                  :label="$t('menu.result.time.type')"
                 >
                   <a-select
                     v-model="formModel.filterType"
                     :options="filterTypeOptions"
-                    :placeholder="$t('searchTable.form.selectDefault')"
+                    :placeholder="$t('menu.result.time.type.placeholder')"
                   />
                 </a-form-item>
               </a-col>
@@ -68,12 +65,14 @@
               <a-col :span="8">
                 <a-form-item
                   field="status"
-                  :label="$t('searchTable.form.status')"
+                  :label="$t('menu.result.time.reservation')"
                 >
                   <a-select
                     v-model="formModel.status"
                     :options="statusOptions"
-                    :placeholder="$t('searchTable.form.selectDefault')"
+                    :placeholder="
+                      $t('menu.result.time.reservation.placeholder')
+                    "
                   />
                 </a-form-item>
               </a-col>
@@ -100,18 +99,7 @@
       </a-row>
       <a-divider style="margin-top: 0" />
       <a-row style="margin-bottom: 16px">
-        <a-col :span="16">
-          <a-space>
-            <a-upload action="/">
-              <template #upload-button>
-                <a-button>
-                  {{ $t('searchTable.operation.import') }}
-                </a-button>
-              </template>
-            </a-upload>
-          </a-space>
-        </a-col>
-        <a-col :span="8" style="text-align: right">
+        <a-col :span="8" style="text-align: left">
           <a-button>
             <template #icon>
               <icon-download />
@@ -130,116 +118,41 @@
       >
         <template #columns>
           <a-table-column
-            :title="$t('searchTable.columns.number')"
-            data-index="number"
-            align="center"
+            :title="$t('menu.result.number')"
+            data-index="orderNo"
+            :width="200"
           />
           <a-table-column
-            :title="$t('searchTable.columns.name')"
-            data-index="name"
-            align="center"
+            :title="$t('menu.result.clientName')"
+            data-index="customer.realName"
           />
           <a-table-column
-            :title="$t('searchTable.columns.contentType')"
-            data-index="contentType"
-            align="center"
+            :title="$t('menu.result.phone')"
+            data-index="customer.address"
           >
-            <template #cell="{ record }">
-              <a-space>
-                <a-avatar
-                  v-if="record.contentType === 'img'"
-                  :size="16"
-                  shape="square"
-                >
-                  <img
-                    alt="avatar"
-                    src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/581b17753093199839f2e327e726b157.svg~tplv-49unhts6dw-image.image"
-                  />
-                </a-avatar>
-                <a-avatar
-                  v-else-if="record.contentType === 'horizontalVideo'"
-                  :size="16"
-                  shape="square"
-                >
-                  <img
-                    alt="avatar"
-                    src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/77721e365eb2ab786c889682cbc721c1.svg~tplv-49unhts6dw-image.image"
-                  />
-                </a-avatar>
-                <a-avatar v-else :size="16" shape="square">
-                  <img
-                    alt="avatar"
-                    src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/ea8b09190046da0ea7e070d83c5d1731.svg~tplv-49unhts6dw-image.image"
-                  />
-                </a-avatar>
-                {{ $t(`menu.list.form.contentType.${record.contentType}`) }}
-              </a-space>
-            </template>
           </a-table-column>
           <a-table-column
-            :title="$t('searchTable.columns.filterType')"
-            data-index="filterType"
-            align="center"
+            :title="$t('menu.result.address')"
+            data-index="customer.phoneNum"
           >
-            <template #cell="{ record }">
-              {{ $t(`searchTable.form.filterType.${record.filterType}`) }}
-            </template>
           </a-table-column>
           <a-table-column
-            :title="$t('searchTable.columns.count')"
-            data-index="count"
-            align="center"
+            :title="$t('menu.result.time')"
+            data-index="createTime"
           />
+          <a-table-column title="备注" data-index="remark" />
           <a-table-column
-            :title="$t('searchTable.columns.createdTime')"
-            data-index="createdTime"
-            align="center"
-          />
-          <a-table-column
-            :title="$t('searchTable.columns.status')"
-            data-index="status"
-            align="center"
+            :title="$t('menu.result.orderstatus')"
+            data-index="state"
           >
             <template #cell="{ record }">
               <span v-if="record.status === 'offline'" class="circle"></span>
               <span v-else class="circle pass"></span>
-              {{ $t(`searchTable.form.status.${record.status}`) }}
+              {{ record.state === 0 ? '待指派' : '进行中' }}
             </template>
           </a-table-column>
-          <a-table-column
-            :title="$t('searchTable.columns.operations')"
-            data-index="operations"
-            align="center"
-          >
-            <template #cell>
-              <a-button
-                v-permission="['admin']"
-                type="text"
-                size="small"
-                @click="handleClick"
-              >
-                {{ $t('searchTable.columns.operations.view') }}
-              </a-button>
-              <a-modal
-                :visible="visible"
-                fullscreen
-                ok-text="审核通过"
-                @ok="handleOk"
-                @cancel="handleCancel"
-              >
-                <template #title> 预约单详情 </template>
-                <div>
-                  <a-steps :current="2">
-                    <a-step description="客户提交申请">预约申请</a-step>
-                    <a-step description="管理人员审核">预约受理</a-step>
-                    <a-step description="转交测量师傅">预约成功</a-step>
-                  </a-steps>
-                  <a-divider />
-                  <div style="text-align: center">申请面单</div>
-                </div>
-              </a-modal>
-            </template>
-          </a-table-column>
+          <!-- <a-table-column :title="$t('menu.result.area')" data-index="area">
+          </a-table-column> -->
         </template>
       </a-table>
     </a-card>
@@ -250,8 +163,14 @@
 import { defineComponent, computed, ref, reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
 import useLoading from '@/hooks/loading';
-import { queryPolicyList, PolicyRecord, PolicyParams } from '@/api/list';
+import { PolicyRecord, PolicyParams } from '@/api/list';
 import { Pagination, Options } from '@/types/global';
+import { Message } from '@arco-design/web-vue';
+import {
+  getMeasurementList,
+  getInstallList,
+  getDeliveryList,
+} from '@/api/appointment';
 
 const generateFormModel = () => {
   return {
@@ -265,26 +184,9 @@ const generateFormModel = () => {
 };
 export default defineComponent({
   setup() {
+    const userType = window.localStorage.getItem('userRole');
     const { loading, setLoading } = useLoading(true);
     const { t } = useI18n();
-    const renderData: any = ref<PolicyRecord[]>([
-      {
-        number: 1,
-        name: 'data',
-      } as any,
-    ]);
-    const visible = ref(false);
-
-    const handleClick = () => {
-      visible.value = true;
-    };
-    const handleOk = () => {
-      visible.value = false;
-    };
-    const handleCancel = () => {
-      visible.value = false;
-    };
-
     const formModel = ref(generateFormModel());
     const basePagination: Pagination = {
       current: 1,
@@ -307,25 +209,13 @@ export default defineComponent({
         value: 'verticalVideo',
       },
     ]);
-    const filterTypeOptions: any = computed<Options[]>(() => [
-      {
-        label: t('searchTable.form.filterType.artificial'),
-        value: 'artificial',
-      },
-      {
-        label: t('searchTable.form.filterType.rules'),
-        value: 'rules',
-      },
-    ]);
-    const statusOptions: any = computed<Options[]>(() => [
-      {
-        label: t('searchTable.form.status.online'),
-        value: 'online',
-      },
-      {
-        label: t('searchTable.form.status.offline'),
-        value: 'offline',
-      },
+    const filterTypeOptions: any = ref(['测量设计', '安装服务', '配送服务']);
+    const statusOptions: any = ref([
+      '待处理',
+      '待指派',
+      '待指派',
+      '进行中',
+      '已完成',
     ]);
     const fetchData = async (
       params: PolicyParams = { current: 1, pageSize: 20 }
@@ -342,7 +232,6 @@ export default defineComponent({
         setLoading(false);
       }
     };
-
     const search = () => {
       fetchData({
         ...basePagination,
@@ -357,7 +246,89 @@ export default defineComponent({
     const reset = () => {
       formModel.value = generateFormModel();
     };
+
+    const appointmentState = ref([
+      '待处理',
+      '待指派',
+      '待指派',
+      '进行中',
+      '已完成',
+    ]);
+    // 创建订单
+    const isNewOrder = ref(false);
+    const handleOk = () => {
+      if (
+        (window.localStorage.getItem('customer') &&
+          window.localStorage.getItem('supplier')) ||
+        window.localStorage.getItem('measuring') ||
+        window.localStorage.getItem('assemble')
+      ) {
+        isNewOrder.value = false;
+        const clinent = JSON.parse(
+          window.localStorage.getItem('customer') as any
+        );
+        const measuring = JSON.parse(
+          window.localStorage.getItem('measuring') as any
+        );
+        const assemble = JSON.parse(
+          window.localStorage.getItem('assemble') as any
+        );
+        if (!window.localStorage.getItem('orderStatus')) {
+          window.localStorage.setItem('orderStatus', '待处理');
+        }
+        if (!window.localStorage.getItem('assembleStatus')) {
+          window.localStorage.setItem('assembleStatus', '待处理');
+        }
+        if (!window.localStorage.getItem('designStatus')) {
+          window.localStorage.setItem('designStatus', '待处理');
+        }
+        const order: any = [
+          {
+            number: 1,
+            clientName: clinent.name,
+            phone: clinent.number,
+            address: `上海市/${clinent.region}`,
+            time: measuring ? measuring.time : assemble.time,
+            type: measuring ? '测量设计' : '安装服务',
+            orderstatus: window.localStorage.getItem('orderStatus'),
+          },
+        ];
+        window.localStorage.setItem('order', JSON.stringify(order));
+      } else {
+        Message.error('您尚有未填写完的信息或未选择服务！');
+      }
+    };
+    const handleCancel = () => {
+      isNewOrder.value = false;
+    };
+    const handleOpenNewOrder = () => {
+      isNewOrder.value = true;
+    };
+    const visible = ref(false);
+    const isComplete = () => {
+      isNewOrder.value = false;
+    };
+    const productType = ref([
+      '橱柜',
+      '人造石台面',
+      '全屋定制',
+      '床垫',
+      '沙发',
+      '成品家具（桌几柜）',
+      '五金配件',
+      '工具',
+      '成品家具（床）',
+      '其他',
+    ]);
+    const renderData: any = ref([]);
+    const getDesignList = async () => {
+      const res = await getInstallList({ pageNum: 1, pageSize: 10 });
+      renderData.value = res.data.records;
+      console.log(renderData);
+    };
+    getDesignList();
     return {
+      visible,
       loading,
       search,
       onPageChange,
@@ -368,10 +339,14 @@ export default defineComponent({
       contentTypeOptions,
       filterTypeOptions,
       statusOptions,
-      visible,
-      handleClick,
+      isNewOrder,
       handleOk,
       handleCancel,
+      handleOpenNewOrder,
+      userType,
+      isComplete,
+      productType,
+      appointmentState,
     };
   },
 });
@@ -384,5 +359,15 @@ export default defineComponent({
       margin-left: 16px;
     }
   }
+}
+.neworder {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.order__detail {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 </style>
