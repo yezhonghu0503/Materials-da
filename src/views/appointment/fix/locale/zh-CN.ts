@@ -11,7 +11,7 @@ export default {
   'searchTable.form.filterType': '筛选方式',
   'searchTable.form.filterType.artificial': '人工筛选',
   'searchTable.form.filterType.rules': '规则筛选',
-  'searchTable.form.createdTime': '创建时间',
+  'searchTable.form.createdTime': '预约时间',
   'searchTable.form.status': '状态',
   'searchTable.form.status.online': '已上线',
   'searchTable.form.status.offline': '已下线',

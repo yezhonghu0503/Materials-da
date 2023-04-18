@@ -78,12 +78,7 @@
         </a-form-item>
       </a-form>
     </a-form-item>
-    <a-form-item
-      field="attachUrl"
-      label="货物清单"
-      :rules="[{ required: true }]"
-      :validate-trigger="['change', 'input']"
-    >
+    <a-form-item field="attachUrl" label="货物清单">
       <a-upload draggable :limit="3" action="/" />
     </a-form-item>
   </a-form>

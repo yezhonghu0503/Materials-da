@@ -1,6 +1,6 @@
 <template>
   <div class="service__list">
-    <serviceAssemble ref="designRef"></serviceAssemble>
+    <serviceAssemble ref="assembleRef"></serviceAssemble>
   </div>
 </template>
 

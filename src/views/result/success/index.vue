@@ -110,7 +110,8 @@
             <a-modal
               :visible="isNewOrder"
               width="auto"
-              ok-text="提交"
+              ok-text="取消"
+              :hide-cancel="true"
               @ok="handleOk"
               @cancel="handleCancel"
             >
@@ -146,43 +147,52 @@
         @page-change="onPageChange"
       >
         <template #columns>
-          <a-table-column
-            :title="$t('menu.result.number')"
-            data-index="number"
-          />
+          <a-table-column :title="$t('menu.result.number')" data-index="id" />
           <a-table-column
             :title="$t('menu.result.clientName')"
-            data-index="clientName"
+            data-index="realName"
           />
-          <a-table-column :title="$t('menu.result.phone')" data-index="phone">
+          <a-table-column
+            :title="$t('menu.result.phone')"
+            data-index="phoneNum"
+          >
           </a-table-column>
           <a-table-column
             :title="$t('menu.result.address')"
             data-index="address"
           >
           </a-table-column>
-          <a-table-column :title="$t('menu.result.time')" data-index="time" />
-          <a-table-column :title="$t('menu.result.type')" data-index="type" />
+          <a-table-column title="创建时间" data-index="createTime" />
+          <a-table-column :title="$t('menu.result.type')" data-index="type">
+            <template #cell="{ record }">
+              {{
+                record.type === 1
+                  ? '测量设计'
+                  : record.type === 2
+                  ? '配送服务'
+                  : '安装服务'
+              }}
+            </template>
+          </a-table-column>
           <a-table-column
             :title="$t('menu.result.orderstatus')"
-            data-index="orderstatus"
+            data-index="state"
           >
             <template #cell="{ record }">
               <span v-if="record.status === 'offline'" class="circle"></span>
               <span v-else class="circle pass"></span>
-              {{ record.orderstatus }}
+              {{ record.state === 0 ? '待指派' : '进行中' }}
             </template>
           </a-table-column>
           <!-- <a-table-column :title="$t('menu.result.area')" data-index="area">
           </a-table-column> -->
-          <a-table-column :title="$t('menu.result.op')" data-index="op">
+          <a-table-column
+            align="center"
+            :title="$t('menu.result.op')"
+            data-index="op"
+          >
             <template #cell>
-              <a-button
-                v-permission="['admin', 'cuscer']"
-                type="text"
-                size="small"
-                @click="visible = true"
-              >
+              <a-button type="text" size="small" @click="visible = true">
                 核验
               </a-button>
               <a-button
@@ -220,6 +230,7 @@ import useLoading from '@/hooks/loading';
 import { queryPolicyList, PolicyRecord, PolicyParams } from '@/api/list';
 import { Pagination, Options } from '@/types/global';
 import { Message } from '@arco-design/web-vue';
+import { getAllList } from '@/api/appointment';
 import orderDetail from './components/order-detail.vue';
 import NewOrder from './components/new-order.vue';
 
@@ -310,46 +321,7 @@ export default defineComponent({
     // 创建订单
     const isNewOrder = ref(false);
     const handleOk = () => {
-      if (
-        (window.localStorage.getItem('customer') &&
-          window.localStorage.getItem('supplier')) ||
-        window.localStorage.getItem('measuring') ||
-        window.localStorage.getItem('assemble')
-      ) {
-        isNewOrder.value = false;
-        const clinent = JSON.parse(
-          window.localStorage.getItem('customer') as any
-        );
-        const measuring = JSON.parse(
-          window.localStorage.getItem('measuring') as any
-        );
-        const assemble = JSON.parse(
-          window.localStorage.getItem('assemble') as any
-        );
-        if (!window.localStorage.getItem('orderStatus')) {
-          window.localStorage.setItem('orderStatus', '待处理');
-        }
-        if (!window.localStorage.getItem('assembleStatus')) {
-          window.localStorage.setItem('assembleStatus', '待处理');
-        }
-        if (!window.localStorage.getItem('designStatus')) {
-          window.localStorage.setItem('designStatus', '待处理');
-        }
-        const order: any = [
-          {
-            number: 1,
-            clientName: clinent.name,
-            phone: clinent.number,
-            address: `上海市/${clinent.region}`,
-            time: measuring ? measuring.time : assemble.time,
-            type: measuring ? '测量设计' : '安装服务',
-            orderstatus: window.localStorage.getItem('orderStatus'),
-          },
-        ];
-        window.localStorage.setItem('order', JSON.stringify(order));
-      } else {
-        Message.error('您尚有未填写完的信息或未选择服务！');
-      }
+      isNewOrder.value = false;
     };
     renderData.value = JSON.parse(window.localStorage.getItem('order') as any);
     const handleCancel = () => {
@@ -374,6 +346,11 @@ export default defineComponent({
       '成品家具（床）',
       '其他',
     ]);
+    const allList = async () => {
+      const res = await getAllList({ pageNum: 1, pageSize: 10 });
+      renderData.value = res.data.records;
+    };
+    allList();
     return {
       visible,
       loading,

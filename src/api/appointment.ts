@@ -15,3 +15,8 @@ export function getInstallList(params: any) {
 export function getDeliveryList(params: any) {
   return axios.get('/admin/appointment/list/delivery', params);
 }
+
+// 所有预约列表
+export function getAllList(params: any) {
+  return axios.get('/admin/appointment/list', params);
+}

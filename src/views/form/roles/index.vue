@@ -4,8 +4,7 @@
     <a-card class="general-card" title="职权树">
       <div class="card">
         <a-card class="card__left">
-          <a-tree :field-names="newdata" checkable show-line :data="treeData">
-          </a-tree>
+          <a-tree :field-names="newdata" show-line :data="treeData"> </a-tree>
         </a-card>
         <div class="card__right">
           <div style="text-align: right; padding: 0 10px 10px 10px">
@@ -36,15 +35,16 @@
                 <a-form-item field="roleDesc" label="角色描述">
                   <a-input
                     v-model="addForm.roleDesc"
-                    placeholder="请输入角色名称"
+                    placeholder="请输入角色描述"
                   ></a-input>
                 </a-form-item>
                 <a-form-item field="rights" label="职权树">
                   <a-tree
                     v-model:checked-keys="addForm.rights"
+                    show-line
+                    style="max-height: 500px"
                     :field-names="newdata"
                     checkable
-                    show-line
                     :data="treeData"
                   >
                   </a-tree>
@@ -98,11 +98,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, reactive } from 'vue';
+import { defineComponent, ref, reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
 import useLoading from '@/hooks/loading';
-import { PolicyRecord, PolicyParams } from '@/api/list';
-import { Pagination, Options } from '@/types/global';
+import { Pagination } from '@/types/global';
 import {
   getRoleList,
   postAddRole,
@@ -131,7 +130,7 @@ export default defineComponent({
       const res = await getRoleRights();
       treeData.value = res.data;
       renderData.value = (await getRoleList()).data;
-      console.log(renderData);
+      treeData.value[0].children[0].disableCheckbox = true;
       loading.value = false;
     };
     const newdata = {
@@ -149,7 +148,7 @@ export default defineComponent({
         Message.error(error);
       }
     };
-    const addForm = reactive({ ruleName: '', rights: [], roleDesc: '' });
+    const addForm = reactive({ ruleName: '', rights: [9], roleDesc: '' });
     // const { t } = useI18n();
     const formModel = ref(generateFormModel());
     const basePagination: Pagination = {

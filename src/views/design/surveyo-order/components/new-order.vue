@@ -61,19 +61,16 @@ const onNext = async () => {
     // console.log(cusform.value.id);
     const appointmentForm = {
       customerId: cusform.value.id,
-      installInfo: {},
       measurementInfo: serviceRef.value.designRef.form,
-      deliveryInfo: {},
     };
     // });
-    console.log(appointmentForm);
-    // const res = await postAddappointment(appointmentForm);
-    // if (res.data) {
-    //   Message.success('订单创建成功！');
-    //   emit('handle');
-    // } else {
-    //   Message.error(res.data);
-    // }
+    const res = await postAddappointment(appointmentForm);
+    if (res.data) {
+      Message.success('订单创建成功！');
+      emit('handle');
+    } else {
+      Message.error(res.data);
+    }
   }
 };
 

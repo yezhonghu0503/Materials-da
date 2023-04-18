@@ -152,51 +152,55 @@
         @page-change="onPageChange"
       >
         <template #columns>
-          <a-table-column
-            :title="$t('menu.result.number')"
-            data-index="number"
-          />
+          <a-table-column :title="$t('menu.result.number')" data-index="id" />
           <a-table-column
             :title="$t('menu.result.clientName')"
-            data-index="clientName"
+            data-index="realName"
           />
-          <a-table-column :title="$t('menu.result.phone')" data-index="phone">
+          <a-table-column
+            :title="$t('menu.result.phone')"
+            data-index="phoneNum"
+          >
           </a-table-column>
           <a-table-column
             :title="$t('menu.result.address')"
             data-index="address"
           >
           </a-table-column>
-          <a-table-column :title="$t('menu.result.time')" data-index="time" />
-          <a-table-column :title="$t('menu.result.type')" data-index="type" />
+          <a-table-column title="创建时间" data-index="createTime" />
+          <a-table-column :title="$t('menu.result.type')" data-index="type">
+            <template #cell="{ record }">
+              {{
+                record.type === 1
+                  ? '测量设计'
+                  : record.type === 2
+                  ? '配送服务'
+                  : '安装服务'
+              }}
+            </template>
+          </a-table-column>
           <a-table-column
             :title="$t('menu.result.orderstatus')"
-            data-index="orderstatus"
+            data-index="state"
           >
             <template #cell="{ record }">
               <span v-if="record.status === 'offline'" class="circle"></span>
               <span v-else class="circle pass"></span>
-              {{ record.orderstatus }}
+              {{ record.state === 0 ? '待指派' : '进行中' }}
             </template>
           </a-table-column>
           <!-- <a-table-column :title="$t('menu.result.area')" data-index="area">
           </a-table-column> -->
-          <a-table-column :title="$t('menu.result.op')" data-index="op">
+          <a-table-column
+            align="center"
+            :title="$t('menu.result.op')"
+            data-index="op"
+          >
             <template #cell>
-              <a-button
-                v-permission="['admin', 'cuscer']"
-                type="text"
-                size="small"
-                @click="visible = true"
-              >
+              <!-- <a-button type="text" size="small" @click="visible = true">
                 核验
-              </a-button>
-              <a-button
-                v-permission="['customer']"
-                type="text"
-                size="small"
-                @click="visible = true"
-              >
+              </a-button> -->
+              <a-button type="text" size="small" @click="visible = true">
                 查看
               </a-button>
             </template>
@@ -225,6 +229,7 @@ import { useI18n } from 'vue-i18n';
 import useLoading from '@/hooks/loading';
 import { queryPolicyList, PolicyRecord, PolicyParams } from '@/api/list';
 import { Pagination, Options } from '@/types/global';
+import { getAllList } from '@/api/appointment';
 
 const generateFormModel = () => {
   return {
@@ -364,6 +369,11 @@ export default defineComponent({
       },
     ]);
     const visible = ref(false);
+    const allList = async () => {
+      const res = await getAllList({ pageNum: 1, pageSize: 10 });
+      renderData.value = res.data.records;
+    };
+    allList();
     return {
       loading,
       search,

@@ -119,7 +119,7 @@
         <template #columns>
           <a-table-column
             :title="$t('menu.result.number')"
-            data-index="orderNo"
+            data-index="installId"
             :width="200"
           />
           <a-table-column

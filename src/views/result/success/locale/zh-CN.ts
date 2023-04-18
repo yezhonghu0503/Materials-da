@@ -11,7 +11,7 @@ export default {
   'menu.result.phone.placeholder': '请输入客户联系电话',
   'menu.result.type': '服务类型',
   'menu.result.type.placeholder': '请选择服务类型',
-  'menu.result.time': '创建时间',
+  'menu.result.time': '预约时间',
   'menu.result.time.type': '预约类型',
   'menu.result.time.type.placeholder': '请选择预约类型',
   'menu.result.time.reservation': '预约状态',

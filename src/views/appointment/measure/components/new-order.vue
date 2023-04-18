@@ -56,18 +56,14 @@ const onNext = async () => {
     } else {
       Message.error('请先校验信息再进行下一步操作!');
     }
-  } else if (!serviceRef.value.designRef.serviceStatus) {
-    Message.error('请正确填写表单!');
   } else {
     // postAddCustomer(customerRef.value.form).then((res) => {
     // console.log(cusform.value.id);
     const appointmentForm = {
       customerId: cusform.value.id,
-      installInfo: serviceRef.value.assembleRef.serviceStatus
-        ? serviceRef.value.assembleRef.form
-        : {},
-      measurementInfo: {},
-      deliveryInfo: {},
+      installInfo: serviceRef.value.assembleRef.form,
+      // measurementInfo: {},
+      // deliveryInfo: {},
     };
     // });
     const res = await postAddappointment(appointmentForm);

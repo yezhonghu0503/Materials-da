@@ -1,6 +1,6 @@
 <template>
   <div class="service__list">
-    <serviceDelivery ref="designRef"></serviceDelivery>
+    <serviceDelivery ref="deliveryRef"></serviceDelivery>
   </div>
 </template>
 

@@ -110,7 +110,8 @@
             <a-modal
               :visible="isNewOrder"
               width="auto"
-              ok-text="提交"
+              ok-text="取消"
+              :hide-cancel="true"
               @ok="handleOk"
               @cancel="handleCancel"
             >
@@ -311,46 +312,7 @@ export default defineComponent({
     // 创建订单
     const isNewOrder = ref(false);
     const handleOk = () => {
-      if (
-        (window.localStorage.getItem('customer') &&
-          window.localStorage.getItem('supplier')) ||
-        window.localStorage.getItem('measuring') ||
-        window.localStorage.getItem('assemble')
-      ) {
-        isNewOrder.value = false;
-        const clinent = JSON.parse(
-          window.localStorage.getItem('customer') as any
-        );
-        const measuring = JSON.parse(
-          window.localStorage.getItem('measuring') as any
-        );
-        const assemble = JSON.parse(
-          window.localStorage.getItem('assemble') as any
-        );
-        if (!window.localStorage.getItem('orderStatus')) {
-          window.localStorage.setItem('orderStatus', '待处理');
-        }
-        if (!window.localStorage.getItem('assembleStatus')) {
-          window.localStorage.setItem('assembleStatus', '待处理');
-        }
-        if (!window.localStorage.getItem('designStatus')) {
-          window.localStorage.setItem('designStatus', '待处理');
-        }
-        const order: any = [
-          {
-            number: 1,
-            clientName: clinent.name,
-            phone: clinent.number,
-            address: `上海市/${clinent.region}`,
-            time: measuring ? measuring.time : assemble.time,
-            type: measuring ? '测量设计' : '安装服务',
-            orderstatus: window.localStorage.getItem('orderStatus'),
-          },
-        ];
-        window.localStorage.setItem('order', JSON.stringify(order));
-      } else {
-        Message.error('您尚有未填写完的信息或未选择服务！');
-      }
+      isNewOrder.value = false;
     };
     const handleCancel = () => {
       isNewOrder.value = false;
@@ -359,9 +321,6 @@ export default defineComponent({
       isNewOrder.value = true;
     };
     const visible = ref(false);
-    const isComplete = () => {
-      isNewOrder.value = false;
-    };
     const productType = ref([
       '橱柜',
       '人造石台面',
@@ -378,9 +337,12 @@ export default defineComponent({
     const getDesignList = async () => {
       const res = await getMeasurementList({ pageNum: 1, pageSize: 10 });
       renderData.value = res.data.records;
-      console.log(renderData);
     };
     getDesignList();
+    const isComplete = () => {
+      isNewOrder.value = false;
+      getDesignList();
+    };
     return {
       visible,
       loading,
