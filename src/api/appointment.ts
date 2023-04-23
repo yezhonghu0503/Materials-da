@@ -5,6 +5,14 @@ import axios from 'axios';
 export function getMeasurementList(params: any) {
   return axios.get('/admin/appointment/list/measurement', params);
 }
+// 测量设计详情
+export function getMeasurementDetails(params: any) {
+  return axios.get('/admin/appointment/detail/measurement', { params });
+}
+// 配送详情
+export function getDeliveryDetails(params: any) {
+  return axios.get('/admin/appointment/detail/delivery', { params });
+}
 
 // 安装预约列表
 export function getInstallList(params: any) {

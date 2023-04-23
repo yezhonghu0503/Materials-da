@@ -191,8 +191,12 @@
             :title="$t('menu.result.op')"
             data-index="op"
           >
-            <template #cell>
-              <a-button type="text" size="small" @click="visible = true">
+            <template #cell="{ record }">
+              <a-button
+                type="text"
+                size="small"
+                @click="opeOrder(record.type, record.id)"
+              >
                 核验
               </a-button>
               <a-button
@@ -213,7 +217,11 @@
             >
               <template #title> 订单详情 </template>
               <div class="order__detail">
-                <orderDetail style="width: 900px"></orderDetail>
+                <orderDetail
+                  :order-type="orderType"
+                  :order-id="orderId"
+                  style="width: 900px"
+                ></orderDetail>
               </div>
             </a-modal>
           </a-table-column>
@@ -230,7 +238,7 @@ import useLoading from '@/hooks/loading';
 import { queryPolicyList, PolicyRecord, PolicyParams } from '@/api/list';
 import { Pagination, Options } from '@/types/global';
 import { Message } from '@arco-design/web-vue';
-import { getAllList } from '@/api/appointment';
+import { getAllList, getMeasurementDetails } from '@/api/appointment';
 import orderDetail from './components/order-detail.vue';
 import NewOrder from './components/new-order.vue';
 
@@ -351,7 +359,22 @@ export default defineComponent({
       renderData.value = res.data.records;
     };
     allList();
+    const orderType: any = ref('');
+    const orderId = ref('');
+    const opeOrder = async (Type: any, id: any) => {
+      // 测量设计
+      // const res = await getMeasurementDetails({ id });
+      visible.value = true;
+      orderType.value = Type;
+      orderId.value = id;
+      // if (orderType === 1) {
+      //   // console.log(orderId);
+      //   cusMsg.value = id;
+      // }
+    };
+    // };
     return {
+      opeOrder,
       visible,
       loading,
       search,
@@ -371,6 +394,8 @@ export default defineComponent({
       isComplete,
       productType,
       appointmentState,
+      orderType,
+      orderId,
     };
   },
 });

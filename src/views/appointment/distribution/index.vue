@@ -119,7 +119,7 @@
         <template #columns>
           <a-table-column
             :title="$t('menu.result.number')"
-            data-index="orderNo"
+            data-index="installId"
             :width="200"
           />
           <a-table-column
@@ -128,12 +128,12 @@
           />
           <a-table-column
             :title="$t('menu.result.phone')"
-            data-index="customer.address"
+            data-index="customer.phoneNum"
           >
           </a-table-column>
           <a-table-column
             :title="$t('menu.result.address')"
-            data-index="customer.phoneNum"
+            data-index="customer.address"
           >
           </a-table-column>
           <a-table-column

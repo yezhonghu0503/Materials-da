@@ -69,13 +69,13 @@ const onNext = async () => {
       customerId: cusform.value.id,
       installInfo: serviceRef.value.assembleRef.serviceStatus
         ? serviceRef.value.assembleRef.form
-        : {},
+        : null,
       measurementInfo: serviceRef.value.designRef.serviceStatus
         ? serviceRef.value.designRef.form
-        : {},
+        : null,
       deliveryInfo: serviceRef.value.deliveryRef.serviceStatus
         ? serviceRef.value.deliveryRef.form
-        : {},
+        : null,
     };
     // });
     const res = await postAddappointment(appointmentForm);
