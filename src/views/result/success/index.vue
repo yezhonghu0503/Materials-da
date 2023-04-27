@@ -169,8 +169,8 @@
                 record.type === 1
                   ? '测量设计'
                   : record.type === 2
-                  ? '配送服务'
-                  : '安装服务'
+                  ? '安装服务'
+                  : '配送服务'
               }}
             </template>
           </a-table-column>

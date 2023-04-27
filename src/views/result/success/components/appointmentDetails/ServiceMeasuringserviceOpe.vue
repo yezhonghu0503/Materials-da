@@ -80,12 +80,12 @@
       <a-step description="This is a description">服务完成</a-step>
     </a-steps>
     <a-form-item
-      field="area"
+      field="price"
       label="服务报价"
       :rules="[{ required: true, message: '请输入服务报价' }]"
     >
       <a-input-number
-        v-model="form.area"
+        v-model="form.price"
         :style="{ width: '100%' }"
         placeholder="请输入服务报价"
         :max="99999"
@@ -96,13 +96,35 @@
         <template #suffix> ¥ </template>
       </a-input-number>
     </a-form-item>
+    <a-form-item v-if="form.price">
+      <div class="seal_main">
+        <div
+          :class="form.price ? 'seal_sueess' : 'seal'"
+          style="position: absolute; right: 10px; top: 14px"
+        >
+          <div :class="form.price ? 'seal-son_sueess' : 'seal-son'">
+            <span :style="{ color: '#F53F3F' }" class="seal-son-state">{{
+              form.price ? '已报价' : '未报价'
+            }}</span>
+            <span :style="{ color: '#F53F3F' }" class="seal-son-time"
+              >2023.04.29 23:59</span
+            >
+          </div>
+        </div>
+        <!-- <a-button type="primary">确认报价</a-button> -->
+      </div>
+      <div style="width: 100%; text-align: right">
+        <a-button type="primary" @click="enterQuotation">确认报价</a-button>
+      </div>
+    </a-form-item>
   </a-form>
 </template>
 
 <script lang="ts">
 import { ref, toRefs, watch } from 'vue';
 import { Message } from '@arco-design/web-vue';
-import { getMeasurementDetails } from '@/api/appointment';
+import { getMeasurementDetails, postEditList } from '@/api/appointment';
+import { color } from 'echarts';
 
 export default {
   name: 'ServiceMeasuringDesign',
@@ -180,11 +202,31 @@ export default {
     const measurementDetails = async (uid: any) => {
       const res = await getMeasurementDetails({ id: uid });
       form.value = res.data;
+      console.log(form.value);
     };
     measurementDetails(userId.value);
     watch(userId, async (newVal) => {
       measurementDetails(newVal);
     });
+    const enterQuotation = async () => {
+      const editForm: object = {
+        id: form.value.id,
+        // orderNo: form.value.measurementId,
+        customerId: form.value.customerId,
+        installInfo: null,
+        measurementInfo: {
+          appointmentId: form.value.measurementId,
+          time: form.value.time,
+          productType: form.value.productType,
+          area: form.value.area,
+          measurementType: form.value.measurementType,
+          price: form.value.price,
+        },
+        deliveryInfo: null,
+      };
+      const res = await postEditList(editForm);
+      console.log(res);
+    };
     return {
       form,
       handleSubmit,
@@ -198,12 +240,76 @@ export default {
       serviceStatus,
       planner,
       measurementType,
+      enterQuotation,
     };
   },
 };
 </script>
 
 <style scoped>
+.seal_main {
+  width: 100%;
+  text-align: right;
+  position: relative;
+  top: -100px;
+}
+.seal {
+  width: 160px;
+  height: 160px;
+  border: solid 6px #b4b4b4;
+  border-radius: 100%;
+  background-color: rgba(255, 255, 255, 0);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.seal_sueess {
+  width: 160px;
+  height: 160px;
+  border: solid 6px #f53f3f;
+  border-radius: 100%;
+  background-color: rgba(255, 255, 255, 0);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.seal-son {
+  width: 145px;
+  height: 145px;
+  border: solid 2px #b4b4b4;
+  border-radius: 100%;
+  background-color: rgba(255, 255, 255, 0);
+  position: relative;
+}
+.seal-son_sueess {
+  width: 145px;
+  height: 145px;
+  border: solid 2px #f53f3f;
+  border-radius: 100%;
+  background-color: rgba(255, 255, 255, 0);
+  position: relative;
+}
+.seal-son-state {
+  position: absolute;
+  top: 32px;
+  text-align: center;
+  font-size: 30px;
+  transform: rotate(-45deg);
+  right: 40px;
+  color: #b4b4b4;
+  font-weight: 900;
+}
+.seal-son-time {
+  position: absolute;
+  top: 66px;
+  text-align: center;
+  font-size: 20px;
+  transform: rotate(-45deg);
+  left: 40px;
+  color: #b4b4b4;
+}
 .custom-checkbox-card {
   padding: 5px 16px;
   border: 1px solid var(--color-border-2);

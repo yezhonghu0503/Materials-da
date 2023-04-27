@@ -13,6 +13,10 @@ export function getMeasurementDetails(params: any) {
 export function getDeliveryDetails(params: any) {
   return axios.get('/admin/appointment/detail/delivery', { params });
 }
+// 安装详情
+export function getInstallDetails(params: any) {
+  return axios.get('/admin/appointment/detail/install', { params });
+}
 
 // 安装预约列表
 export function getInstallList(params: any) {
@@ -27,4 +31,9 @@ export function getDeliveryList(params: any) {
 // 所有预约列表
 export function getAllList(params: any) {
   return axios.get('/admin/appointment/list', params);
+}
+
+// 编辑预约单
+export function postEditList(params: any) {
+  return axios.post('/admin/appointment/edit', params);
 }

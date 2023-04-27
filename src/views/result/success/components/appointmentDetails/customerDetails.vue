@@ -196,11 +196,15 @@
 import { reactive, ref, toRefs, watch } from 'vue';
 import { Message } from '@arco-design/web-vue';
 import city from '@province-city-china/level/index';
-import { getMeasurementDetails } from '@/api/appointment';
+import {
+  getMeasurementDetails,
+  getInstallDetails,
+  getDeliveryDetails,
+} from '@/api/appointment';
 
 export default {
   name: 'CustomerMsg',
-  props: { userId: String },
+  props: { userId: String, oType: Number },
   setup(props) {
     const rowSelection: any = {
       type: 'radio',
@@ -299,18 +303,28 @@ export default {
       // console.log();
     };
 
-    const { userId } = toRefs(props);
-    watch(userId, async (newVal) => {
-      const res = await getMeasurementDetails({ id: newVal });
-      form.value = res.data.customer;
-      // form.realName = res.data.customer.realName;
-      // form.gender = res.data.customer.gender;
-      // form.phoneNum = res.data.customer.phoneNum;
-      // form.alternatePhoneNum = res.data.customer.alternatePhoneNum;
-      // form.alternateRealName = res.data.customer.alternateRealName;
-      // form.address = res.data.customer.address;
-      // console.log(newVal);
+    const { userId, oType } = toRefs(props);
+    const getCustomer = async (oId: any, typeId: any) => {
+      if (typeId === 1) {
+        const res = await getMeasurementDetails({ id: oId });
+        form.value = res.data.customer;
+      } else if (typeId === 2) {
+        const res = await getInstallDetails({ id: oId });
+        form.value = res.data.customer;
+      } else {
+        const res = await getDeliveryDetails({ id: oId });
+        form.value = res.data.customer;
+      }
+    };
+    // getCustomer(userId.value);
+    watch(userId, (newVal) => {
+      getCustomer(newVal, oType.value);
+      console.log(form);
     });
+    // watch(oType, (newVale) => {
+    //   console.log(userId);
+    //   // getCustomer(userId, newVale);
+    // });
     return {
       form,
       options,

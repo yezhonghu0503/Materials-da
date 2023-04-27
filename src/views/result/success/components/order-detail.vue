@@ -1,6 +1,6 @@
 <template>
   <div class="supplier">
-    <customerDetails :user-id="userId"></customerDetails>
+    <customerDetails :o-type="oType" :user-id="userId"></customerDetails>
     <supplierDetails v-if="false"></supplierDetails>
     <!-- <supplierDetails v-if="isSupplier"></supplierDetails> -->
     <ServiceDeliveryserviceOpe
@@ -38,6 +38,7 @@ export default {
   setup(props) {
     const { orderType, orderId } = toRefs(props);
     const userId: any = ref(orderId);
+    const oType = ref(orderType);
     watch(orderId, async (newVal) => {
       userId.value = newVal;
     });
@@ -46,10 +47,10 @@ export default {
     const isAssemble = ref(false);
     const isMeasuring = ref(false);
     watch(orderType, (newVal) => {
-      console.log(newVal);
-      isSupplier.value = newVal === 2;
-      isDelivery.value = newVal === 2;
-      isAssemble.value = newVal === 3;
+      oType.value = newVal;
+      isSupplier.value = newVal === 3;
+      isDelivery.value = newVal === 3;
+      isAssemble.value = newVal === 2;
       isMeasuring.value = newVal === 1;
     });
     // console.log(cusMsg);
@@ -59,6 +60,7 @@ export default {
       isDelivery,
       isAssemble,
       isMeasuring,
+      oType,
     };
   },
 };

@@ -5,30 +5,8 @@
     :style="{ width: '600px' }"
     @submit="handleSubmit"
   >
-    <a-form-item>
-      <div :style="{ marginTop: '20px' }">
-        <a-checkbox @change="changeServiceStatus">
-          <template #checkbox="{ checked }">
-            <a-space
-              align="start"
-              class="custom-checkbox-card"
-              :class="{ 'custom-checkbox-card-checked': checked }"
-            >
-              <div className="custom-checkbox-card-mask">
-                <div className="custom-checkbox-card-mask-dot" />
-              </div>
-              <div>
-                <div className="custom-checkbox-card-title"> 勾选安装服务 </div>
-                <a-typography-text style="font-size: 12px" type="secondary">
-                  若需要安装服务，请勾选此项并填入下列信息
-                </a-typography-text>
-              </div>
-            </a-space>
-          </template>
-        </a-checkbox>
-      </div>
-    </a-form-item>
-    <a-form-item field="time" label="上门时间" :rules="[{ required: true }]">
+    <a-alert style="margin-bottom: 20px">安装服务</a-alert>
+    <a-form-item field="time" label="上门时间">
       <a-date-picker
         v-model="form.time"
         style="width: 100%"
@@ -40,11 +18,7 @@
         @ok="onOk"
       />
     </a-form-item>
-    <a-form-item
-      field="installNum"
-      label="家具个数"
-      :rules="[{ required: true, message: '请输入安装家具空间数量' }]"
-    >
+    <a-form-item field="installNum" label="家具个数">
       <a-input-number
         v-model="form.installNum"
         :style="{ width: '100%' }"
@@ -65,48 +39,58 @@
     >
       <a-upload draggable :disabled="!serviceStatus" :limit="3" action="/" />
     </a-form-item>
-    <!-- <a-form-item
-      v-if="true"
-      field="name"
-      label="指定人员"
-      :rules="[{ required: true }]"
+    <a-alert style="margin-bottom: 20px">处理进度</a-alert>
+    <a-steps style="margin-bottom: 20px" small type="arrow" :current="2">
+      <a-step description="This is a description">完成填单</a-step>
+      <a-step description="This is a description">客服报价</a-step>
+      <a-step description="This is a description">上门服务</a-step>
+      <a-step description="This is a description">服务完成</a-step>
+    </a-steps>
+    <a-form-item
+      field="price"
+      label="服务报价"
+      :rules="[{ required: true, message: '请输入服务报价' }]"
     >
-      <a-select
-        v-model="valuecacs"
-        :style="{ width: '100%' }"
-        placeholder="请指定安装人员"
-        allow-clear
-        :disabled="!serviceStatus"
-      >
-        <a-option v-for="(item, index) in planner" :key="index">{{
-          item
-        }}</a-option>
-      </a-select>
-    </a-form-item> -->
-    <!-- <a-form-item field="price" label="服务报价"
-      ><a-input-number
+      <a-input-number
         v-model="form.price"
-        placeholder="Please Enter"
-        :default-value="0"
-        mode="button"
-        class="input-demo"
-    /></a-form-item> -->
+        :style="{ width: '100%' }"
+        placeholder="请输入服务报价"
+        :max="99999"
+        :precision="2"
+        allow-clear
+        hide-button
+      >
+        <template #suffix> ¥ </template>
+      </a-input-number>
+    </a-form-item>
   </a-form>
 </template>
 
 <script lang="ts">
-import { reactive, ref } from 'vue';
+import { ref, toRefs, watch } from 'vue';
 import { Message } from '@arco-design/web-vue';
+import { getInstallDetails } from '@/api/appointment';
 
 export default {
   name: 'ServiceAssemble',
-  setup() {
-    let form: any = reactive({
+  props: { userId: String },
+  setup(props) {
+    const form: any = ref({
       time: '',
       // time: '',
       installNum: '',
       attachUrl: '',
       price: '',
+    });
+    const { userId } = toRefs(props);
+    console.log(userId);
+    const installDetails = async (uid: any) => {
+      const res = await getInstallDetails({ id: uid });
+      form.value = res.data;
+    };
+    installDetails(userId.value);
+    watch(userId, (newVal) => {
+      installDetails(newVal);
     });
     const handleSubmit = ({ values, errors }: any) => {
       if (errors === undefined) {
@@ -150,7 +134,7 @@ export default {
         ? (serviceStatus.value = false)
         : (serviceStatus.value = true);
       if (serviceStatus.value) {
-        form = {
+        form.value = {
           time: '',
           // time: '',
           installNum: '',
@@ -158,7 +142,7 @@ export default {
           price: '',
         };
       } else {
-        form = {};
+        form.value = {};
       }
     };
     return {
