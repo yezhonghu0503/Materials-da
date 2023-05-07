@@ -85,6 +85,7 @@
       :rules="[{ required: true, message: '请输入服务报价' }]"
     >
       <a-input-number
+        v-if="currentRoleName !== '普通用户'"
         v-model="form.price"
         :style="{ width: '100%' }"
         placeholder="请输入服务报价"
@@ -95,26 +96,50 @@
       >
         <template #suffix> ¥ </template>
       </a-input-number>
+      <span
+        v-if="currentRoleName === '普通用户' && form.price"
+        style="font-size: 28px"
+        >¥ {{ form.price }}</span
+      >
     </a-form-item>
-    <a-form-item v-if="form.price">
-      <div class="seal_main">
-        <div
-          :class="form.price ? 'seal_sueess' : 'seal'"
-          style="position: absolute; right: 10px; top: 14px"
+    <a-form-item>
+      <div v-if="currentRoleName === '普通用户'" class="seal_main">
+        <span
+          :class="!form.price ? 'seal-son-state' : 'seal-son-state__sueess'"
+          >{{ form.price ? '已报价' : '未报价' }}</span
         >
-          <div :class="form.price ? 'seal-son_sueess' : 'seal-son'">
-            <span :style="{ color: '#F53F3F' }" class="seal-son-state">{{
-              form.price ? '已报价' : '未报价'
-            }}</span>
-            <span :style="{ color: '#F53F3F' }" class="seal-son-time"
-              >2023.04.29 23:59</span
-            >
-          </div>
-        </div>
         <!-- <a-button type="primary">确认报价</a-button> -->
       </div>
       <div style="width: 100%; text-align: right">
-        <a-button type="primary" @click="enterQuotation">确认报价</a-button>
+        <a-button
+          v-if="currentRoleName !== '普通用户'"
+          type="primary"
+          @click="enterQuotation"
+          >确认报价</a-button
+        >
+      </div>
+    </a-form-item>
+    <a-form-item
+      v-if="currentRoleName === '普通用户' && form.price"
+      label="是否同意报价"
+    >
+      <div style="width: 100%; text-align: right">
+        <a-button style="margin-right: 20px" type="primary">同意</a-button>
+        <a-button type="primary">不同意</a-button>
+      </div>
+    </a-form-item>
+    <a-form-item
+      v-if="currentRoleName !== '普通用户' && form.price"
+      label="客户意见"
+    >
+      <div style="width: 100%; text-align: right">
+        <div v-if="currentRoleName !== '普通用户'" class="seal_main">
+          <span
+            :class="!form.price ? 'seal-son-state' : 'seal-son-state__sueess'"
+            >{{ form.price ? '已报价' : '未报价' }}</span
+          >
+          <!-- <a-button type="primary">确认报价</a-button> -->
+        </div>
       </div>
     </a-form-item>
   </a-form>
@@ -124,12 +149,13 @@
 import { ref, toRefs, watch } from 'vue';
 import { Message } from '@arco-design/web-vue';
 import { getMeasurementDetails, postEditList } from '@/api/appointment';
-import { color } from 'echarts';
 
 export default {
   name: 'ServiceMeasuringDesign',
   props: { userId: String },
   setup(props) {
+    const currentRoleName = JSON.parse(localStorage.getItem('userInfo') as any)
+      .role.roleName;
     const form: any = ref({
       time: '',
       productType: '',
@@ -215,12 +241,14 @@ export default {
         customerId: form.value.customerId,
         installInfo: null,
         measurementInfo: {
-          appointmentId: form.value.measurementId,
+          id: form.value.measurementId,
+          // appointmentId: form.value.id,
           time: form.value.time,
           productType: form.value.productType,
           area: form.value.area,
           measurementType: form.value.measurementType,
           price: form.value.price,
+          agree_price: null,
         },
         deliveryInfo: null,
       };
@@ -241,6 +269,7 @@ export default {
       planner,
       measurementType,
       enterQuotation,
+      currentRoleName,
     };
   },
 };
@@ -253,52 +282,34 @@ export default {
   position: relative;
   top: -100px;
 }
-.seal {
-  width: 160px;
-  height: 160px;
-  border: solid 6px #b4b4b4;
-  border-radius: 100%;
-  background-color: rgba(255, 255, 255, 0);
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.seal_sueess {
-  width: 160px;
-  height: 160px;
-  border: solid 6px #f53f3f;
-  border-radius: 100%;
-  background-color: rgba(255, 255, 255, 0);
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.seal-son {
-  width: 145px;
-  height: 145px;
-  border: solid 2px #b4b4b4;
-  border-radius: 100%;
-  background-color: rgba(255, 255, 255, 0);
-  position: relative;
-}
 .seal-son_sueess {
   width: 145px;
   height: 145px;
   border: solid 2px #f53f3f;
-  border-radius: 100%;
+  /* border-radius: 100%; */
   background-color: rgba(255, 255, 255, 0);
   position: relative;
 }
 .seal-son-state {
   position: absolute;
-  top: 32px;
+  top: 40px;
   text-align: center;
   font-size: 30px;
+  border: solid 2px #b4b4b4;
   transform: rotate(-45deg);
   right: 40px;
   color: #b4b4b4;
+  font-weight: 900;
+}
+.seal-son-state__sueess {
+  position: absolute;
+  top: 40px;
+  text-align: center;
+  font-size: 30px;
+  border: solid 2px #f53f3f;
+  transform: rotate(-45deg);
+  right: 40px;
+  color: #f53f3f;
   font-weight: 900;
 }
 .seal-son-time {

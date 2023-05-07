@@ -98,11 +98,11 @@ export default defineComponent({
     const quickStart = () => {
       router.push({ name: 'success' });
     };
-    const role = async () => {
-      const res = await roleList();
-      console.log(res);
-    };
-    role();
+    // const role = async () => {
+    //   const res = await roleList();
+    //   console.log(res);
+    // };
+    // role();
     return {
       quickStart,
       isWelcome,

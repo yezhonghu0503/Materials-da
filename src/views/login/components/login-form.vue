@@ -23,7 +23,6 @@
             <a-input
               v-model="userInfo.username"
               :placeholder="$t('login.form.userName.placeholder')"
-              @keyup.enter="handleSubmit"
             >
               <template #prefix>
                 <icon-user />
@@ -42,7 +41,6 @@
               v-model="userInfo.password"
               :placeholder="$t('login.form.password.placeholder')"
               allow-clear
-              @keyup.enter="handleSubmit"
             >
               <template #prefix>
                 <icon-lock />
